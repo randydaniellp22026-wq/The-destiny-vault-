@@ -1,0 +1,41 @@
+/* App Layout Styles */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.content-container {
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+/* Specs & Glossary Layout */
+.specs-glossary-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+@media (min-width: 1024px) {
+  .specs-glossary-layout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  
+  .main-column {
+    flex: 3;
+    /* This makes sure the grid takes appropriate space */
+  }
+  
+  .sidebar-column {
+    flex: 1;
+    min-width: 300px;
+    max-width: 350px;
+  }
+}
