@@ -1,0 +1,108 @@
+.filters-container {
+  background-color: var(--color-bg-card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow-sm);
+  margin-top: 2.5rem;
+  border: 1px solid var(--color-border);
+}
+
+.filters-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 280px;
+}
+
+.border-left {
+  border-left: 1px solid var(--color-border);
+  padding-left: 2rem;
+}
+
+.filter-title {
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+  color: var(--color-text-main);
+}
+
+.mileage-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.checkbox-label:hover {
+  opacity: 0.8;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.75rem;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.checkbox-text {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+.count-badge {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.1rem 0.6rem;
+  border-radius: var(--radius-pill);
+}
+
+.year-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.year-btn {
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background-color: white;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  transition: all var(--transition-normal);
+}
+
+.year-btn:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary);
+  background-color: rgba(75, 0, 130, 0.05);
+}
+
+.year-btn.active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 10px rgba(75, 0, 130, 0.2);
+}
+
+@media (max-width: 768px) {
+  .border-left {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+  }
+}
