@@ -1,11 +1,15 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import EngineeringSpecs from './components/EngineeringSpecs';
-import TechnicalGlossary from './components/TechnicalGlossary';
-import VehicleCatalog from './components/VehicleCatalog';
-import Footer from './components/Footer';
 import './App.css';
+
+// Layout Components
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+
+// Page Components
+import Hero from './components/home/Hero';
+import EngineeringSpecs from './components/home/EngineeringSpecs';
+import Glossary from './components/home/Glossary';
+import VehicleCatalog from './components/catalog/VehicleCatalog';
 
 function App() {
   return (
@@ -21,7 +25,7 @@ function App() {
               <EngineeringSpecs />
             </div>
             <div className="sidebar-column">
-              <TechnicalGlossary />
+              <Glossary />
             </div>
           </div>
           
