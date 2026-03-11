@@ -1,0 +1,116 @@
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  /* Using a modern elegant car image from unsplash */
+  background-image: url('https://images.unsplash.com/photo-1617469165786-8007eda3caa7?auto=format&fit=crop&q=80&w=2070');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-top: 5rem; /* Height of the navbar */
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    rgba(17, 24, 39, 0.9) 0%, 
+    rgba(17, 24, 39, 0.6) 50%, 
+    rgba(17, 24, 39, 0.2) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100%;
+  padding-bottom: 4rem;
+}
+
+.hero-text-content {
+  max-width: 600px;
+  align-self: center;
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-title {
+  font-size: 4rem;
+  color: white;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2.5rem;
+  max-width: 500px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Specific styling for the secondary button on dark background */
+.hero-btn-outline {
+  background-color: transparent !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(4px);
+}
+
+.hero-btn-outline:hover {
+  background-color: white !important;
+  color: var(--color-primary) !important;
+  border-color: white !important;
+}
+
+.hero-indicators {
+  display: flex;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.indicator.active {
+  width: 32px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-primary);
+}
+
+.indicator:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 3rem; }
+  .hero-actions { flex-direction: column; }
+  .hero-content { flex-direction: column; align-items: flex-start; justify-content: center; }
+  .hero-indicators { margin-top: 3rem; margin-bottom: -2rem; }
+}

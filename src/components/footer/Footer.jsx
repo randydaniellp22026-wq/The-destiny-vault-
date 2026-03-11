@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container footer-container">
         <div className="footer-left">
           <h2 className="footer-brand">Gestionadora de Créditos</h2>
-          <p className="footer-copy">© 2024 Todos los derechos reservados. Tu confianza, nuestro motor.</p>
+          <p className="footer-copy">© 2026 Todos los derechos reservados. Tu confianza, nuestro motor.</p>
         </div>
         
         <div className="footer-social">
