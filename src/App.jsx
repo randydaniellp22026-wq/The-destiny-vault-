@@ -1,37 +1,43 @@
-import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import EngineeringSpecs from './components/EngineeringSpecs';
-import TechnicalGlossary from './components/TechnicalGlossary';
-import VehicleCatalog from './components/VehicleCatalog';
-import Footer from './components/Footer';
+import React, { useState } from 'react';
 import './App.css';
 
+// Layout Components
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+
+// Pages
+import Home from './pages/Home';
+import Catalog from './pages/Catalog';
+import VehicleDetails from './pages/VehicleDetails/VehicleDetails';
+
 function App() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+
+  const handleNavigate = (page, vehicleContext = null) => {
+    setCurrentPage(page);
+    setSelectedVehicle(vehicleContext);
+    window.scrollTo(0, 0); // Reset scroll position when jumping pages
+  };
+
   return (
     <div className="app-container">
-      <Navbar />
+      <Navbar onNavigate={handleNavigate} current={currentPage} />
       
-      <main>
-        <Hero />
-        
-        <div className="container content-container">
-          <div className="specs-glossary-layout">
-            <div className="main-column">
-              <EngineeringSpecs />
-            </div>
-            <div className="sidebar-column">
-              <TechnicalGlossary />
-            </div>
-          </div>
-          
-          <VehicleCatalog />
-        </div>
-      </main>
+      {currentPage === 'home' && (
+        <Home onNavigate={handleNavigate} />
+      )}
+
+      {currentPage === 'inventory' && (
+        <Catalog onNavigate={handleNavigate} />
+      )}
+
+      {currentPage === 'details' && selectedVehicle && (
+        <VehicleDetails vehicle={selectedVehicle} onNavigate={handleNavigate} />
+      )}
 
       <Footer />
     </div>
   );
 }
-
 export default App;

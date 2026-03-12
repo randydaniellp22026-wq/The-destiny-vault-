@@ -1,0 +1,54 @@
+.vehicle-catalog-section {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* Align titles with the results text nicely */
+  margin-bottom: 2.5rem; /* Increased spacing */
+  border-bottom: 2px solid rgba(75, 0, 130, 0.1); /* Softer, thicker border with primary color hint */
+  padding-bottom: 1.25rem;
+  position: relative;
+}
+
+.catalog-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  border-radius: 2px;
+}
+
+.catalog-header .section-title {
+  margin-bottom: 0;
+  font-size: 2.5rem; /* Slightly larger */
+  background: linear-gradient(135deg, var(--color-primary) 0%, #111827 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+  position: relative;
+}
+
+.results-text {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .catalog-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
