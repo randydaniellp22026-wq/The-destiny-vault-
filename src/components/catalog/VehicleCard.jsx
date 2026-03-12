@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Heart, Activity, Settings2, Palette } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import './VehicleCard.css';
 
-const VehicleCard = ({ vehicle }) => {
+const VehicleCard = ({ vehicle, onNavigate }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   // Return a style class for the tag depending on its value
@@ -39,27 +39,35 @@ const VehicleCard = ({ vehicle }) => {
       <div className="card-content">
         <div className="card-header">
           <h3 className="vehicle-name">{vehicle.name}</h3>
-          <p className="vehicle-subtitle">{vehicle.type} • {vehicle.year} • {vehicle.fuel}</p>
         </div>
 
-        <div className="vehicle-features">
-          <div className="feature">
-            <Activity size={16} />
-            <span>{vehicle.mileage}</span>
+        <div className="vehicle-specs-grid">
+          <div className="spec-item">
+            <span className="spec-label">Motor</span>
+            <span className="spec-value">{vehicle.motor}</span>
           </div>
-          <div className="feature">
-            <Settings2 size={16} />
-            <span>{vehicle.transmission}</span>
+          <div className="spec-item">
+            <span className="spec-label">Kilometraje</span>
+            <span className="spec-value">{vehicle.mileage}</span>
           </div>
-          <div className="feature">
-            <Palette size={16} />
-            <span>{vehicle.color}</span>
+          <div className="spec-item">
+            <span className="spec-label">Tipo</span>
+            <span className="spec-value">{vehicle.type}</span>
+          </div>
+          <div className="spec-item">
+            <span className="spec-label">Año modelo</span>
+            <span className="spec-value">{vehicle.year}</span>
           </div>
         </div>
 
         <div className="card-footer">
           <div className="vehicle-price">${vehicle.price.toLocaleString()}</div>
-          <button className="btn btn-primary btn-sm">Detalles</button>
+          <button 
+            className="btn btn-primary btn-sm"
+            onClick={() => onNavigate && onNavigate('details', vehicle)}
+          >
+            Detalles
+          </button>
         </div>
       </div>
     </div>
