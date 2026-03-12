@@ -1,139 +1,206 @@
-import React, { useState } from 'react';
-import { Heart, Gauge, Settings, Droplet } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { 
+  Heart, 
+  Gauge, 
+  Settings, 
+  Droplet, 
+  ChevronDown, 
+  ChevronUp, 
+  Settings as SettingsIcon, 
+  Car, 
+  DollarSign, 
+  MapPin, 
+  Filter 
+} from 'lucide-react';
 import './VehicleCatalog.css';
 
-const VehicleCatalog = () => {
-  const [activeYear, setActiveYear] = useState('2024');
+const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false, onNavigate }) => {
+  const [expandedSection, setExpandedSection] = useState('technical');
+  const [activeFilters, setActiveFilters] = useState({
+    transmission: [], fuelType: [], drivetrain: [], consumption: '', displacement: '',
+    make: '', model: '', bodyType: [], doors: '', seats: '', color: '',
+    minPrice: '', maxPrice: '', sellerType: [], financing: false,
+    vehicleStatus: [], location: '', conditionRating: [], accidentHistory: false, singleOwner: false
+  });
 
-  const vehicles = [
-    {
-      id: 1,
-      tag: "Nuevo",
-      tagColor: "#10b981", // Emerald
-      name: "BMW Serie 3 M-Sport",
-      type: "Sedán",
-      year: 2024,
-      fuel: "Híbrido",
-      mileage: "1,200 km",
-      transmission: "Automática",
-      color: "Gris Nardo",
-      price: "$45,900",
-      image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-    },
-    {
-      id: 2,
-      tag: "Oferta",
-      tagColor: "#ef4444", // Red
-      name: "Jeep Wrangler Rubicon",
-      type: "SUV",
-      year: 2023,
-      fuel: "Gasolina",
-      mileage: "18,500 km",
-      transmission: "Manual",
-      color: "Verde Militar",
-      price: "$38,200",
-      image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-    },
-    {
-      id: 3,
-      tag: "Recomendado",
-      tagColor: "#3b82f6", // Blue
-      name: "Audi Q3 Sportback",
-      type: "SUV",
-      year: 2024,
-      fuel: "Gasolina",
-      mileage: "0 km",
-      transmission: "Automática",
-      color: "Azul Navarra",
-      price: "$52,000",
-      image: "https://images.unsplash.com/photo-1606152421802-db97b91bdd45?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+  const [vehicles, setVehicles] = useState(initialVehicles || []);
+  const [loading, setLoading] = useState(!initialVehicles);
+
+  React.useEffect(() => {
+    if (!initialVehicles) {
+      setLoading(true);
+      fetch('http://localhost:5000/vehicles')
+        .then(res => res.json())
+        .then(data => {
+          setVehicles(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Error fetching vehicles:", err);
+          setLoading(false);
+        });
     }
-  ];
+  }, [initialVehicles]);
+
+  const filteredVehicles = useMemo(() => {
+    return vehicles.filter(car => {
+      if (activeFilters.transmission.length > 0 && !activeFilters.transmission.includes(car.transmission)) return false;
+      if (activeFilters.fuelType.length > 0 && !activeFilters.fuelType.includes(car.fuel)) return false;
+      if (activeFilters.minPrice && car.price < parseInt(activeFilters.minPrice)) return false;
+      if (activeFilters.maxPrice && car.price > parseInt(activeFilters.maxPrice)) return false;
+      if (activeFilters.make && !car.name.toLowerCase().includes(activeFilters.make.toLowerCase())) return false;
+      if (activeFilters.bodyType.length > 0 && !activeFilters.bodyType.includes(car.type)) return false;
+      return true;
+    });
+  }, [activeFilters]);
+
+  const toggleSection = (section) => setExpandedSection(expandedSection === section ? null : section);
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setActiveFilters(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+  };
+
+  const toggleMultiSelect = (category, value) => {
+    setActiveFilters(prev => {
+      const updatedList = prev[category].includes(value)
+        ? prev[category].filter(item => item !== value)
+        : [...prev[category], value];
+      return { ...prev, [category]: updatedList };
+    });
+  };
+
+  const FilterSection = ({ id, title, icon: Icon, children }) => (
+    <div className={`filter-section ${expandedSection === id ? 'expanded' : ''}`}>
+      <button className="section-header" onClick={() => toggleSection(id)}>
+        <div className="section-title-wrapper">
+          <Icon size={18} className="section-icon" />
+          <span className="section-title">{title}</span>
+        </div>
+        {expandedSection === id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+      </button>
+      <div className="section-content">
+        {children}
+      </div>
+    </div>
+  );
+
+  if (loading) return <div className="loading-container"><div className="loader"></div><span>Cargando catálogo...</span></div>;
 
   return (
-    <section className="vehicle-catalog">
+    <section className={`vehicle-catalog ${showFilters ? 'with-sidebar' : 'catalog-section'}`}>
       <div className="catalog-header">
-        <h2 className="section-title">Catálogo de Vehículos</h2>
+        <h2 className="section-title">{title || "Catálogo Premium"}</h2>
+        {showFilters && <p className="results-text">Mostrando {filteredVehicles.length} vehículos</p>}
       </div>
 
-      <div className="catalog-grid">
-        {vehicles.map((car) => (
-          <div key={car.id} className="card vehicle-card">
-            <div className="vehicle-image-container">
-              <img src={car.image} alt={car.name} className="vehicle-image" />
-              <div 
-                className="vehicle-tag"
-                style={{ backgroundColor: car.tagColor }}
-              >
-                {car.tag}
-              </div>
-              <button className="favorite-btn" aria-label="Añadir a favoritos">
-                <Heart size={20} />
-              </button>
+      <div className="catalog-layout">
+        {showFilters && (
+          <aside className="catalog-sidebar card-base">
+            <div className="filters-header">
+              <Filter size={20} />
+              <h3>Filtros Especializados</h3>
             </div>
-            
-            <div className="vehicle-info">
-              <h3 className="vehicle-name">{car.name}</h3>
-              <p className="vehicle-meta">{car.type} • {car.year} • {car.fuel}</p>
-              
-              <div className="vehicle-specs-grid">
-                <div className="spec-item">
-                  <Gauge size={16} className="spec-icon" />
-                  <span>{car.mileage}</span>
-                </div>
-                <div className="spec-item">
-                  <Settings size={16} className="spec-icon" />
-                  <span>{car.transmission}</span>
-                </div>
-                <div className="spec-item">
-                  <Droplet size={16} className="spec-icon" />
-                  <span>{car.color}</span>
-                </div>
-              </div>
 
-              <div className="vehicle-footer">
-                <span className="vehicle-price">{car.price}</span>
-                <button className="btn btn-primary btn-details">Detalles</button>
+          <FilterSection id="technical" title="Técnicos" icon={SettingsIcon}>
+            <div className="filter-group">
+              <label>Transmisión</label>
+              <div className="button-grid">
+                {['Manual', 'Automática', 'CVT'].map(t => (
+                  <button key={t} className={`toggle-btn ${activeFilters.transmission.includes(t) ? 'active' : ''}`} onClick={() => toggleMultiSelect('transmission', t)}>{t}</button>
+                ))}
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+            <div className="filter-group">
+              <label>Combustible</label>
+              <div className="button-grid">
+                {['Gasolina', 'Diésel', 'Híbrido', 'Eléctrico'].map(f => (
+                  <button key={f} className={`toggle-btn ${activeFilters.fuelType.includes(f) ? 'active' : ''}`} onClick={() => toggleMultiSelect('fuelType', f)}>{f}</button>
+                ))}
+              </div>
+            </div>
+            <div className="filter-group">
+              <label>Tracción</label>
+              <div className="button-grid">
+                {['4x4', 'AWD', 'Delantera', 'Trasera'].map(d => (
+                  <button key={d} className={`toggle-btn ${activeFilters.drivetrain.includes(d) ? 'active' : ''}`} onClick={() => toggleMultiSelect('drivetrain', d)}>{d}</button>
+                ))}
+              </div>
+            </div>
+          </FilterSection>
 
-      {/* Filtros debajo del catálogo */}
-      <div className="catalog-filters">
-        <div className="card filter-panel">
-          <h3 className="filter-title">Rangos de Kilometraje</h3>
-          <ul className="filter-list">
-            <li>
-              <span className="filter-label">Nuevo / Re-estrene</span>
-              <span className="filter-count">(0 - 5,000 km)</span>
-            </li>
-            <li>
-              <span className="filter-label">Semi-nuevos A</span>
-              <span className="filter-count">(5,001 - 25,000 km)</span>
-            </li>
-            <li>
-              <span className="filter-label">Semi-nuevos B</span>
-              <span className="filter-count">(25,001 - 60,000 km)</span>
-            </li>
-          </ul>
-        </div>
+          <FilterSection id="vehicle" title="Vehículo" icon={Car}>
+            <div className="filter-row">
+              <div className="filter-group half"><label>Marca</label><input type="text" name="make" placeholder="BMW" value={activeFilters.make} onChange={handleInputChange} /></div>
+              <div className="filter-group half"><label>Modelo</label><input type="text" name="model" placeholder="M4" value={activeFilters.model} onChange={handleInputChange} /></div>
+            </div>
+            <div className="filter-group">
+              <label>Body Type</label>
+              <div className="button-grid">
+                {['Sedan', 'SUV', 'Hatchback', 'Pickup', 'Coupé'].map(b => (
+                  <button key={b} className={`toggle-btn ${activeFilters.bodyType.includes(b) ? 'active' : ''}`} onClick={() => toggleMultiSelect('bodyType', b)}>{b}</button>
+                ))}
+              </div>
+            </div>
+          </FilterSection>
 
-        <div className="card filter-panel">
-          <h3 className="filter-title">Años de Producción</h3>
-          <div className="year-filters">
-            {['2024', '2023', '2022', '< 2021'].map((year) => (
-              <button 
-                key={year}
-                className={`year-btn ${activeYear === year ? 'active' : ''}`}
-                onClick={() => setActiveYear(year)}
-              >
-                {year}
-              </button>
-            ))}
-          </div>
-        </div>
+          <FilterSection id="purchase" title="Compra" icon={DollarSign}>
+            <div className="filter-group">
+              <label>Rango de Precio</label>
+              <div className="filter-row">
+                <input type="number" name="minPrice" placeholder="Mín" value={activeFilters.minPrice} onChange={handleInputChange} />
+                <input type="number" name="maxPrice" placeholder="Máx" value={activeFilters.maxPrice} onChange={handleInputChange} />
+              </div>
+            </div>
+            <div className="checkbox-grid">
+              <label className="checkbox-item"><input type="checkbox" name="financing" checked={activeFilters.financing} onChange={handleInputChange} /><span>Financiamiento</span></label>
+              <label className="checkbox-item"><input type="checkbox" name="accidentHistory" checked={activeFilters.accidentHistory} onChange={handleInputChange} /><span>Sin Accidentes</span></label>
+              <label className="checkbox-item"><input type="checkbox" name="singleOwner" checked={activeFilters.singleOwner} onChange={handleInputChange} /><span>Único Dueño</span></label>
+            </div>
+          </FilterSection>
+
+          <button className="btn btn-secondary reset-btn" onClick={() => setActiveFilters({
+            transmission: [], fuelType: [], drivetrain: [], consumption: '', displacement: '',
+            make: '', model: '', bodyType: [], doors: '', seats: '', color: '',
+            minPrice: '', maxPrice: '', sellerType: [], financing: false,
+            vehicleStatus: [], location: '', conditionRating: [], accidentHistory: false, singleOwner: false
+          })}>Limpiar Filtros</button>
+          </aside>
+        )}
+
+        <main className={`catalog-main ${!showFilters ? 'full-width' : ''}`}>
+          {filteredVehicles.length > 0 ? (
+            <div className="catalog-grid">
+              {filteredVehicles.map((car) => (
+                <div key={car.id} className="card vehicle-card">
+                  <div className="vehicle-image-container">
+                    <img src={car.image} alt={car.name} className="vehicle-image" />
+                    <div className="vehicle-tag" style={{ backgroundColor: car.tagColor }}>{car.tag}</div>
+                    <button className="favorite-btn" aria-label="Añadir a favoritos"><Heart size={20} /></button>
+                  </div>
+                  <div className="vehicle-info">
+                    <h3 className="vehicle-name">{car.name}</h3>
+                    <p className="vehicle-meta">{car.type} • {car.year} • {car.fuel}</p>
+                    <div className="vehicle-specs-grid">
+                      <div className="spec-item"><Gauge size={16} className="spec-icon" /><span>{car.mileage}</span></div>
+                      <div className="spec-item"><SettingsIcon size={16} className="spec-icon" /><span>{car.transmission}</span></div>
+                      <div className="spec-item"><Droplet size={16} className="spec-icon" /><span>{car.color}</span></div>
+                    </div>
+                    <div className="vehicle-footer">
+                      <span className="vehicle-price">${car.price.toLocaleString()}</span>
+                      <button className="btn btn-primary btn-details">Detalles</button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="no-results card-base">
+              <h3>No se encontraron vehículos</h3>
+              <p>Intenta ajustar los filtros para encontrar tu vehículo ideal.</p>
+            </div>
+          )}
+        </main>
       </div>
     </section>
   );

@@ -7,6 +7,7 @@ import Footer from './components/layout/Footer';
 
 // Pages
 import Home from './pages/Home';
+import Catalog from './pages/Catalog';
 import VehicleDetails from './pages/VehicleDetails/VehicleDetails';
 
 function App() {
@@ -21,10 +22,14 @@ function App() {
 
   return (
     <div className="app-container">
-      <Navbar onNavigate={handleNavigate} />
+      <Navbar onNavigate={handleNavigate} current={currentPage} />
       
       {currentPage === 'home' && (
         <Home onNavigate={handleNavigate} />
+      )}
+
+      {currentPage === 'inventory' && (
+        <Catalog onNavigate={handleNavigate} />
       )}
 
       {currentPage === 'details' && selectedVehicle && (
