@@ -95,24 +95,36 @@
   color: var(--color-text-main);
 }
 
-.vehicle-subtitle {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-.vehicle-features {
+.vehicle-specs-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+  background-color: var(--color-bg-main);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
 }
 
-.feature {
+.spec-item {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.spec-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: 'Outfit', sans-serif;
+}
+
+.spec-value {
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  font-weight: 500;
 }
 
 .card-footer {
