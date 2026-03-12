@@ -1,0 +1,131 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: "Segoe UI", sans-serif;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.contenedorRegistro{
+display:flex;
+height:100vh;
+width:100%;
+}
+
+/* LADO IZQUIERDO (IMAGEN) */
+
+.ladoImagen{
+flex:1;
+background-image:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+background-size:cover;
+background-position:center;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* OVERLAY MORADO */
+
+.overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:linear-gradient(
+rgba(58,0,120,0.85),
+rgba(28,0,80,0.9)
+);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+color:white;
+}
+
+.overlay h1{
+font-size:32px;
+margin-bottom:15px;
+max-width:400px;
+}
+
+.overlay p{
+font-size:15px;
+max-width:380px;
+opacity:0.9;
+}
+
+/* LADO DERECHO (FORMULARIO) */
+
+.ladoFormulario{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#f4f5f9;
+}
+
+/* TARJETA */
+
+.formRegistro{
+background:white;
+padding:40px;
+width:360px;
+border-radius:12px;
+box-shadow:0px 10px 30px rgba(0,0,0,0.1);
+display:flex;
+flex-direction:column;
+}
+
+.formRegistro h2{
+margin-bottom:10px;
+color:#2c2c2c;
+}
+
+.formRegistro input{
+margin-top:15px;
+padding:12px;
+border-radius:8px;
+border:1px solid #dcdcdc;
+font-size:14px;
+transition:0.3s;
+}
+
+.formRegistro input:focus{
+outline:none;
+border-color:#5b21b6;
+}
+
+/* BOTON */
+
+.formRegistro button{
+margin-top:20px;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#5b21b6;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.formRegistro button:hover{
+background:#4c1d95;
+}
+
+/* TEXTO LOGIN */
+
+.loginText{
+margin-top:18px;
+text-align:center;
+font-size:14px;
+}
+
+.loginText span{
+color:#5b21b6;
+font-weight:bold;
+cursor:pointer;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Car, Search, Bell, User } from 'lucide-react';
 import './Navbar.css';
 
-const Navbar = ({ onNavigate }) => {
+const Navbar = ({ onNavigate, current }) => {
   return (
     <header className="navbar-container">
       <div className="container navbar-content">
@@ -20,8 +20,8 @@ const Navbar = ({ onNavigate }) => {
 
         {/* Navigation Links */}
         <nav className="navbar-links">
-          <a href="#inicio" className="nav-link active" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('home'); }}>Inicio</a>
-          <a href="#vehiculos" className="nav-link">Vehículos</a>
+          <a href="#inicio" className={`nav-link ${current === 'home' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('home'); }}>Inicio</a>
+          <a href="#vehiculos" className={`nav-link ${current === 'inventory' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('inventory'); }}>Vehículos</a>
           <a href="#financiamiento" className="nav-link">Financiamiento</a>
           <a href="#contacto" className="nav-link">Contacto</a>
         </nav>

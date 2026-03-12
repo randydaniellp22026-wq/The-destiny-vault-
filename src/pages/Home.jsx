@@ -151,7 +151,7 @@ const Home = ({ onNavigate }) => {
 
   return (
     <main>
-      <Hero />
+      <Hero onNavigate={onNavigate} />
       
       <div className="container content-container">
         <div className="specs-glossary-layout">
@@ -185,7 +185,6 @@ const Home = ({ onNavigate }) => {
           <VehicleCatalog 
             title="4. Re-estrenos" 
             vehicles={anioCatalogo} 
-            showFilters={true} 
             onNavigate={onNavigate}
           />
         </div>
