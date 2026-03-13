@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'lucide-react';
+import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
 import './VehicleDetails.css';
 
 const VehicleDetails = ({ vehicle, onNavigate }) => {
-  // Scroll to top when component mounts
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const { getMonthlyPayment } = useVehicleDetailsLogica(vehicle);
 
   if (!vehicle) return null;
 
@@ -46,7 +44,7 @@ const VehicleDetails = ({ vehicle, onNavigate }) => {
               <div className="stat-divider"></div>
               <div className="hero-stat">
                 <span className="stat-label">Cuota desde</span>
-                <span className="stat-value">${Math.round(vehicle.price * 0.015).toLocaleString()}/mes</span>
+                <span className="stat-value">${getMonthlyPayment().toLocaleString()}/mes</span>
               </div>
             </div>
           </div>

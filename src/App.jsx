@@ -5,10 +5,14 @@ import './App.css';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 
-// Pages
+// Pages & Components
 import Home from './pages/Home';
 import Catalog from './pages/Catalog';
 import VehicleDetails from './pages/VehicleDetails/VehicleDetails';
+import RegistroUsuarios from './components/RegistroDeUsuarios/RegistroUsuarios';
+import LoginVista from './components/login/LoginVista';
+import RedireccionContactos from './components/Redirecciones/Redireccion Contactos/Redireccion Contactos/RedireccionContactos';
+import RedireccionModeloAuto from './components/Redirecciones/RedireccionModeloAuto/RedireccionModeloAuto/RedireccionModeloAuto';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -34,6 +38,22 @@ function App() {
 
       {currentPage === 'details' && selectedVehicle && (
         <VehicleDetails vehicle={selectedVehicle} onNavigate={handleNavigate} />
+      )}
+
+      {currentPage === 'register' && (
+        <RegistroUsuarios onNavigate={handleNavigate} />
+      )}
+
+      {currentPage === 'login' && (
+        <LoginVista onNavigate={handleNavigate} />
+      )}
+
+      {currentPage === 'contact' && (
+        <RedireccionContactos onNavigate={handleNavigate} />
+      )}
+
+      {currentPage === 'modelAuto' && (
+        <RedireccionModeloAuto onNavigate={handleNavigate} />
       )}
 
       <Footer />

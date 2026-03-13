@@ -1,0 +1,172 @@
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f5f6fb;
+color:#1f2937;
+}
+
+/* NAVBAR */
+
+.navbarContacto{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:white;
+border-bottom:1px solid #eee;
+}
+
+.logo{
+font-weight:bold;
+color:#4c1d95;
+}
+
+.navbarContacto nav a{
+margin:0 15px;
+text-decoration:none;
+color:#374151;
+}
+
+.activo{
+color:#4c1d95;
+font-weight:600;
+}
+
+.btnAcceso{
+background:#4c1d95;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* TITULO */
+
+.headerContacto{
+padding:40px;
+}
+
+.headerContacto h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.headerContacto p{
+color:#6b7280;
+max-width:600px;
+}
+
+/* CONTENIDO */
+
+.contenidoContacto{
+display:flex;
+gap:40px;
+padding:0 40px 60px 40px;
+}
+
+/* FORMULARIO */
+
+.formulario{
+background:white;
+padding:25px;
+border-radius:12px;
+width:420px;
+box-shadow:0 3px 12px rgba(0,0,0,0.1);
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.formulario input,
+.formulario select,
+.formulario textarea{
+padding:10px;
+border-radius:6px;
+border:1px solid #ddd;
+}
+
+textarea{
+height:100px;
+resize:none;
+}
+
+.btnEnviar{
+margin-top:10px;
+background:#4c1d95;
+color:white;
+border:none;
+padding:12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* INFO */
+
+.infoContacto{
+flex:1;
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.cardInfo{
+background:#f3f0ff;
+padding:20px;
+border-radius:12px;
+}
+
+.cardDireccion{
+background:#f3f0ff;
+padding:20px;
+border-radius:12px;
+}
+
+/* MAPA */
+
+.mapa{
+position:relative;
+border-radius:12px;
+overflow:hidden;
+}
+
+.mapa img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.mapaTexto{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:15px 25px;
+border-radius:10px;
+text-align:center;
+}
+
+/* FOOTER */
+
+.footerContacto{
+background:white;
+padding:40px;
+border-top:1px solid #eee;
+}
+
+.footerGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:30px;
+margin-bottom:20px;
+}
+
+.footerGrid h4{
+margin-bottom:10px;
+}
+
+.copyright{
+text-align:center;
+color:#6b7280;
+}

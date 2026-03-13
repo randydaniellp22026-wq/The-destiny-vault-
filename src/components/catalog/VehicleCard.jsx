@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Heart } from 'lucide-react';
+import { useVehicleCardLogica } from './VehicleCardLogica';
 import './VehicleCard.css';
 
 const VehicleCard = ({ vehicle, onNavigate }) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  // Return a style class for the tag depending on its value
-  const getTagClass = (tag) => {
-    switch(tag) {
-      case 'Nuevo': return 'tag-new';
-      case 'Recomendado': return 'tag-recommended';
-      case 'Oferta': return 'tag-offer';
-      default: return 'tag-default';
-    }
-  };
+  const { isFavorite, getTagClass, toggleFavorite } = useVehicleCardLogica();
 
   return (
     <div className="vehicle-card card-base">
@@ -24,7 +15,7 @@ const VehicleCard = ({ vehicle, onNavigate }) => {
         </div>
         <button 
           className="favorite-btn" 
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={toggleFavorite}
           aria-label="Agregar a favoritos"
         >
           <Heart 
