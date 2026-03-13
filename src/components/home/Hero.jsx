@@ -3,6 +3,12 @@ import { ArrowRight, Calculator } from 'lucide-react';
 import './Hero.css';
 
 const Hero = ({ onNavigate }) => {
+  const handleInventoryClick = () => {
+    if (onNavigate) {
+      onNavigate('inventory');
+    }
+  };
+
   return (
     <section className="hero-section">
       <div className="hero-overlay"></div>
@@ -15,7 +21,7 @@ const Hero = ({ onNavigate }) => {
           </p>
           
           <div className="hero-actions">
-            <button className="btn btn-primary" onClick={() => onNavigate && onNavigate('inventory')}>
+            <button className="btn btn-primary" onClick={handleInventoryClick}>
               Ver Inventario
               <ArrowRight size={18} />
             </button>

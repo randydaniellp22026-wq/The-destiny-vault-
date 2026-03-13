@@ -1,0 +1,220 @@
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f5fb;
+color:#1f2937;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 40px;
+background:white;
+border-bottom:1px solid #eee;
+}
+
+.logo{
+font-weight:bold;
+color:#4c1d95;
+font-size:20px;
+}
+
+.navbar nav a{
+margin:0 15px;
+text-decoration:none;
+color:#374151;
+font-weight:500;
+}
+
+.loginBtn{
+background:#ede9fe;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+color:#4c1d95;
+cursor:pointer;
+}
+
+/* HEADER */
+
+.headerCatalogo{
+padding:40px;
+}
+
+.subtitulo{
+color:#7c3aed;
+font-weight:600;
+letter-spacing:1px;
+font-size:13px;
+}
+
+.headerCatalogo h1{
+font-size:42px;
+margin:5px 0;
+}
+
+.resultado{
+color:#6b7280;
+}
+
+/* CONTENIDO */
+
+.contenido{
+display:flex;
+gap:30px;
+padding:0 40px 40px 40px;
+}
+
+/* FILTROS */
+
+.filtros{
+width:260px;
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.filtros select,
+.filtros input{
+padding:10px;
+border-radius:6px;
+border:1px solid #ddd;
+}
+
+.btnFiltro{
+background:#4c1d95;
+color:white;
+border:none;
+padding:12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* AUTOS GRID */
+
+.autos{
+flex:1;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:25px;
+}
+
+/* CARD */
+
+.cardAuto{
+background:white;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 5px 12px rgba(0,0,0,0.1);
+}
+
+.imgContainer{
+position:relative;
+}
+
+.imgContainer img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.badge{
+position:absolute;
+top:10px;
+left:10px;
+background:#7c3aed;
+color:white;
+font-size:12px;
+padding:5px 10px;
+border-radius:20px;
+}
+
+.infoAuto{
+padding:18px;
+}
+
+.infoAuto h3{
+margin:0;
+}
+
+.año{
+color:#6b7280;
+margin-bottom:10px;
+}
+
+.datos{
+display:flex;
+gap:15px;
+color:#6b7280;
+font-size:14px;
+margin-bottom:10px;
+}
+
+.estado{
+color:#16a34a;
+font-weight:600;
+}
+
+.precioRow{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:10px;
+}
+
+.precioRow h2{
+color:#4c1d95;
+margin:0;
+}
+
+.btnDetalles{
+border:1px solid #4c1d95;
+background:white;
+color:#4c1d95;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* FOOTER */
+
+.footer{
+background:linear-gradient(180deg,#4c1d95,#2e1065);
+color:white;
+padding:50px 40px 20px 40px;
+}
+
+.footerGrid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+margin-bottom:20px;
+}
+
+.footer input{
+padding:10px;
+border:none;
+border-radius:6px;
+margin-right:8px;
+}
+
+.footer button{
+padding:10px 14px;
+background:white;
+border:none;
+border-radius:6px;
+color:#4c1d95;
+}
+
+.copyright{
+text-align:center;
+font-size:13px;
+opacity:0.8;
+}

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Engine, Zap, Cog, Leaf } from 'lucide-react';
-import './EngineeringSpecs.css';
 
-const EngineeringSpecs = () => {
+export const useEngineeringSpecsLogica = () => {
   const specs = [
     {
       id: 1,
@@ -30,22 +29,7 @@ const EngineeringSpecs = () => {
     }
   ];
 
-  return (
-    <section className="engineering-specs">
-      <h2 className="section-title">Especificaciones de Ingeniería</h2>
-      <div className="specs-grid">
-        {specs.map((spec) => (
-          <div key={spec.id} className="card spec-card">
-            <div className="spec-icon-wrapper">
-              {spec.icon}
-            </div>
-            <h3 className="spec-title">{spec.title}</h3>
-            <p className="spec-description">{spec.description}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
+  return {
+    specs
+  };
 };
-
-export default EngineeringSpecs;
