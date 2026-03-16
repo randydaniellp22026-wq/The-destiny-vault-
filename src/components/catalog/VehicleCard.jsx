@@ -1,10 +1,12 @@
 import React from 'react';
 import { Heart } from 'lucide-react';
 import { useVehicleCardLogica } from './VehicleCardLogica';
+import { useNavigate } from 'react-router-dom';
 import './VehicleCard.css';
 
-const VehicleCard = ({ vehicle, onNavigate }) => {
+const VehicleCard = ({ vehicle }) => {
   const { isFavorite, getTagClass, toggleFavorite } = useVehicleCardLogica();
+  const navigate = useNavigate();
 
   return (
     <div className="vehicle-card card-base">
@@ -55,7 +57,7 @@ const VehicleCard = ({ vehicle, onNavigate }) => {
           <div className="vehicle-price">${vehicle.price.toLocaleString()}</div>
           <button 
             className="btn btn-primary btn-sm"
-            onClick={() => onNavigate && onNavigate('details', vehicle)}
+            onClick={() => navigate(`/details/${vehicle.id || 'default'}`, { state: { vehicle } })}
           >
             Detalles
           </button>

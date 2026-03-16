@@ -3,7 +3,7 @@ import VehicleCard from './VehicleCard';
 import Filters from './Filters';
 import './VehicleCatalog.css';
 
-const VehicleCatalog = ({ title, vehicles, showFilters = false, onNavigate }) => {
+const VehicleCatalog = ({ title, vehicles, showFilters = false }) => {
   return (
     <section className="vehicle-catalog-section">
       <div className="catalog-header">
@@ -15,7 +15,7 @@ const VehicleCatalog = ({ title, vehicles, showFilters = false, onNavigate }) =>
 
       <div className="catalog-grid">
         {vehicles.map((vehicle) => (
-          <VehicleCard key={vehicle.id} vehicle={vehicle} onNavigate={onNavigate} />
+          <VehicleCard key={vehicle.id} vehicle={vehicle} />
         ))}
       </div>
 

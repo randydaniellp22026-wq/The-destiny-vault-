@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavbarLogica } from './Navbarlogica';
 
 export const useNavbarLogica = () => {
   // Logic for navbar (search, menu toggle, etc.) can be added here

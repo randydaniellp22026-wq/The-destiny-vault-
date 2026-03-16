@@ -1,9 +1,12 @@
 import React from "react";
 import { useRedireccionContactosLogica } from "./RedireccionContactosLogica";
+import { Calculator } from 'lucide-react';
+import { useNavigate, Link } from "react-router-dom";
 import "./DiseñoContacto.css";
 
-function RedireccionContactos({ onNavigate }) {
+function RedireccionContactos() {
   const { } = useRedireccionContactosLogica();
+  const navigate = useNavigate();
 
   return (
     <div className="paginaContacto">
@@ -11,16 +14,18 @@ function RedireccionContactos({ onNavigate }) {
       {/* HEADER */}
 
       <header className="navbarContacto">
-        <div className="logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>Gestionadora de Créditos</div>
+        <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>Gestionadora de Créditos</div>
 
-        <nav>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Inicio</a>
-          <a href="#">Servicios</a>
-          <a href="#">Nosotros</a>
-          <a className="activo" href="#" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }}>Contacto</a>
+        <nav style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
+          <Link to="/">Inicio</Link>
+          <Link to="/inventory">Vehículos</Link>
+          <Link to="#" style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+            <Calculator size={18} /> Simular Crédito
+          </Link>
+          <Link to="/contact">Contacto</Link>
         </nav>
 
-        <button className="btnAcceso" onClick={() => onNavigate('login')}>Acceso</button>
+        <button className="btnAcceso" onClick={() => navigate('/login')}>Acceso</button>
       </header>
 
 
@@ -76,18 +81,18 @@ function RedireccionContactos({ onNavigate }) {
 
           <div className="cardInfo">
             <h3>Teléfono</h3>
-            <p>+52 (55) 1234-5678</p>
+            <p>+506 6476 9091</p>
           </div>
 
           <div className="cardInfo">
             <h3>Correo</h3>
-            <p>contacto@gestionadora.com</p>
+            <p>importadoravehiculosavs@gmail.com</p>
           </div>
 
           <div className="cardDireccion">
             <h3>Dirección</h3>
             <p>
-              San Jose, Costa Rica
+              Puntarenas, Heredia
             </p>
           </div>
 
@@ -98,7 +103,7 @@ function RedireccionContactos({ onNavigate }) {
             />
             <div className="mapaTexto">
               <p>NUESTRA UBICACIÓN</p>
-              <h4>San Jose, Costa Rica</h4>
+              <h4>Puntarenas, Heredia</h4>
             </div>
           </div>
 

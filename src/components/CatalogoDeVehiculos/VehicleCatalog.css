@@ -42,8 +42,27 @@
   gap: 1.5rem;
   position: sticky;
   top: 100px;
-  border: 1px solid var(--color-border);
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(145deg, #131313, #0f0f0f);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: var(--radius-lg);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(234, 179, 8, 0.3) transparent;
 }
+
+.catalog-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.catalog-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.catalog-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(234, 179, 8, 0.3);
+  border-radius: 4px;
+}
+
 
 .filters-header {
   display: flex;
@@ -75,7 +94,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-text-main);
+  color: #ffffff;
 }
 
 .section-title-wrapper {
@@ -102,10 +121,11 @@
 .filter-group label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: #eab308;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
   display: block;
+  letter-spacing: 0.05em;
 }
 
 .button-grid {
@@ -117,17 +137,19 @@
 .toggle-btn {
   padding: 0.4rem 0.8rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-light);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
   font-size: 0.75rem;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .toggle-btn.active {
-  background: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  color: #000;
+  border-color: transparent;
+  box-shadow: 0 0 10px rgba(234,179,8,0.3);
 }
 
 .filter-row {
@@ -143,9 +165,12 @@
   width: 100%;
   padding: 0.5rem 0.75rem;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  background: rgba(255,255,255,0.05);
+  color: #ffffff;
   font-size: 0.875rem;
 }
+.filter-section input::placeholder { color: #4b5563; }
 
 .checkbox-grid {
   display: flex;
@@ -156,10 +181,50 @@
 .checkbox-item {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 0.875rem;
+  gap: 0.65rem;
+  font-size: 0.9rem;
   cursor: pointer;
+  color: #e2e8f0;
+  padding: 0.35rem 0;
+  user-select: none;
 }
+
+.checkbox-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  min-width: 17px;
+  border: 1.5px solid rgba(234, 179, 8, 0.4);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.checkbox-item input[type="checkbox"]:checked {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  border-color: transparent;
+}
+
+.checkbox-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.checkbox-item span {
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
 
 .reset-btn {
   width: 100%;
@@ -218,6 +283,7 @@
   position: relative;
   height: 200px;
   overflow: hidden;
+  background-color: var(--color-bg-light);
 }
 
 .vehicle-image {

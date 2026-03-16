@@ -13,7 +13,7 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Rojo Torch",
-      "image": "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_1.jpg"
     },
     {
       "id": 2,
@@ -28,7 +28,7 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Amarillo Sao Paulo",
-      "image": "https://images.unsplash.com/photo-1617814076367-b77137fa5cc8?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_2.jpg"
     },
     {
       "id": 3,
@@ -43,7 +43,7 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Gris Daytona",
-      "image": "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_3.jpg"
     },
     {
       "id": 4,
@@ -58,7 +58,7 @@
       "transmission": "CVT",
       "fuel": "Híbrido",
       "color": "Blanco Perlado",
-      "image": "https://images.unsplash.com/photo-1590362891963-41bb26f634b0?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_4.jpg"
     },
     {
       "id": 5,
@@ -73,7 +73,7 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Gris Meteorito",
-      "image": "https://images.unsplash.com/photo-1519367253503-455b5d5fbfe5?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_5.jpg"
     },
     {
       "id": 6,
@@ -88,7 +88,7 @@
       "transmission": "CVT",
       "fuel": "Gasolina",
       "color": "Negro",
-      "image": "https://images.unsplash.com/photo-1611016186353-9af58c69a533?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_6.jpg"
     },
     {
       "id": 7,
@@ -103,7 +103,7 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Azul Performance",
-      "image": "https://images.unsplash.com/photo-1559404098-9635955bce51?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_7.jpg"
     },
     {
       "id": 8,
@@ -118,7 +118,7 @@
       "transmission": "Manual",
       "fuel": "Gasolina",
       "color": "Verde Militar",
-      "image": "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_8.jpg"
     },
     {
       "id": 9,
@@ -133,7 +133,7 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco Ártico",
-      "image": "https://images.unsplash.com/photo-1628122345869-7ad00693a105?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_9.jpg"
     },
     {
       "id": 10,
@@ -148,7 +148,7 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Plata Galio",
-      "image": "https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_10.jpg"
     },
     {
       "id": 11,
@@ -163,7 +163,7 @@
       "transmission": "Automática",
       "fuel": "Eléctrico",
       "color": "Gris Mate",
-      "image": "https://images.unsplash.com/photo-1650394747035-afdf00122246?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_11.jpg"
     },
     {
       "id": 12,
@@ -178,7 +178,7 @@
       "transmission": "Automática",
       "fuel": "Híbrido",
       "color": "Azul Denim",
-      "image": "https://images.unsplash.com/photo-1619682817481-e994891cd1f5?auto=format&fit=crop&q=80&w=1000"
+      "image": "/cars/car_12.jpg"
     }
   ],
   "users": [

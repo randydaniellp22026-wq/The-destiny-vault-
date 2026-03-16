@@ -9,15 +9,25 @@
 }
 
 .spec-card {
-  background-color: var(--color-bg-light);
+  background: linear-gradient(145deg, #131313, #0f0f0f);
+  border: 1px solid rgba(234, 179, 8, 0.25);
+  border-radius: var(--radius-lg);
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transition: all var(--transition-normal);
+}
+
+.spec-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 30px rgba(234, 179, 8, 0.15);
+  transform: translateY(-4px);
 }
 
 .spec-icon-wrapper {
-  background-color: white;
+  background: rgba(234, 179, 8, 0.1);
   width: 60px;
   height: 60px;
   border-radius: var(--radius-md);
@@ -25,7 +35,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
-  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(234, 179, 8, 0.2);
   transition: all var(--transition-normal);
 }
 
@@ -34,22 +44,25 @@
 }
 
 .spec-card:hover .spec-icon-wrapper {
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  border-color: transparent;
+  box-shadow: 0 0 16px rgba(234, 179, 8, 0.35);
   transform: scale(1.05);
 }
 
 .spec-card:hover .spec-icon {
-  color: white;
+  color: #000;
 }
 
 .spec-title {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   margin-bottom: 0.75rem;
-  color: var(--color-text-main);
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
 }
 
 .spec-description {
-  color: var(--color-text-muted);
+  color: #9ca3af;
   font-size: 0.95rem;
   line-height: 1.6;
 }

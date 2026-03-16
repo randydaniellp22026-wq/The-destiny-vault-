@@ -1,10 +1,11 @@
+/* ===== FILTERS - DARK LUXURY ===== */
 .filters-container {
-  background-color: var(--color-bg-card);
+  background: linear-gradient(145deg, #131313, #0f0f0f);
   border-radius: var(--radius-lg);
   padding: 1.5rem 2rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   margin-top: 2.5rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(234, 179, 8, 0.2);
 }
 
 .filters-grid {
@@ -19,14 +20,15 @@
 }
 
 .border-left {
-  border-left: 1px solid var(--color-border);
+  border-left: 1px solid rgba(234, 179, 8, 0.15);
   padding-left: 2rem;
 }
 
 .filter-title {
   font-size: 1.1rem;
   margin-bottom: 1.25rem;
-  color: var(--color-text-main);
+  color: #ffffff;
+  font-family: 'Outfit', sans-serif;
 }
 
 .mileage-options {
@@ -41,10 +43,7 @@
   cursor: pointer;
   transition: opacity var(--transition-fast);
 }
-
-.checkbox-label:hover {
-  opacity: 0.8;
-}
+.checkbox-label:hover { opacity: 0.8; }
 
 .custom-checkbox {
   width: 18px;
@@ -56,17 +55,18 @@
 
 .checkbox-text {
   font-size: 0.95rem;
-  color: var(--color-text-muted);
+  color: #9ca3af;
   flex: 1;
 }
 
 .count-badge {
-  background-color: var(--color-bg-light);
-  color: var(--color-text-muted);
+  background-color: rgba(234, 179, 8, 0.1);
+  color: var(--color-primary);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.1rem 0.6rem;
   border-radius: var(--radius-pill);
+  border: 1px solid rgba(234, 179, 8, 0.2);
 }
 
 .year-options {
@@ -78,31 +78,31 @@
 .year-btn {
   padding: 0.6rem 1.25rem;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--color-border);
-  background-color: white;
-  color: var(--color-text-muted);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  background-color: transparent;
+  color: #9ca3af;
   font-weight: 500;
   transition: all var(--transition-normal);
 }
 
 .year-btn:hover {
-  border-color: var(--color-primary-light);
+  border-color: var(--color-primary);
   color: var(--color-primary);
-  background-color: rgba(75, 0, 130, 0.05);
+  background-color: rgba(234, 179, 8, 0.06);
 }
 
 .year-btn.active {
-  background-color: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
-  box-shadow: 0 4px 10px rgba(75, 0, 130, 0.2);
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  color: #000;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);
 }
 
 @media (max-width: 768px) {
   .border-left {
     border-left: none;
     padding-left: 0;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid rgba(234, 179, 8, 0.15);
     padding-top: 1.5rem;
   }
 }

@@ -1,3 +1,4 @@
+/* ===== VEHICLE CATALOG SECTION - DARK LUXURY ===== */
 .vehicle-catalog-section {
   width: 100%;
   margin-top: 1rem;
@@ -6,9 +7,9 @@
 .catalog-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* Align titles with the results text nicely */
-  margin-bottom: 2.5rem; /* Increased spacing */
-  border-bottom: 2px solid rgba(75, 0, 130, 0.1); /* Softer, thicker border with primary color hint */
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid rgba(234, 179, 8, 0.15);
   padding-bottom: 1.25rem;
   position: relative;
 }
@@ -16,28 +17,27 @@
 .catalog-header::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: -1px;
   left: 0;
   width: 80px;
   height: 2px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  background: linear-gradient(90deg, #eab308 0%, transparent 100%);
   border-radius: 2px;
 }
 
 .catalog-header .section-title {
   margin-bottom: 0;
-  font-size: 2.5rem; /* Slightly larger */
-  background: linear-gradient(135deg, var(--color-primary) 0%, #111827 100%);
+  font-size: 2.25rem;
+  background: linear-gradient(135deg, #eab308 0%, #fbbf24 60%, #ffffff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.03em;
-  position: relative;
 }
 
 .results-text {
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
+  color: #6b7280;
+  font-size: 0.9rem;
 }
 
 .catalog-grid {
@@ -47,8 +47,5 @@
 }
 
 @media (max-width: 768px) {
-  .catalog-header {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  .catalog-header { flex-direction: column; gap: 0.5rem; }
 }

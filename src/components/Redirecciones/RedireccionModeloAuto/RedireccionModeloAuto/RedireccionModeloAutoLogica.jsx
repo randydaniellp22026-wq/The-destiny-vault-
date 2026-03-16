@@ -1,52 +1,77 @@
+import { useState, useEffect } from 'react';
+
 export const useRedireccionModeloAutoLogica = () => {
-  const autos = [
-    {
-      id: 1,
-      marca: "Toyota",
-      modelo: "Corolla",
-      año: "2020",
-      km: "49,000 km",
-      transmision: "Automático",
-      precio: "$25,900",
-      estado: "Nuevo",
-      img: "https://images.unsplash.com/photo-1619767886558-efdc7b9e0473"
-    },
-    {
-      id: 2,
-      marca: "Toyota",
-      modelo: "Corolla",
-      año: "2020",
-      km: "49,000 km",
-      transmision: "Automático",
-      precio: "$25,900",
-      estado: "Nuevo",
-      img: "https://images.unsplash.com/photo-1609521263047-f8f205293f24"
-    },
-    {
-      id: 3,
-      marca: "Toyota",
-      modelo: "Corolla",
-      año: "2020",
-      km: "49,000 km",
-      transmision: "Automático",
-      precio: "$25,900",
-      estado: "Nuevo",
-      img: "https://images.unsplash.com/photo-1616788494707-ec28f08d05a1"
-    },
-    {
-      id: 4,
-      marca: "Toyota",
-      modelo: "Corolla",
-      año: "2020",
-      km: "49,000 km",
-      transmision: "Automático",
-      precio: "$25,900",
-      estado: "Nuevo",
-      img: "https://images.unsplash.com/photo-1549921296-3ecf9c3b3b4b"
-    }
-  ];
+  const [autos, setAutos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  const [filtros, setFiltros] = useState({
+    año: '',
+    marca: '',
+    modelo: '',
+    precioMin: '',
+    precioMax: '',
+    transmision: '',
+    combustible: ''
+  });
+
+  useEffect(() => {
+    fetch('http://localhost:5000/vehicles')
+      .then(res => res.json())
+      .then(data => {
+        setAutos(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching vehicles:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleFiltroChange = (e) => {
+    const { name, value } = e.target;
+    setFiltros(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const limpiarFiltros = () => {
+    setFiltros({
+      año: '',
+      marca: '',
+      modelo: '',
+      precioMin: '',
+      precioMax: '',
+      transmision: '',
+      combustible: ''
+    });
+  };
+
+  const autosFiltrados = autos.filter(auto => {
+    // Basic text match on brand/name
+    const matchMarca = filtros.marca === '' || auto.name.toLowerCase().includes(filtros.marca.toLowerCase());
+    const matchModelo = filtros.modelo === '' || auto.name.toLowerCase().includes(filtros.modelo.toLowerCase());
+    
+    // Year match
+    const matchAño = filtros.año === '' || auto.year.toString() === filtros.año;
+    
+    // Price
+    const min = filtros.precioMin ? parseInt(filtros.precioMin) : 0;
+    const max = filtros.precioMax ? parseInt(filtros.precioMax) : Infinity;
+    const matchPrecio = auto.price >= min && auto.price <= max;
+    
+    // Transmision / Combustible
+    const matchTransmision = filtros.transmision === '' || auto.transmission.toLowerCase() === filtros.transmision.toLowerCase();
+    const matchCombustible = filtros.combustible === '' || auto.fuel.toLowerCase() === filtros.combustible.toLowerCase();
+
+    return matchMarca && matchModelo && matchAño && matchPrecio && matchTransmision && matchCombustible;
+  });
 
   return {
-    autos
+    autos: autosFiltrados,
+    loading,
+    filtros,
+    handleFiltroChange,
+    limpiarFiltros
   };
 };

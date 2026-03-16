@@ -1,12 +1,16 @@
 import React from 'react';
 import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
 import './VehicleDetails.css';
 
-const VehicleDetails = ({ vehicle, onNavigate }) => {
+const VehicleDetails = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const vehicle = location.state?.vehicle;
   const { getMonthlyPayment } = useVehicleDetailsLogica(vehicle);
 
-  if (!vehicle) return null;
+  if (!vehicle) return <div style={{marginTop: '100px', textAlign: 'center'}}>Vehículo no encontrado</div>;
 
   return (
     <div className="vehicle-details-page">
@@ -19,8 +23,8 @@ const VehicleDetails = ({ vehicle, onNavigate }) => {
         <div className="container details-hero-content">
           <button 
             className="back-btn" 
-            onClick={() => onNavigate('home')}
-            aria-label="Volver al inicio"
+            onClick={() => navigate(-1)}
+            aria-label="Volver"
           >
             <ArrowLeft size={20} />
             Volver
