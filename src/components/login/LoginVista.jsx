@@ -1,6 +1,6 @@
 import React from 'react';
-import './login.css';
-import { useLoginLogic } from './loginLogica';
+import './Login.css';
+import { useLoginLogic } from './LoginLogica';
 import { LoginHeader } from './LoginHeader';
 import { LoginForm } from './LoginForm';
 import { Link } from 'react-router-dom';
