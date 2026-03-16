@@ -1,10 +1,11 @@
 import React from 'react';
-import './login.css';
-import { useLoginLogic } from './loginLogica';
+import './Login.css';
+import { useLoginLogic } from './LoginLogica';
 import { LoginHeader } from './LoginHeader';
 import { LoginForm } from './LoginForm';
+import { Link } from 'react-router-dom';
 
-export const LoginVista = ({ onNavigate }) => {
+export const LoginVista = () => {
   const { formData, loading, error, handleChange, handleSubmit } = useLoginLogic();
 
   return (
@@ -23,7 +24,7 @@ export const LoginVista = ({ onNavigate }) => {
           />
 
           <div className="form-footer">
-            ¿Aún no tienes cuenta? <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('register'); }}>Crear una cuenta nueva</a>
+            ¿Aún no tienes cuenta? <Link to="/register">Crear una cuenta nueva</Link>
           </div>
 
           <div className="legal-notice">

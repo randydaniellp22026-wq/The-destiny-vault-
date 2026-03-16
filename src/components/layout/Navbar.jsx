@@ -1,3 +1,3 @@
-import NavbarDiseño from './NavbarDiseño';
+import NavbarDiseño from '../Navbar/NavbarDiseño';
 
 export default NavbarDiseño;

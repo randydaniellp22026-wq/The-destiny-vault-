@@ -1,19 +1,20 @@
 import React from 'react';
 import { ArrowRight, Calculator } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './Hero.css';
 
-const Hero = ({ onNavigate }) => {
+const Hero = () => {
+  const navigate = useNavigate();
+
   const handleInventoryClick = () => {
-    if (onNavigate) {
-      onNavigate('inventory');
-    }
+    navigate('/inventory');
   };
 
   return (
     <section className="hero-section">
       <div className="hero-overlay"></div>
       
-      <div className="container hero-content">
+      <div className="hero-content">
         <div className="hero-text-content">
           <h1 className="hero-title">Tu Próximo Destino Empieza Aquí</h1>
           <p className="hero-subtitle">
@@ -25,19 +26,9 @@ const Hero = ({ onNavigate }) => {
               Ver Inventario
               <ArrowRight size={18} />
             </button>
-            <button className="btn btn-secondary hero-btn-outline">
-              <Calculator size={18} />
-              Simular Crédito
-            </button>
           </div>
         </div>
 
-        {/* Slider Indicators */}
-        <div className="hero-indicators">
-          <div className="indicator active"></div>
-          <div className="indicator"></div>
-          <div className="indicator"></div>
-        </div>
       </div>
     </section>
   );

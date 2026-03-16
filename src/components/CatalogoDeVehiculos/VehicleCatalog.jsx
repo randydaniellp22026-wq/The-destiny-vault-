@@ -12,9 +12,10 @@ import {
   Filter 
 } from 'lucide-react';
 import { useCatalogoLogica } from './catalogoLogica';
+import { useNavigate } from 'react-router-dom';
 import './VehicleCatalog.css';
 
-const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false, onNavigate }) => {
+const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false }) => {
   const {
     expandedSection,
     activeFilters,
@@ -25,6 +26,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false,
     toggleMultiSelect,
     resetFilters
   } = useCatalogoLogica(initialVehicles);
+  const navigate = useNavigate();
 
   const FilterSection = ({ id, title, icon: Icon, children }) => (
     <div className={`filter-section ${expandedSection === id ? 'expanded' : ''}`}>
@@ -139,7 +141,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false,
                     </div>
                     <div className="vehicle-footer">
                       <span className="vehicle-price">${car.price.toLocaleString()}</span>
-                      <button className="btn btn-primary btn-details" onClick={() => onNavigate && onNavigate('details', car)}>Detalles</button>
+                      <button className="btn btn-primary btn-details" onClick={() => navigate(`/details/${car.id || 'default'}`, { state: { vehicle: car } })}>Detalles</button>
                     </div>
                   </div>
                 </div>

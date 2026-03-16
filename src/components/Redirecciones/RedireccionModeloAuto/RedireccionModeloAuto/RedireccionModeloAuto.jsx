@@ -1,9 +1,12 @@
 import React from "react";
 import { useRedireccionModeloAutoLogica } from "./RedireccionModeloAutoLogica";
+import { Calculator } from 'lucide-react';
+import { useNavigate, Link } from "react-router-dom";
 import "./DiseñoRedireccion.css";
 
-function RedireccionModeloAuto({ onNavigate }) {
-  const { autos } = useRedireccionModeloAutoLogica();
+function RedireccionModeloAuto() {
+  const { autos, loading, filtros, handleFiltroChange, limpiarFiltros } = useRedireccionModeloAutoLogica();
+  const navigate = useNavigate();
 
   return (
 
@@ -13,16 +16,18 @@ function RedireccionModeloAuto({ onNavigate }) {
 
 <header className="navbar">
 
-<div className="logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>🚗 GESTIONADORA</div>
+<div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>🚗 GESTIONADORA</div>
 
-<nav>
-<a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Inicio</a>
-<a href="#" onClick={(e) => { e.preventDefault(); onNavigate('inventory'); }}>Vehículos</a>
-<a href="#">Cómo comprar</a>
-<a href="#" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }}>Contacto</a>
+<nav style={{display: 'flex', alignItems: 'center', gap: '20px'}}>
+<Link to="/">Inicio</Link>
+<Link to="/inventory">Vehículos</Link>
+<Link to="#" style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+<Calculator size={18} /> Simular Crédito
+</Link>
+<Link to="/contact">Contacto</Link>
 </nav>
 
-<button className="loginBtn" onClick={() => onNavigate('login')}>Iniciar Sesión</button>
+<button className="loginBtn" onClick={() => navigate('/login')}>Iniciar Sesión</button>
 
 </header>
 
@@ -35,7 +40,7 @@ function RedireccionModeloAuto({ onNavigate }) {
 
 <h1>Vehículos disponibles</h1>
 
-<p className="resultado">Resultados para: <b>Toyota 2020</b></p>
+<p className="resultado">Resultados encontrados: <b>{autos.length}</b></p>
 
 </section>
 
@@ -50,31 +55,38 @@ function RedireccionModeloAuto({ onNavigate }) {
 
 <h3>Filtrar búsqueda</h3>
 
-<select>
-<option>Año</option>
+<select name="año" value={filtros.año} onChange={handleFiltroChange}>
+<option value="">Cualquier Año</option>
+<option value="2024">2024</option>
+<option value="2023">2023</option>
+<option value="2022">2022</option>
+<option value="2021">2021</option>
 </select>
 
-<select>
-<option>Marca</option>
+<input type="text" name="marca" value={filtros.marca} onChange={handleFiltroChange} placeholder="Marca (ej. Toyota)" />
+
+<input type="text" name="modelo" value={filtros.modelo} onChange={handleFiltroChange} placeholder="Modelo (ej. Corolla)"/>
+
+<input type="number" name="precioMin" value={filtros.precioMin} onChange={handleFiltroChange} placeholder="Precio mínimo"/>
+
+<input type="number" name="precioMax" value={filtros.precioMax} onChange={handleFiltroChange} placeholder="Precio máximo"/>
+
+<select name="transmision" value={filtros.transmision} onChange={handleFiltroChange}>
+<option value="">Cualquier Transmisión</option>
+<option value="Automática">Automática</option>
+<option value="Manual">Manual</option>
+<option value="CVT">CVT</option>
 </select>
 
-<select>
-<option>Modelo</option>
+<select name="combustible" value={filtros.combustible} onChange={handleFiltroChange}>
+<option value="">Cualquier Combustible</option>
+<option value="Gasolina">Gasolina</option>
+<option value="Diésel">Diésel</option>
+<option value="Eléctrico">Eléctrico</option>
+<option value="Híbrido">Híbrido</option>
 </select>
 
-<input type="text" placeholder="Precio mínimo"/>
-
-<input type="text" placeholder="Precio máximo"/>
-
-<select>
-<option>Transmisión</option>
-</select>
-
-<select>
-<option>Tipo de combustible</option>
-</select>
-
-<button className="btnFiltro">Aplicar filtros</button>
+<button className="btnFiltro" onClick={limpiarFiltros} style={{background: '#6b7280', marginTop: '10px'}}>Limpiar filtros</button>
 
 </aside>
 
@@ -83,39 +95,44 @@ function RedireccionModeloAuto({ onNavigate }) {
 
 <section className="autos">
 
-{autos.map(auto => (
+{loading ? (
+  <p style={{textAlign: 'center', width: '100%'}}>Cargando vehículos...</p>
+) : autos.length === 0 ? (
+  <p style={{textAlign: 'center', width: '100%'}}>No se encontraron vehículos.</p>
+) : (
+autos.map(auto => (
 
 <div className="cardAuto" key={auto.id}>
 
 <div className="imgContainer">
 
-<span className="badge">NUEVO</span>
+{auto.tag && <span className="badge" style={{backgroundColor: auto.tagColor}}>{auto.tag}</span>}
 
-<img src={auto.img} alt="auto"/>
+<img src={auto.image} alt="auto" style={{objectFit: 'cover'}}/>
 
 </div>
 
 <div className="infoAuto">
 
-<h3>{auto.marca} {auto.modelo}</h3>
+<h3>{auto.name}</h3>
 
-<p className="año">{auto.año}</p>
+<p className="año">{auto.year}</p>
 
 <div className="datos">
 
-<span>{auto.km}</span>
+<span>{auto.mileage}</span>
 
-<span>{auto.transmision}</span>
+<span>{auto.transmission}</span>
 
 </div>
 
-<p className="estado">{auto.estado}</p>
+<p className="estado">{auto.fuel}</p>
 
 <div className="precioRow">
 
-<h2>{auto.precio}</h2>
+<h2>${auto.price.toLocaleString()}</h2>
 
-<button className="btnDetalles">
+<button className="btnDetalles" onClick={() => navigate(`/vehicle/${auto.id}`, { state: { vehicle: auto } })}>
 Ver Detalles
 </button>
 
@@ -125,7 +142,7 @@ Ver Detalles
 
 </div>
 
-))}
+)))}
 
 </section>
 

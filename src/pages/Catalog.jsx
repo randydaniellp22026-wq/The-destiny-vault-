@@ -2,11 +2,11 @@ import React from 'react';
 import VehicleCatalog from '../components/CatalogoDeVehiculos/VehicleCatalog';
 import './Catalog.css';
 
-const Catalog = ({ onNavigate }) => {
+const Catalog = () => {
   return (
     <div className="catalog-page">
       <div className="container">
-        <VehicleCatalog onNavigate={onNavigate} showFilters={true} />
+        <VehicleCatalog showFilters={true} />
       </div>
     </div>
   );

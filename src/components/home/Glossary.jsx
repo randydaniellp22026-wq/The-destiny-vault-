@@ -1,4 +1,5 @@
 import React from 'react';
+import { BookOpen } from 'lucide-react';
 import { useGlossaryLogica } from './GlossaryLogica';
 import './Glossary.css';
 

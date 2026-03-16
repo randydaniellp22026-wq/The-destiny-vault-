@@ -2,19 +2,19 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family: "Segoe UI", sans-serif;
+font-family:'Outfit', 'Segoe UI', sans-serif;
 }
 
 /* CONTENEDOR PRINCIPAL */
-
 .contenedorRegistro{
 display:flex;
 height:100vh;
 width:100%;
+background:#080808;
+padding-top:80px; /* Navbar height */
 }
 
 /* LADO IZQUIERDO (IMAGEN) */
-
 .ladoImagen{
 flex:1;
 background-image:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
@@ -26,16 +26,11 @@ align-items:center;
 justify-content:center;
 }
 
-/* OVERLAY MORADO */
-
 .overlay{
 position:absolute;
 width:100%;
 height:100%;
-background:linear-gradient(
-rgba(58,0,120,0.85),
-rgba(28,0,80,0.9)
-);
+background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -49,83 +44,128 @@ color:white;
 font-size:32px;
 margin-bottom:15px;
 max-width:400px;
+color:#ffffff;
+}
+
+.overlay .gold-accent{
+color:#eab308;
 }
 
 .overlay p{
 font-size:15px;
 max-width:380px;
-opacity:0.9;
+opacity:0.8;
+color:#d1d5db;
 }
 
 /* LADO DERECHO (FORMULARIO) */
-
 .ladoFormulario{
 flex:1;
 display:flex;
 justify-content:center;
 align-items:center;
-background:#f4f5f9;
+background:linear-gradient(145deg, #0d0d0d, #080808);
+border-left:1px solid rgba(234,179,8,0.15);
 }
 
 /* TARJETA */
-
 .formRegistro{
-background:white;
-padding:40px;
-width:360px;
-border-radius:12px;
-box-shadow:0px 10px 30px rgba(0,0,0,0.1);
+background:linear-gradient(145deg, #131313, #0f0f0f);
+padding:28px 36px;
+width:400px;
+border-radius:16px;
+border:1px solid rgba(234,179,8,0.25);
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
 display:flex;
 flex-direction:column;
+gap:2px;
 }
 
 .formRegistro h2{
-margin-bottom:10px;
-color:#2c2c2c;
+margin-bottom:8px;
+color:#ffffff;
+font-size:1.75rem;
+font-weight:700;
+}
+
+.formRegistro p.subtitle{
+color:#9ca3af;
+font-size:0.9rem;
+margin-bottom:20px;
+}
+
+.formRegistro label{
+display:block;
+font-size:0.8rem;
+font-weight:600;
+color:#e2e8f0;
+margin-top:8px;
+margin-bottom:4px;
+text-transform:uppercase;
+letter-spacing:0.05em;
 }
 
 .formRegistro input{
-margin-top:15px;
-padding:12px;
-border-radius:8px;
-border:1px solid #dcdcdc;
+padding:9px 12px;
+border-radius:10px;
+border:1px solid rgba(234,179,8,0.2);
+background:rgba(255,255,255,0.04);
+color:#ffffff;
 font-size:14px;
-transition:0.3s;
+font-family:inherit;
+transition:all 0.3s;
+width:100%;
+}
+
+.formRegistro input::placeholder{
+color:#4b5563;
 }
 
 .formRegistro input:focus{
 outline:none;
-border-color:#5b21b6;
+border-color:#eab308;
+background:rgba(234,179,8,0.06);
+box-shadow:0 0 0 3px rgba(234,179,8,0.15);
 }
 
 /* BOTON */
-
 .formRegistro button{
-margin-top:20px;
+margin-top:14px;
 padding:12px;
 border:none;
-border-radius:8px;
-background:#5b21b6;
-color:white;
-font-size:16px;
+border-radius:10px;
+background:linear-gradient(135deg, #eab308, #ca8a04);
+color:#000000;
+font-size:15px;
+font-weight:700;
 cursor:pointer;
-transition:0.3s;
+transition:all 0.3s;
+box-shadow:0 4px 18px rgba(234,179,8,0.35);
+font-family:inherit;
 }
 
 .formRegistro button:hover{
-background:#4c1d95;
+transform:translateY(-2px);
+box-shadow:0 8px 28px rgba(234,179,8,0.45);
 }
 
 /* TEXTO LOGIN */
-
 .loginText{
 margin-top:18px;
 text-align:center;
 font-size:14px;
+color:#9ca3af;
 }
 
 .loginText span{
-color:#5b21b6;
+color:#eab308;
 font-weight:bold;
 cursor:pointer;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+.ladoImagen{ display:none; }
+.ladoFormulario{ border-left:none; }
+.formRegistro{ width:90%; max-width:400px; }
 }

@@ -1,16 +1,20 @@
 import React from 'react';
-import { CarFront, Search, Bell, User } from 'lucide-react';
+import { CarFront, Search, Bell, User, Calculator } from 'lucide-react';
 import { useNavbarLogica } from './Navbarlogica';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './Navbar.css';
 
-const NavbarDiseño = ({ onNavigate, current }) => {
+const NavbarDiseño = () => {
   const { } = useNavbarLogica();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const current = location.pathname;
 
   return (
     <nav className="navbar">
       <div className="container navbar-container">
         {/* Logo Section */}
-        <div className="navbar-logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>
+        <div className="navbar-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <div className="logo-icon">
             <CarFront size={28} />
           </div>
@@ -19,10 +23,14 @@ const NavbarDiseño = ({ onNavigate, current }) => {
 
         {/* Navigation Links */}
         <ul className="navbar-links">
-          <li><a href="#" className={current === 'home' ? 'active' : ''} onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Inicio</a></li>
-          <li><a href="#" className={current === 'inventory' ? 'active' : ''} onClick={(e) => { e.preventDefault(); onNavigate('inventory'); }}>Vehículos</a></li>
-          <li><a href="#" className={current === 'modelAuto' ? 'active' : ''} onClick={(e) => { e.preventDefault(); onNavigate('modelAuto'); }}>Modelos</a></li>
-          <li><a href="#" className={current === 'contact' ? 'active' : ''} onClick={(e) => { e.preventDefault(); onNavigate('contact'); }}>Contacto</a></li>
+          <li><Link to="/" className={current === '/' ? 'active' : ''}>Inicio</Link></li>
+          <li><Link to="/inventory" className={current === '/inventory' ? 'active' : ''}>Vehículos</Link></li>
+          <li>
+            <Link to="#" style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+              <Calculator size={18} /> Simular Crédito
+            </Link>
+          </li>
+          <li><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
         </ul>
 
         {/* Right Section */}
@@ -39,7 +47,7 @@ const NavbarDiseño = ({ onNavigate, current }) => {
             <Bell size={20} />
             <span className="notification-dot"></span>
           </button>
-          <div className="avatar-container" onClick={() => onNavigate('login')} style={{ cursor: 'pointer' }}>
+          <div className="avatar-container" onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}>
             <div className="avatar">
               <User size={20} />
             </div>
