@@ -43,12 +43,12 @@ const VehicleDetails = () => {
               <div className="stat-divider"></div>
               <div className="hero-stat">
                 <span className="stat-label">Precio</span>
-                <span className="stat-value">${vehicle.price.toLocaleString()}</span>
+                <span className="stat-value">₡{vehicle.price.toLocaleString('es-CR')}</span>
               </div>
               <div className="stat-divider"></div>
               <div className="hero-stat">
                 <span className="stat-label">Cuota desde</span>
-                <span className="stat-value">${getMonthlyPayment().toLocaleString()}/mes</span>
+                <span className="stat-value">₡{getMonthlyPayment().toLocaleString('es-CR')}/mes</span>
               </div>
             </div>
           </div>

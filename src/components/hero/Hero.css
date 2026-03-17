@@ -5,8 +5,7 @@
   display: flex;
   align-items: center;
   margin-top: 80px; /* Offset for navbar */
-  /* Replaced placeholder URL with a high quality unsplash image of a modern car */
-  background-image: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+  background-image: url('../../img/descarga.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

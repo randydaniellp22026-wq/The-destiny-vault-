@@ -54,7 +54,7 @@ const VehicleCard = ({ vehicle }) => {
         </div>
 
         <div className="card-footer">
-          <div className="vehicle-price">${vehicle.price.toLocaleString()}</div>
+          <div className="vehicle-price">₡{vehicle.price.toLocaleString('es-CR')}</div>
           <button 
             className="btn btn-primary btn-sm"
             onClick={() => navigate(`/details/${vehicle.id || 'default'}`, { state: { vehicle } })}
