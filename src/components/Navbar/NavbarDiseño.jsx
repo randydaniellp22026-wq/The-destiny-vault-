@@ -1,5 +1,6 @@
 import React from 'react';
-import { CarFront, Search, Bell, User, Calculator } from 'lucide-react';
+import { Search, Bell, User, Calculator } from 'lucide-react';
+import savsLogo from '../../img/image copy 4.png';
 import { useNavbarLogica } from './Navbarlogica';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import './Navbar.css';
@@ -15,10 +16,10 @@ const NavbarDiseño = () => {
       <div className="container navbar-container">
         {/* Logo Section */}
         <div className="navbar-logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          <div className="logo-icon">
-            <CarFront size={28} />
+          <div className="logo-icon-savs">
+            <img src={savsLogo} alt="SAVS" className="savs-logo-img" />
           </div>
-          <span className="logo-text">Gestionadora de Créditos</span>
+          <span className="logo-text">Importadora SAVS</span>
         </div>
 
         {/* Navigation Links */}

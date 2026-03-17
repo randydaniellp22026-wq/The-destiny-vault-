@@ -140,7 +140,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                       <div className="spec-item"><Droplet size={16} className="spec-icon" /><span>{car.color}</span></div>
                     </div>
                     <div className="vehicle-footer">
-                      <span className="vehicle-price">${car.price.toLocaleString()}</span>
+                      <span className="vehicle-price">₡{car.price.toLocaleString('es-CR')}</span>
                       <button className="btn btn-primary btn-details" onClick={() => navigate(`/details/${car.id || 'default'}`, { state: { vehicle: car } })}>Detalles</button>
                     </div>
                   </div>

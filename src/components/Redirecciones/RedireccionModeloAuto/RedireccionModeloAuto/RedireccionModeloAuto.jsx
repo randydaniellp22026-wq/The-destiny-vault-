@@ -130,7 +130,7 @@ autos.map(auto => (
 
 <div className="precioRow">
 
-<h2>${auto.price.toLocaleString()}</h2>
+<h2>₡{auto.price.toLocaleString('es-CR')}</h2>
 
 <button className="btnDetalles" onClick={() => navigate(`/vehicle/${auto.id}`, { state: { vehicle: auto } })}>
 Ver Detalles

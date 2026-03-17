@@ -3,6 +3,7 @@ import Hero from '../components/home/Hero';
 import EngineeringSpecs from '../components/home/EngineeringSpecs';
 import Glossary from '../components/home/Glossary';
 import VehicleCatalog from '../components/catalog/VehicleCatalog';
+import PublicidadSAVS from '../components/PublicidadSAVS/PublicidadSAVS';
 import { useHomeLogica } from './HomeLogica';
 
 const Home = () => {
@@ -11,6 +12,8 @@ const Home = () => {
   return (
     <main>
       <Hero />
+      
+      <PublicidadSAVS />
       
       <div className="container content-container">
         <div className="specs-glossary-layout">
