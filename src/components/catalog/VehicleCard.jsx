@@ -4,6 +4,8 @@ import { useVehicleCardLogica } from './VehicleCardLogica';
 import { useNavigate } from 'react-router-dom';
 import './VehicleCard.css';
 
+const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+
 const VehicleCard = ({ vehicle }) => {
   const { isFavorite, getTagClass, toggleFavorite } = useVehicleCardLogica();
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const VehicleCard = ({ vehicle }) => {
   return (
     <div className="vehicle-card card-base">
       <div className="card-image-wrapper">
-        <img src={vehicle.image} alt={vehicle.name} className="card-image" />
+        <img src={localImages[vehicle.image] || vehicle.image} alt={vehicle.name} className="card-image" />
         <div className={`card-tag ${getTagClass(vehicle.tag)}`}>
           {vehicle.tag}
         </div>
@@ -31,7 +33,7 @@ const VehicleCard = ({ vehicle }) => {
 
       <div className="card-content">
         <div className="card-header">
-          <h3 className="vehicle-name">{vehicle.name}</h3>
+          <h3 className="vehicle-name">{vehicle.type} - {vehicle.name}</h3>
         </div>
 
         <div className="vehicle-specs-grid">

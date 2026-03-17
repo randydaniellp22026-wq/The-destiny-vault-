@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
 import './VehicleDetails.css';
 
+const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+
 const VehicleDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const VehicleDetails = () => {
       {/* 1. Header / Hero Section */}
       <section 
         className="details-hero"
-        style={{ backgroundImage: `url(${vehicle.image})` }}
+        style={{ backgroundImage: `url(${localImages[vehicle.image] || vehicle.image})` }}
       >
         <div className="details-hero-overlay"></div>
         <div className="container details-hero-content">
