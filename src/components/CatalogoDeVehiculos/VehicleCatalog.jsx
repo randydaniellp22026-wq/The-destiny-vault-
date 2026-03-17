@@ -124,15 +124,17 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
         <main className={`catalog-main ${!showFilters ? 'full-width' : ''}`}>
           {filteredVehicles.length > 0 ? (
             <div className="catalog-grid">
-              {filteredVehicles.map((car) => (
+              {filteredVehicles.map((car) => {
+                const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+                return (
                 <div key={car.id} className="card vehicle-card">
                   <div className="vehicle-image-container">
-                    <img src={car.image} alt={car.name} className="vehicle-image" />
+                    <img src={localImages[car.image] || car.image} alt={car.name} className="vehicle-image" />
                     <div className="vehicle-tag" style={{ backgroundColor: car.tagColor }}>{car.tag}</div>
                     <button className="favorite-btn" aria-label="Añadir a favoritos"><Heart size={20} /></button>
                   </div>
                   <div className="vehicle-info">
-                    <h3 className="vehicle-name">{car.name}</h3>
+                    <h3 className="vehicle-name">{car.type} - {car.name}</h3>
                     <p className="vehicle-meta">{car.type} • {car.year} • {car.fuel}</p>
                     <div className="vehicle-specs-grid">
                       <div className="spec-item"><Gauge size={16} className="spec-icon" /><span>{car.mileage}</span></div>
@@ -145,7 +147,8 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                     </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="no-results card-base">
