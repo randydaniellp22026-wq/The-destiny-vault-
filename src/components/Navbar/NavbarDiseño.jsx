@@ -27,7 +27,7 @@ const NavbarDiseño = () => {
           <li><Link to="/" className={current === '/' ? 'active' : ''}>Inicio</Link></li>
           <li><Link to="/inventory" className={current === '/inventory' ? 'active' : ''}>Vehículos</Link></li>
           <li>
-            <Link to="#" style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
+            <Link to="/simulate-credit" className={current === '/simulate-credit' ? 'active' : ''} style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
               <Calculator size={18} /> Simular Crédito
             </Link>
           </li>

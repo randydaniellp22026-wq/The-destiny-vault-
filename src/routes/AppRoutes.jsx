@@ -7,6 +7,7 @@ import RegistroUsuarios from '../components/RegistroDeUsuarios/RegistroUsuarios'
 import LoginVista from '../components/login/LoginVista';
 import RedireccionContactos from '../components/Redirecciones/Redireccion Contactos/Redireccion Contactos/RedireccionContactos';
 import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModeloAuto/RedireccionModeloAuto/RedireccionModeloAuto';
+import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginVista />} />
       <Route path="/contact" element={<RedireccionContactos />} />
       <Route path="/modelAuto" element={<RedireccionModeloAuto />} />
+      <Route path="/simulate-credit" element={<CreditSimulator />} />
     </Routes>
   );
 };
