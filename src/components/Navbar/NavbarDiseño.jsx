@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Search, Bell, User, Calculator } from 'lucide-react';
 import savsLogo from '../../img/image copy 4.png';
 import { useNavbarLogica } from './Navbarlogica';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import VehicleSelectionModal from '../VehicleSelection/VehicleSelectionModal';
 import './Navbar.css';
 
 const NavbarDiseño = () => {
+  const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
   const { } = useNavbarLogica();
   const navigate = useNavigate();
   const location = useLocation();
   const current = location.pathname;
 
   return (
+    <>
     <nav className="navbar">
       <div className="container navbar-container">
         {/* Logo Section */}
@@ -27,9 +30,13 @@ const NavbarDiseño = () => {
           <li><Link to="/" className={current === '/' ? 'active' : ''}>Inicio</Link></li>
           <li><Link to="/inventory" className={current === '/inventory' ? 'active' : ''}>Vehículos</Link></li>
           <li>
-            <Link to="/simulate-credit" className={current === '/simulate-credit' ? 'active' : ''} style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
-              <Calculator size={18} /> Simular Crédito
-            </Link>
+            <button 
+              onClick={() => setIsVehicleModalOpen(true)}
+              className={current === '/simulate-credit' ? 'active' : ''} 
+              style={{display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: 'inherit', fontSize: 'inherit', fontFamily: 'inherit', cursor: 'pointer', padding: 0}}
+            >
+              <Calculator size={18} /> Calcular Financiamiento
+            </button>
           </li>
           <li><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
         </ul>
@@ -56,6 +63,11 @@ const NavbarDiseño = () => {
         </div>
       </div>
     </nav>
+      <VehicleSelectionModal 
+        isOpen={isVehicleModalOpen} 
+        onClose={() => setIsVehicleModalOpen(false)} 
+      />
+    </>
   );
 };
 

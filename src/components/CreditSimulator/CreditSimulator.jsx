@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { 
   Car, 
   Ship, 
@@ -29,6 +30,20 @@ const CreditSimulator = () => {
     handleVehicleSelect,
     setTermMonths
   } = useCreditSimulatorLogica();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const passedVehicle = location.state?.selectedVehicle;
+    // When vehicles are fully loaded and a passed vehicle exists, auto-select it.
+    if (passedVehicle && vehicles.length > 0) {
+      handleVehicleSelect(passedVehicle.id);
+      
+      // We clear the location state via history replace to prevent re-triggering on future internal navigations
+      window.history.replaceState({}, document.title);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vehicles.length, location.state?.selectedVehicle]);
 
   // Helper for CRC display
   const formatCRC = (val) => new Intl.NumberFormat('es-CR', { style: 'currency', currency: 'CRC' }).format(val);
@@ -159,6 +174,48 @@ const CreditSimulator = () => {
                         {Math.floor(termMonths / 12)} {termMonths / 12 === 1 ? 'Año' : 'Años'}
                       </span>
                     </div>
+                  </div>
+                </div>
+
+                <div className="divider" />
+
+                <div className="section-intro">
+                  <div className="icon-box"><FileText /></div>
+                  <h3>Paso 4: Documentación Requerida</h3>
+                </div>
+
+                <div className="docs-grid">
+                  <div className="doc-item">
+                    <div className="doc-icon"><CreditCard size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Cédula por ambos lados</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><FileText size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Orden patronal</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><DollarSign size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Últimas 2 colillas de pago</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><FileText size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Constancia de salario</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
                   </div>
                 </div>
               </div>

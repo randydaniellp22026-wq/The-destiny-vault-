@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import dbData from '../../../db.json';
 
 export const useCreditSimulatorLogica = () => {
-  const [vehicles, setVehicles] = useState([]);
+  const [vehicles, setVehicles] = useState(dbData.vehicles);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   
   // State for additional logistics (Automatic)
   const [shipping, setShipping] = useState(0);
@@ -14,15 +15,7 @@ export const useCreditSimulatorLogica = () => {
   const [termMonths, setTermMonths] = useState(72);
   const [interestRate, setInterestRate] = useState(9.5);
 
-  useEffect(() => {
-    fetch('http://localhost:5000/vehicles')
-      .then(res => res.json())
-      .then(data => {
-        setVehicles(data);
-        setLoading(false);
-      })
-      .catch(err => console.error("Error cargando vehículos:", err));
-  }, []);
+  // El useEffect con fetch fue removido porque ahora cargamos directamente de dbData.
 
   // Update logistics automatically when vehicle changes
   useEffect(() => {

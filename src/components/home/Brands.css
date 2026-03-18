@@ -1,0 +1,115 @@
+.brands-section {
+  background-color: #1a1a1a;
+  padding: 60px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* SEO visibility utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.brands-container {
+  width: 100%;
+  max-width: 1400px; /* Slightly wider for the carousel */
+  margin: 0 auto;
+  overflow: hidden; /* Important for the carousel */
+  position: relative;
+}
+
+/* Gradient overlays for smooth fading edges */
+.brands-container::before,
+.brands-container::after {
+  content: "";
+  height: 100%;
+  width: 150px;
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.brands-container::before {
+  left: 0;
+  background: linear-gradient(to right, #1a1a1a 0%, transparent 100%);
+}
+
+.brands-container::after {
+  right: 0;
+  background: linear-gradient(to left, #1a1a1a 0%, transparent 100%);
+}
+
+/* Wrapper to hold the lists */
+.brands-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.brands-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: max-content; /* Critical: allow it to be as wide as content */
+  animation: scroll 30s linear infinite; /* Adjust time for speed */
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Scrolls half of the total width (the first set) */
+}
+
+.brand-item {
+  flex: 0 0 auto;
+  padding: 0 60px; /* Spacing between logos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo {
+  max-height: 40px;
+  width: auto;
+  opacity: 0.6;
+  filter: brightness(0) invert(1);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.brand-logo:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Pause animation on hover for better UX */
+.brands-list:hover {
+  animation-play-state: paused;
+}
+
+/* Responsividad: Ajustar scroll en móviles si es necesario, 
+   aunque el carrusel infinito funciona bien en todas las pantallas. */
+@media (max-width: 768px) {
+  .brand-item {
+    padding: 0 40px;
+  }
+  .brand-logo {
+    max-height: 30px;
+  }
+  .brands-container::before,
+  .brands-container::after {
+    width: 60px;
+  }
+}
