@@ -176,6 +176,48 @@ const CreditSimulator = () => {
                     </div>
                   </div>
                 </div>
+
+                <div className="divider" />
+
+                <div className="section-intro">
+                  <div className="icon-box"><FileText /></div>
+                  <h3>Paso 4: Documentación Requerida</h3>
+                </div>
+
+                <div className="docs-grid">
+                  <div className="doc-item">
+                    <div className="doc-icon"><CreditCard size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Cédula por ambos lados</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><FileText size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Orden patronal</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><DollarSign size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Últimas 2 colillas de pago</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><FileText size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Constancia de salario</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    <div className="doc-action">Subir</div>
+                  </div>
+                </div>
               </div>
 
               <div className="form-footer">

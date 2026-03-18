@@ -237,6 +237,7 @@ input::-webkit-inner-spin-button {
 
 /* Firefox - Remove spinners */
 input[type=number] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -310,6 +311,88 @@ input[type=number] {
 .input-group small {
   font-size: 0.75rem;
   color: var(--color-text-muted);
+}
+
+/* Documentation Grid */
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.doc-item:hover {
+  background: rgba(234, 179, 8, 0.03);
+  border-color: rgba(234, 179, 8, 0.2);
+  transform: translateY(-2px);
+}
+
+.doc-icon {
+  width: 44px;
+  height: 44px;
+  background: #111;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+}
+
+.doc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.doc-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.doc-status {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fb7185;
+  letter-spacing: 0.05em;
+}
+
+.doc-action {
+  margin-left: auto;
+  padding: 0.5rem 0.8rem;
+  background: rgba(234, 179, 8, 0.1);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.doc-item:hover .doc-action {
+  background: var(--color-primary);
+  color: #000;
+}
+
+@media (max-width: 600px) {
+  .docs-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .future-steps {
