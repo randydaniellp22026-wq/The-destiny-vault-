@@ -1,0 +1,89 @@
+import { useState, useEffect } from 'react';
+import dbData from '../../../db.json';
+
+export const useCreditSimulatorLogica = () => {
+  const [vehicles, setVehicles] = useState(dbData.vehicles);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  // State for additional logistics (Automatic)
+  const [shipping, setShipping] = useState(0);
+  const [insurance, setInsurance] = useState(0);
+  
+  // Credit details
+  const [downPaymentPerc, setDownPaymentPerc] = useState(20);
+  const [termMonths, setTermMonths] = useState(72);
+  const [interestRate, setInterestRate] = useState(9.5);
+
+  // El useEffect con fetch fue removido porque ahora cargamos directamente de dbData.
+
+  // Update logistics automatically when vehicle changes
+  useEffect(() => {
+    if (selectedVehicle) {
+      const name = selectedVehicle.name.toLowerCase();
+      const isBig = name.includes('4x4') || name.includes('suv') || name.includes('hilux') || name.includes('ranger') || name.includes('prado') || name.includes('porter') || name.includes('bongo');
+      
+      const autoShipping = isBig ? 2800 : 1800;
+      const autoInsurance = (selectedVehicle.price / 520) * 0.015;
+
+      setShipping(autoShipping);
+      setInsurance(Math.round(autoInsurance));
+      setDownPaymentPerc(20);
+    } else {
+      setShipping(0);
+      setInsurance(0);
+    }
+  }, [selectedVehicle]);
+
+  const handleVehicleSelect = (idStr) => {
+    if (!idStr) {
+      setSelectedVehicle(null);
+      return;
+    }
+    const vehicle = vehicles.find(v => v.id.toString() === idStr.toString());
+    setSelectedVehicle(vehicle || null);
+  };
+
+  // --- CALCULATIONS ---
+  const priceFob = selectedVehicle ? selectedVehicle.price : 0;
+  const cifValue = priceFob > 0 ? (priceFob / 520) + shipping + insurance : 0;
+  
+  const selectiveTax = cifValue * 0.20;
+  const vatTax = (cifValue + selectiveTax) * 0.13;
+  const otherTaxes = cifValue * 0.05;
+  const totalTaxes = selectedVehicle ? (selectiveTax + vatTax + otherTaxes) : 0;
+
+  const registrationFees = selectedVehicle ? 800 : 0;
+  const totalCostUSD = cifValue + totalTaxes + registrationFees;
+  const totalCostCRC = totalCostUSD * 520;
+
+  const loanAmount = totalCostCRC * ((100 - downPaymentPerc) / 100);
+  const monthlyRate = (interestRate / 100) / 12;
+  const monthlyPayment = loanAmount > 0 
+    ? (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -termMonths))
+    : 0;
+
+  return {
+    vehicles,
+    selectedVehicle,
+    loading,
+    shipping,
+    insurance,
+    downPaymentPerc,
+    termMonths,
+    interestRate,
+    calculations: {
+      priceFob,
+      cifValue,
+      totalTaxes,
+      totalCostCRC,
+      monthlyPayment,
+      loanAmount
+    },
+    handleVehicleSelect,
+    setShipping,
+    setInsurance,
+    setDownPaymentPerc,
+    setTermMonths
+  };
+};

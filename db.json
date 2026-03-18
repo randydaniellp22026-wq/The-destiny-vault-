@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Hyundai Porter Doble Cabina",
       "motor": "2700cc Turbo Diésel",
-      "type": "Pick Up FWD",
+      "type": "Pick Up",
       "year": 2011,
       "mileage": "0 km (Listos para importar)",
       "price": 7800000,
@@ -13,13 +13,13 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "../../carros/carro1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/hyundai-Porter-2011.png"
     },
     {
       "id": 2,
       "name": "Kia Bongo Doble Cabina",
       "motor": "2500cc Diésel",
-      "type": "Pick Up FWD (7 Pasajeros)",
+      "type": "Pick Up (7 Pasajeros)",
       "year": 2011,
       "mileage": "0 km (Listos para importar)",
       "price": 7800000,
@@ -28,13 +28,13 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "../../carros/carro2.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs-2.png"
     },
     {
       "id": 3,
       "name": "Nissan Tiida",
       "motor": "1600cc Gasolina",
-      "type": "Sedán FWD",
+      "type": "Sedán",
       "year": 2011,
       "mileage": "239,000 km",
       "price": 4250000,
@@ -43,13 +43,13 @@
       "transmission": "Manual",
       "fuel": "Gasolina",
       "color": "Blanco",
-      "image": "../../carros/carro3.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs.png"
     },
     {
       "id": 4,
       "name": "Hyundai Tucson iX",
       "motor": "2000cc Diésel",
-      "type": "SUV FWD",
+      "type": "SUV",
       "year": 2010,
       "mileage": "80,000 km (Aprox)",
       "price": 6800000,
@@ -58,13 +58,13 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Plateado",
-      "image": "../../carros/carro4.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2010-ix-1.png"
     },
     {
       "id": 5,
       "name": "Hyundai Tucson iX20",
       "motor": "2000cc Diésel",
-      "type": "SUV FWD",
+      "type": "SUV",
       "year": 2013,
       "mileage": "90,000 km (Aprox)",
       "price": 7995000,
@@ -73,13 +73,13 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Negro",
-      "image": "../../carros/carro5.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png"
     },
     {
       "id": 6,
       "name": "Hyundai Tucson TGDi",
       "motor": "1600cc T Diésel",
-      "type": "SUV FWD",
+      "type": "SUV",
       "year": 2019,
       "mileage": "50,000 km (Aprox)",
       "price": 11695000,
@@ -88,13 +88,13 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "../../carros/carro6.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-Tucson-2019-Special-1.png"
     },
     {
       "id": 7,
       "name": "Kia Sorento LX",
       "motor": "2000cc Diésel",
-      "type": "SUV AWD (7 Pasajeros)",
+      "type": "SUV (7 Pasajeros)",
       "year": 2016,
       "mileage": "70,000 km (Aprox)",
       "price": 10390000,
@@ -103,13 +103,13 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "../../carros/carro7.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2016-1.png"
     },
     {
       "id": 8,
       "name": "Kia Sorento LX (Nuevo Modelo)",
       "motor": "2200cc Diésel",
-      "type": "SUV FWD (7 Pasajeros)",
+      "type": "SUV (7 Pasajeros)",
       "year": 2020,
       "mileage": "45,000 km (Aprox)",
       "price": 13395000,
@@ -118,13 +118,13 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Charcoal",
-      "image": "../../carros/carro8.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2020-1.png"
     },
     {
       "id": 9,
       "name": "Chevrolet Trax T",
       "motor": "1400cc T Gasolina",
-      "type": "SUV FWD Compacto",
+      "type": "SUV",
       "year": 2021,
       "mileage": "35,000 km (Aprox)",
       "price": 8895000,
@@ -133,13 +133,13 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Blanco",
-      "image": "../../carros/carro9.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Chevrolet-Trax-2021-1.png"
     },
     {
       "id": 10,
       "name": "Hyundai Accent VGT",
       "motor": "1600cc Gasolina",
-      "type": "Sedán FWD",
+      "type": "Sedán",
       "year": 2017,
       "mileage": "60,000 km (Aprox)",
       "price": 8395000,
@@ -148,13 +148,13 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Charcoal",
-      "image": "../../carros/carro10.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-accent-2017-1.png"
     },
     {
       "id": 11,
       "name": "Hyundai Accent MC",
       "motor": "1400cc Diésel",
-      "type": "Sedán FWD",
+      "type": "Sedán",
       "year": 2012,
       "mileage": "110,000 km (Aprox)",
       "price": 6995000,
@@ -163,7 +163,7 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "../../carros/carro11.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-accent-2012-1.png"
     }
   ],
   "users": [

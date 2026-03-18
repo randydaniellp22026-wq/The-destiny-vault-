@@ -1,0 +1,77 @@
+/* ===== BRANDS / OUR ALLIES SECTION ===== */
+.brands-section {
+  background-color: #1a1a1a;
+  padding: 60px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brands-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+/* Ocultar el h2 para la vista de usuario, pero mantenerlo para SEO y lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.brands-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none; /* Eliminar viñetas <ul> */
+  padding: 0;
+  margin: 0;
+  gap: 30px;
+  flex-wrap: wrap; /* Útil para tablets que no lleguen al breakpoint de móvil */
+}
+
+.brand-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo {
+  max-height: 50px;
+  width: auto;
+  opacity: 0.7;
+  
+  /* Filtro mágico: esto convierte cualquier logo de color/negro en completamente blanco, 
+   siempre y cuando sea transparente el fondo principal. */
+  filter: brightness(0) invert(1);
+  
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* Efecto hover: Opacidad al 100% y ligero crecimiento */
+.brand-logo:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Responsividad: 2 columnas en teléfonos móviles */
+@media (max-width: 768px) {
+  .brands-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    justify-items: center;
+  }
+}

@@ -1,21 +1,61 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Instagram, Mail, MapPin, Phone, Globe } from 'lucide-react';
+import savsLogo from '../../img/image copy 4.png';
 import './Footer.css';
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="container footer-container">
-        <div className="footer-left">
-          <h2 className="footer-brand">Gestionadora de Créditos</h2>
-          <p className="footer-copy">© 2026 Todos los derechos reservados. Tu confianza, nuestro motor.</p>
+    <footer className="footer-savs">
+      <div className="footer-top">
+        {/* Left Column */}
+        <div className="footer-col-left">
+          <img src={savsLogo} alt="SAVS Logo" className="footer-logo" />
+          <p className="footer-brand-name">Importadora de Vehículos SAVS</p>
+          <p className="footer-follow">Síguenos</p>
+          <div className="footer-social-top">
+            <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
+            <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
+          </div>
         </div>
-        
-        <div className="footer-social">
-          <a href="#" className="social-icon" aria-label="Facebook"><Facebook size={20} /></a>
-          <a href="#" className="social-icon" aria-label="Twitter"><Twitter size={20} /></a>
-          <a href="#" className="social-icon" aria-label="Instagram"><Instagram size={20} /></a>
-          <a href="#" className="social-icon" aria-label="LinkedIn"><Linkedin size={20} /></a>
+
+        {/* Middle Column */}
+        <div className="footer-col-mid">
+          <h3 className="footer-title">Información</h3>
+          <ul className="footer-links">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">¿Quiénes Somos?</a></li>
+            <li><a href="#">Políticas de Privacidad</a></li>
+            <li><a href="#">Venta de Autos</a></li>
+            <li><a href="#">Contáctanos</a></li>
+          </ul>
+        </div>
+
+        {/* Right Column */}
+        <div className="footer-col-right">
+          <h3 className="footer-title">Ubicación y Contacto</h3>
+          <ul className="footer-contact-info">
+            <li><Mail size={18} /> ventas@importadorasavs.com</li>
+            <li><MapPin size={18} /> Heredia & Puntarenas</li>
+            <li><Phone size={18} /> +506 6476-9091</li>
+          </ul>
+        </div>
+
+        {/* Image Column */}
+        <div className="footer-col-img">
+          <img 
+            src="https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png" 
+            alt="Vehículo SAVS" 
+            className="footer-car-img" 
+          />
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <p>Copyright © 2025. All rights reserved. Powered by Grid Studio Costa Rica.</p>
+        <div className="footer-social-bottom">
+          <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
+          <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
+          <a href="#" aria-label="Website"><Globe size={18} /></a>
         </div>
       </div>
     </footer>

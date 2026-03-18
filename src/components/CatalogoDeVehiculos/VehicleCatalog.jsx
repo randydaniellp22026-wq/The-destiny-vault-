@@ -15,6 +15,8 @@ import { useCatalogoLogica } from './catalogoLogica';
 import { useNavigate } from 'react-router-dom';
 import './VehicleCatalog.css';
 
+const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+
 const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false }) => {
   const {
     expandedSection,
@@ -125,11 +127,11 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
           {filteredVehicles.length > 0 ? (
             <div className="catalog-grid">
               {filteredVehicles.map((car) => {
-                const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+                const imageSrc = localImages[car.image] || car.image;
                 return (
                 <div key={car.id} className="card vehicle-card">
                   <div className="vehicle-image-container">
-                    <img src={localImages[car.image] || car.image} alt={car.name} className="vehicle-image" />
+                    <img src={imageSrc} alt={car.name} className="vehicle-image" />
                     <div className="vehicle-tag" style={{ backgroundColor: car.tagColor }}>{car.tag}</div>
                     <button className="favorite-btn" aria-label="Añadir a favoritos"><Heart size={20} /></button>
                   </div>
