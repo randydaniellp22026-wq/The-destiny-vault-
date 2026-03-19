@@ -13,9 +13,31 @@ import {
 } from 'lucide-react';
 import { useCatalogoLogica } from './catalogoLogica';
 import { useNavigate } from 'react-router-dom';
+import { useVehicleCardLogica } from '../catalog/VehicleCardLogica';
 import './VehicleCatalog.css';
 
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+
+const FavoriteButton = ({ vehicleId }) => {
+  const { isFavorite, toggleFavorite } = useVehicleCardLogica(vehicleId);
+  return (
+    <button 
+      className={`favorite-btn ${isFavorite ? 'active' : ''}`} 
+      aria-label="Añadir a favoritos"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(e);
+      }}
+    >
+      <Heart 
+        size={20} 
+        fill={isFavorite ? '#eab308' : 'none'} 
+        color={isFavorite ? '#eab308' : 'white'} 
+      />
+    </button>
+  );
+};
 
 const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false }) => {
   const {
@@ -133,7 +155,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                   <div className="vehicle-image-container">
                     <img src={imageSrc} alt={car.name} className="vehicle-image" />
                     <div className="vehicle-tag" style={{ backgroundColor: car.tagColor }}>{car.tag}</div>
-                    <button className="favorite-btn" aria-label="Añadir a favoritos"><Heart size={20} /></button>
+                    <FavoriteButton vehicleId={car.id} />
                   </div>
                   <div className="vehicle-info">
                     <h3 className="vehicle-name">{car.type} - {car.name}</h3>

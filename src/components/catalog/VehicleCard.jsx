@@ -7,7 +7,7 @@ import './VehicleCard.css';
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
 
 const VehicleCard = ({ vehicle }) => {
-  const { isFavorite, getTagClass, toggleFavorite } = useVehicleCardLogica();
+  const { isFavorite, getTagClass, toggleFavorite } = useVehicleCardLogica(vehicle.id);
   const navigate = useNavigate();
 
   return (

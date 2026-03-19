@@ -280,3 +280,30 @@ body {
   0%, 100% { box-shadow: 0 4px 18px rgba(234, 179, 8, 0.25); }
   50% { box-shadow: 0 4px 25px rgba(255, 255, 255, 0.15), 0 0 30px rgba(234, 179, 8, 0.2); }
 }
+
+/* Test Login Button Styles */
+.test-login-container {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-test-login {
+  background: transparent;
+  color: #eab308;
+  border: 1px dashed rgba(234, 179, 8, 0.4);
+  padding: 0.6rem 1.25rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+.btn-test-login:hover {
+  background: rgba(234, 179, 8, 0.1);
+  border-style: solid;
+  border-color: #eab308;
+  transform: translateY(-1px);
+}
