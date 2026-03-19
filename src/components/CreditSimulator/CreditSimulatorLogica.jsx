@@ -14,6 +14,14 @@ export const useCreditSimulatorLogica = () => {
   const [downPaymentPerc, setDownPaymentPerc] = useState(20);
   const [termMonths, setTermMonths] = useState(72);
   const [interestRate, setInterestRate] = useState(9.5);
+  
+  // State for required documents
+  const [documents, setDocuments] = useState({
+    idCard: null,
+    employmentOrder: null,
+    paymentStubs: null,
+    salaryConfirmation: null
+  });
 
   // El useEffect con fetch fue removido porque ahora cargamos directamente de dbData.
 
@@ -42,6 +50,19 @@ export const useCreditSimulatorLogica = () => {
     }
     const vehicle = vehicles.find(v => v.id.toString() === idStr.toString());
     setSelectedVehicle(vehicle || null);
+  };
+
+  const handleDocumentUpload = (name, file) => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setDocuments(prev => ({
+          ...prev,
+          [name]: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   // --- CALCULATIONS ---
@@ -80,7 +101,9 @@ export const useCreditSimulatorLogica = () => {
       monthlyPayment,
       loanAmount
     },
+    documents,
     handleVehicleSelect,
+    handleDocumentUpload,
     setShipping,
     setInsurance,
     setDownPaymentPerc,

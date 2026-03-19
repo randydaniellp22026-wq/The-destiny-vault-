@@ -332,6 +332,23 @@ input[type=number] {
   transition: all var(--transition-fast);
 }
 
+.doc-preview-small {
+  width: 50px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  margin-left: auto;
+  margin-right: 1.5rem;
+  transition: all var(--transition-normal);
+}
+
+.doc-preview-small:hover {
+  transform: scale(1.1);
+  border-color: var(--color-primary);
+}
+
 .doc-item:hover {
   background: rgba(234, 179, 8, 0.03);
   border-color: rgba(234, 179, 8, 0.2);

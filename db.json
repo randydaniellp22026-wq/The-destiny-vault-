@@ -13,7 +13,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/hyundai-Porter-2011.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/hyundai-Porter-2011.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 2,
@@ -28,7 +32,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs-2.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs-2.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 3,
@@ -43,7 +51,11 @@
       "transmission": "Manual",
       "fuel": "Gasolina",
       "color": "Blanco",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 4,
@@ -58,7 +70,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Plateado",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2010-ix-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2010-ix-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 5,
@@ -73,7 +89,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Negro",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1502877336475-76a4b41ef918?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 6,
@@ -88,7 +108,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-Tucson-2019-Special-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-Tucson-2019-Special-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1606016259837-e070d65b6e4e?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1628126139942-1e96a2de69ab?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 7,
@@ -103,7 +127,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2016-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2016-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1502877336475-76a4b41ef918?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 8,
@@ -118,7 +146,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Charcoal",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2020-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2020-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1606016259837-e070d65b6e4e?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1628126139942-1e96a2de69ab?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 9,
@@ -133,7 +165,11 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Blanco",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Chevrolet-Trax-2021-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Chevrolet-Trax-2021-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1502877336475-76a4b41ef918?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 10,
@@ -148,7 +184,11 @@
       "transmission": "Automática",
       "fuel": "Gasolina",
       "color": "Charcoal",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-accent-2017-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-accent-2017-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=1200"
+      ]
     },
     {
       "id": 11,
@@ -163,7 +203,11 @@
       "transmission": "Automática",
       "fuel": "Diésel",
       "color": "Blanco",
-      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-accent-2012-1.png"
+      "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-accent-2012-1.png",
+      "interior_images": [
+        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80&w=1200",
+        "https://images.unsplash.com/photo-1503376743034-f8cf954c20d1?auto=format&fit=crop&q=80&w=1200"
+      ]
     }
   ],
   "users": [
