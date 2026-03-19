@@ -27,7 +27,9 @@ const CreditSimulator = () => {
     downPaymentPerc,
     termMonths,
     calculations,
+    documents,
     handleVehicleSelect,
+    handleDocumentUpload,
     setTermMonths
   } = useCreditSimulatorLogica();
 
@@ -191,7 +193,16 @@ const CreditSimulator = () => {
                       <p className="doc-name">Cédula por ambos lados</p>
                       <span className="doc-status">Obligatorio</span>
                     </div>
-                    <div className="doc-action">Subir</div>
+                    {documents.idCard && <img src={documents.idCard} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.idCard ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('idCard', e.target.files[0])}
+                      />
+                    </label>
                   </div>
                   <div className="doc-item">
                     <div className="doc-icon"><FileText size={20} /></div>
@@ -199,7 +210,16 @@ const CreditSimulator = () => {
                       <p className="doc-name">Orden patronal</p>
                       <span className="doc-status">Obligatorio</span>
                     </div>
-                    <div className="doc-action">Subir</div>
+                    {documents.employmentOrder && <img src={documents.employmentOrder} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.employmentOrder ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('employmentOrder', e.target.files[0])}
+                      />
+                    </label>
                   </div>
                   <div className="doc-item">
                     <div className="doc-icon"><DollarSign size={20} /></div>
@@ -207,7 +227,16 @@ const CreditSimulator = () => {
                       <p className="doc-name">Últimas 2 colillas de pago</p>
                       <span className="doc-status">Obligatorio</span>
                     </div>
-                    <div className="doc-action">Subir</div>
+                    {documents.paymentStubs && <img src={documents.paymentStubs} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.paymentStubs ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('paymentStubs', e.target.files[0])}
+                      />
+                    </label>
                   </div>
                   <div className="doc-item">
                     <div className="doc-icon"><FileText size={20} /></div>
@@ -215,7 +244,16 @@ const CreditSimulator = () => {
                       <p className="doc-name">Constancia de salario</p>
                       <span className="doc-status">Obligatorio</span>
                     </div>
-                    <div className="doc-action">Subir</div>
+                    {documents.salaryConfirmation && <img src={documents.salaryConfirmation} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.salaryConfirmation ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('salaryConfirmation', e.target.files[0])}
+                      />
+                    </label>
                   </div>
                 </div>
               </div>

@@ -31,9 +31,10 @@ const VehicleDetails = () => {
             <ArrowLeft size={20} />
             Volver
           </button>
+
+          <span className="hero-tag right-tag">{vehicle.tag || 'NUEVO INGRESO'}</span>
           
           <div className="hero-text-content">
-            <span className="hero-tag">{vehicle.tag || 'NUEVO INGRESO'}</span>
             <h1 className="hero-title">{vehicle.name}</h1>
             <p className="hero-subtitle">La redefinición absoluta del rendimiento y la elegancia. Diseñado para quienes exigen más que solo conducir.</p>
             
@@ -99,28 +100,34 @@ const VehicleDetails = () => {
           
           <div className="feature-block">
             <div className="feature-image">
-              <img src="https://images.unsplash.com/photo-1606016259837-e070d65b6e4e?auto=format&fit=crop&q=80&w=1000" alt="Interior lujoso" />
+              <img 
+                src={vehicle.interior_images?.[0] || "https://images.unsplash.com/photo-1606016259837-e070d65b6e4e?auto=format&fit=crop&q=80&w=1000"} 
+                alt={`${vehicle.name} interior - Vista del tablero`} 
+              />
             </div>
             <div className="feature-text">
               <h3>Una cabina diseñada en torno a usted.</h3>
               <ul className="feature-list">
-                <li><ChevronRight size={18} className="list-icon" /> Asientos deportivos en cuero premium.</li>
+                <li><ChevronRight size={18} className="list-icon" /> Acabados premium y ergonomía superior.</li>
                 <li><ChevronRight size={18} className="list-icon" /> Iluminación ambiental configurable.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Sistema acústico de alta fidelidad Envolvente.</li>
+                <li><ChevronRight size={18} className="list-icon" /> Sistema de infoentretenimiento intuitivo.</li>
               </ul>
             </div>
           </div>
 
           <div className="feature-block reverse">
             <div className="feature-image">
-              <img src="https://images.unsplash.com/photo-1628126139942-1e96a2de69ab?auto=format&fit=crop&q=80&w=1000" alt="Tecnología automotriz" />
+              <img 
+                src={vehicle.interior_images?.[1] || "https://images.unsplash.com/photo-1628126139942-1e96a2de69ab?auto=format&fit=crop&q=80&w=1000"} 
+                alt={`${vehicle.name} interior - Detalles de asientos`} 
+              />
             </div>
             <div className="feature-text">
-              <h3>Seguridad intuitiva.</h3>
+              <h3>Detalles que marcan la diferencia.</h3>
               <ul className="feature-list">
-                <li><ChevronRight size={18} className="list-icon" /> Sistema de frenado autónomo de emergencia.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Sensores 360° y cámara de retroceso HD.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Asistente de mantenimiento de carril adaptativo.</li>
+                <li><ChevronRight size={18} className="list-icon" /> Tapicería de alta resistencia y confort.</li>
+                <li><ChevronRight size={18} className="list-icon" /> Amplio espacio para pasajeros y carga.</li>
+                <li><ChevronRight size={18} className="list-icon" /> Seguridad integrada de última generación.</li>
               </ul>
             </div>
           </div>
@@ -135,7 +142,12 @@ const VehicleDetails = () => {
           
           <div className="cta-buttons">
             <button className="btn btn-primary btn-lg">Agendar un Test Drive VIP</button>
-            <button className="btn btn-outline btn-lg">Solicitar Cotización Formal &rarr;</button>
+            <button 
+              className="btn btn-outline btn-lg" 
+              onClick={() => navigate('/contact', { state: { vehicle } })}
+            >
+              Solicitar Cotización Formal &rarr;
+            </button>
           </div>
           
           <p className="cta-disclaimer">Aprobación de financiamiento sujeta a análisis crediticio. Garantía extendida disponible.</p>
