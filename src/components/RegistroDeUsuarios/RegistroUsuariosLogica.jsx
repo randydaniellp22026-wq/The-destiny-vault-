@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'http://127.0.0.1:5000';
+
+const darkSwal = {
+  background: '#0a0a0a',
+  color: '#fff',
+  confirmButtonColor: '#eab308'
+};
 
 export const useRegistroUsuariosLogica = () => {
   const [formData, setFormData] = useState({
@@ -19,24 +25,24 @@ export const useRegistroUsuariosLogica = () => {
     const { nombre, correo, telefono, password } = formData;
 
     if (!nombre.trim() || !correo.trim() || !telefono.trim() || !password.trim()) {
-      Swal.fire({ icon: 'error', title: 'Campos incompletos', text: 'Todos los campos son obligatorios.' });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Campos incompletos', text: 'Todos los campos son obligatorios.' });
       return false;
     }
 
     const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regexCorreo.test(correo)) {
-      Swal.fire({ icon: 'error', title: 'Correo inválido', text: 'Ingresa un correo válido con @.' });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Correo inválido', text: 'Ingresa un correo válido con @.' });
       return false;
     }
 
     const regexTelefono = /^[0-9]+$/;
     if (!regexTelefono.test(telefono)) {
-      Swal.fire({ icon: 'error', title: 'Teléfono inválido', text: 'El teléfono solo debe contener números.' });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Teléfono inválido', text: 'El teléfono solo debe contener números.' });
       return false;
     }
 
     if (password.length < 8) {
-      Swal.fire({ icon: 'error', title: 'Contraseña débil', text: 'La contraseña debe tener mínimo 8 caracteres.' });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Contraseña débil', text: 'La contraseña debe tener mínimo 8 caracteres.' });
       return false;
     }
 
@@ -53,7 +59,7 @@ export const useRegistroUsuariosLogica = () => {
       const existingUsers = await checkRes.json();
 
       if (existingUsers.length > 0) {
-        Swal.fire({ icon: 'warning', title: 'Correo ya registrado', text: 'Este correo ya tiene una cuenta. Inicia sesión.' });
+        Swal.fire({ ...darkSwal, icon: 'warning', title: 'Correo ya registrado', text: 'Este correo ya tiene una cuenta. Inicia sesión.' });
         return;
       }
 
@@ -67,17 +73,18 @@ export const useRegistroUsuariosLogica = () => {
           correo: formData.correo,
           telefono: formData.telefono,
           password: formData.password,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          favorites: [] // Initialize favorites array
         })
       });
 
       if (!res.ok) throw new Error('Error al guardar el usuario.');
 
       Swal.fire({
+        ...darkSwal,
         icon: 'success',
         title: '¡Registro exitoso!',
         text: 'Tu cuenta ha sido creada. Ya puedes iniciar sesión.',
-        confirmButtonColor: '#eab308',
         confirmButtonText: 'Iniciar sesión'
       }).then(() => {
         window.location.href = '/login';
@@ -86,7 +93,7 @@ export const useRegistroUsuariosLogica = () => {
       setFormData({ nombre: '', correo: '', telefono: '', password: '' });
 
     } catch (err) {
-      Swal.fire({ icon: 'error', title: 'Error del servidor', text: err.message });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error del servidor', text: err.message });
     }
   };
 

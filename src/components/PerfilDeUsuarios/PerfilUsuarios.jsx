@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './PerfilUsuarios.css';
 import Swal from 'sweetalert2';
-import dbData from '../../../db.json';
+
 import {
   Bell,
   User,
@@ -20,17 +21,17 @@ import {
   Edit2
 } from 'lucide-react';
 
+const darkSwal = {
+  background: '#0a0a0a',
+  color: '#fff',
+  confirmButtonColor: '#eab308',
+  cancelButtonColor: '#333'
+};
+
 function PerfilUsuarios() {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Dashboard');
-  
-  const [userInfo, setUserInfo] = useState({
-    name: 'Alejandro Silva',
-    role: 'Cliente Premium',
-    email: 'alejandro.silva@vip.com',
-    phone: '+506 8888 8888',
-    location: 'San Mateo, Alajuela',
-    image: ''
-  });
+  const [allVehicles, setAllVehicles] = useState([]); // Versión de catálogo completa
 
   const [vehicles, setVehicles] = useState([
     {
@@ -55,16 +56,127 @@ function PerfilUsuarios() {
 
   const [selectedVehicle, setSelectedVehicle] = useState(vehicles[0]);
 
+  const [userInfo, setUserInfo] = useState({
+    id: null,
+    name: '',
+    role: 'Cliente',
+    email: '',
+    phone: '',
+    location: '',
+    image: ''
+  });
+
+  const handleLogout = () => {
+    Swal.fire({
+      ...darkSwal,
+      icon: 'warning',
+      title: '¿Cerrar Sesión?',
+      text: 'Tendrás que ingresar tus credenciales de nuevo.',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, salir',
+      cancelButtonText: 'Cancelar',
+      background: '#141414',
+      color: '#fff',
+      confirmButtonColor: '#e63946'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
+    });
+  };
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'warning',
+        title: 'Acceso Denegado',
+        text: 'Por favor inicia sesión primero.',
+        background: '#141414',
+        color: '#fff',
+        confirmButtonColor: '#f5b400'
+      }).then(() => {
+        navigate('/login');
+      });
+      return;
+    }
+
+    const loadData = async () => {
+      const user = JSON.parse(savedUser);
+      setUserInfo({
+        id: user.id,
+        name: user.nombre || 'Usuario',
+        role: user.rol || 'Cliente Premium',
+        email: user.email || '',
+        phone: user.telefono || '+506 0000 0000',
+        location: user.ubicacion || 'San José',
+        preciseAddress: user.direccion_precisa || 'Sin dirección registrada',
+        image: user.image || '',
+        favorites: user.favorites || []
+      });
+
+      try {
+        // Obtenemos todos los vehículos del servidor para filtrar los favoritos
+        const res = await fetch('http://127.0.0.1:5000/vehicles');
+        const allVehiclesFromDb = await res.json();
+        setAllVehicles(allVehiclesFromDb); // Guardar lista maestra para agregar manual
+
+        // Filtramos solo los que el usuario tiene en su array de favoritos
+        // Usamos String() para asegurar compatibilidad si el ID es número o string en db.json
+        const userFavoriteIds = (user.favorites || []).map(String);
+        
+        const filtered = allVehiclesFromDb
+          .filter(v => userFavoriteIds.includes(String(v.id)))
+          .map(v => ({
+            id: v.id,
+            name: v.name,
+            image: v.image,
+            year: v.year.toString(),
+            specs: `${v.motor} • ${v.mileage}`,
+            isFavorite: true,
+            importStatus: 4
+          }));
+          
+        setVehicles(filtered);
+      } catch (err) {
+        console.error("Error cargando favoritos:", err);
+      }
+    };
+
+    loadData();
+  }, [navigate]);
+
   const handleEditProfile = () => {
     Swal.fire({
+      ...darkSwal,
       title: 'Editar Perfil',
       html: `
-        <div style="margin-bottom: 10px; text-align: left;"><label style="font-size: 14px; color: #a0a0a0;">Email</label></div>
-        <input id="swal-input1" type="email" class="swal2-input" placeholder="Email" value="${userInfo.email}" style="margin: 0 0 20px 0; width: 80%;">
-        <div style="margin-bottom: 10px; text-align: left;"><label style="font-size: 14px; color: #a0a0a0;">Teléfono</label></div>
-        <input id="swal-input2" type="text" class="swal2-input" placeholder="Solo números (ej. 88888888)" value="${userInfo.phone}" style="margin: 0 0 20px 0; width: 80%;">
-        <div style="margin-bottom: 10px; text-align: left;"><label style="font-size: 14px; color: #a0a0a0;">Ubicación</label></div>
-        <input id="swal-input3" class="swal2-input" placeholder="Ubicación" value="${userInfo.location}" style="margin: 0; width: 80%;">
+        <div style="text-align: left; margin-bottom: 20px;">
+          <div style="margin-bottom: 8px;"><label style="font-size: 14px; color: #a0a0a0;">Nombre Completo</label></div>
+          <input id="swal-input-name" class="swal2-input" value="${userInfo.name}" style="margin: 0; width: 90%;">
+        </div>
+        <div style="text-align: left; margin-bottom: 20px;">
+          <div style="margin-bottom: 8px;"><label style="font-size: 14px; color: #a0a0a0;">Teléfono</label></div>
+          <input id="swal-input-phone" type="text" class="swal2-input" value="${userInfo.phone}" style="margin: 0; width: 90%;">
+        </div>
+        <div style="text-align: left; margin-bottom: 20px;">
+          <div style="margin-bottom: 8px;"><label style="font-size: 14px; color: #a0a0a0;">Provincia (Costa Rica)</label></div>
+          <select id="swal-input-location" class="swal2-input" style="margin: 0; width: 90%; color: #fff; background: #222;">
+            <option value="San José" ${userInfo.location === 'San José' ? 'selected' : ''}>San José</option>
+            <option value="Alajuela" ${userInfo.location === 'Alajuela' ? 'selected' : ''}>Alajuela</option>
+            <option value="Cartago" ${userInfo.location === 'Cartago' ? 'selected' : ''}>Cartago</option>
+            <option value="Heredia" ${userInfo.location === 'Heredia' ? 'selected' : ''}>Heredia</option>
+            <option value="Guanacaste" ${userInfo.location === 'Guanacaste' ? 'selected' : ''}>Guanacaste</option>
+            <option value="Puntarenas" ${userInfo.location === 'Puntarenas' ? 'selected' : ''}>Puntarenas</option>
+            <option value="Limón" ${userInfo.location === 'Limón' ? 'selected' : ''}>Limón</option>
+          </select>
+        </div>
+        <div style="text-align: left;">
+          <div style="margin-bottom: 8px;"><label style="font-size: 14px; color: #a0a0a0;">Dirección Precisa</label></div>
+          <input id="swal-input-address" class="swal2-input" placeholder="Ej: 125m oeste de..." value="${userInfo.preciseAddress === 'Sin dirección registrada' ? '' : userInfo.preciseAddress}" style="margin: 0; width: 90%;">
+        </div>
       `,
       background: '#141414',
       color: '#fff',
@@ -74,48 +186,66 @@ function PerfilUsuarios() {
       cancelButtonText: 'Cancelar',
       focusConfirm: false,
       preConfirm: () => {
-        const email = document.getElementById('swal-input1').value.trim();
-        const phone = document.getElementById('swal-input2').value.trim();
-        const location = document.getElementById('swal-input3').value.trim();
+        const name = document.getElementById('swal-input-name').value.trim();
+        const phone = document.getElementById('swal-input-phone').value.trim();
+        const location = document.getElementById('swal-input-location').value;
+        const preciseAddress = document.getElementById('swal-input-address').value.trim();
 
-        // Validación de campos vacíos
-        if (!email || !phone || !location) {
-          Swal.showValidationMessage('Todos los campos son obligatorios y no pueden estar vacíos.');
+        if (!name || !phone || !location) {
+          Swal.showValidationMessage('Los campos destacados son obligatorios.');
           return false;
         }
-
-        // Validación de correo electrónico (debe contener @)
-        if (!email.includes('@')) {
-          Swal.showValidationMessage('Por favor ingresa un correo válido que contenga un "@".');
-          return false;
-        }
-
-        // Validación de teléfono (solo números, espacios, y opcionalmente un signo + al inicio para ladas)
-        const phoneRegex = /^\+?[0-9\s]+$/;
-        if (!phoneRegex.test(phone)) {
-          Swal.showValidationMessage('El campo de teléfono solo debe contener números y espacios.');
-          return false;
-        }
-
-        return { email, phone, location };
+        return { name, phone, location, preciseAddress };
       }
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        setUserInfo({ ...userInfo, ...result.value });
-        Swal.fire({
-          icon: 'success',
-          title: '¡Guardado!',
-          text: 'Tu perfil ha sido actualizado.',
-          background: '#141414',
-          color: '#fff',
-          confirmButtonColor: '#f5b400'
-        });
+        try {
+          // Operación CRUD (Update) en el servidor
+          const res = await fetch(`http://127.0.0.1:5000/users/${userInfo.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              nombre: result.value.name,
+              telefono: result.value.phone,
+              ubicacion: result.value.location,
+              direccion_precisa: result.value.preciseAddress
+            })
+          });
+
+          if (!res.ok) throw new Error('Error al actualizar el perfil en el servidor.');
+
+          // Actualizamos estado local y sesión
+          const updatedUser = { ...userInfo, ...result.value };
+          setUserInfo(updatedUser);
+          
+          const sessionUser = JSON.parse(localStorage.getItem('user'));
+          localStorage.setItem('user', JSON.stringify({
+            ...sessionUser,
+            nombre: result.value.name,
+            telefono: result.value.phone,
+            ubicacion: result.value.location,
+            direccion_precisa: result.value.preciseAddress
+          }));
+
+          Swal.fire({
+            ...darkSwal,
+            icon: 'success',
+            title: '¡Actualizado!',
+            text: 'Tus datos han sido guardados permanentemente.',
+            background: '#141414',
+            color: '#fff',
+            confirmButtonColor: '#f5b400'
+          });
+        } catch (err) {
+          Swal.fire({ ...darkSwal, icon: 'error', title: 'Oops...', text: err.message });
+        }
       }
     });
   };
 
   const handleEditAvatar = () => {
     Swal.fire({
+      ...darkSwal,
       title: 'Actualizar foto de perfil',
       html: `
         <div style="text-align: left; margin-bottom: 15px;">
@@ -143,11 +273,9 @@ function PerfilUsuarios() {
         reader.onload = (e) => {
           setUserInfo({ ...userInfo, image: e.target.result });
           Swal.fire({
+            ...darkSwal,
             icon: 'success',
             title: '¡Foto Actualizada!',
-            background: '#141414',
-            color: '#fff',
-            confirmButtonColor: '#f5b400',
             timer: 1500,
             showConfirmButton: false
           });
@@ -157,26 +285,68 @@ function PerfilUsuarios() {
     });
   };
 
-  const toggleFavorite = (id) => {
-    setVehicles(vehicles.map(v => 
-      v.id === id ? { ...v, isFavorite: !v.isFavorite } : v
-    ));
+  const toggleFavorite = async (vehicleId) => {
+    const vidStr = String(vehicleId);
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) return;
+
+    const user = JSON.parse(savedUser);
+    let updatedFavorites = Array.isArray(user.favorites) ? user.favorites.map(String) : [];
+
+    // Si ya está, lo quitamos. Si no, lo agregamos (aunque en el perfil normalmente solo quitamos)
+    if (updatedFavorites.includes(vidStr)) {
+      updatedFavorites = updatedFavorites.filter(id => id !== vidStr);
+    } else {
+      updatedFavorites.push(vidStr);
+    }
+
+    try {
+      // Sincronizar con el servidor (CRUD - Update)
+      const res = await fetch(`http://127.0.0.1:5000/users/${user.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ favorites: updatedFavorites })
+      });
+
+      if (!res.ok) throw new Error('Error al sincronizar favoritos.');
+
+      // Actualizar sesión local
+      user.favorites = updatedFavorites;
+      localStorage.setItem('user', JSON.stringify(user));
+
+      // Actualizar estado local para que desaparezca de la vista si estamos en modo "Favoritos"
+      setVehicles(vehicles.map(v => 
+        String(v.id) === vidStr ? { ...v, isFavorite: !v.isFavorite } : v
+      ));
+
+      // Si quitamos el favorito y estamos en la pestaña de favoritos, forzamos refresco ocultándolo
+      if (!updatedFavorites.includes(vidStr)) {
+         setVehicles(prev => prev.filter(v => String(v.id) !== vidStr));
+      }
+
+    } catch (err) {
+      console.error(err);
+      Swal.fire({ 
+        ...darkSwal,
+        icon: 'error', 
+        title: 'Error', 
+        text: 'No se pudo actualizar el favorito.' 
+      });
+    }
   };
 
   const handleAddVehicle = () => {
     // Filtrar los vehículos que el usuario ya tiene en la colección para no mostrarlos repitiendo
-    const availableVehicles = (dbData.vehicles || []).filter(
-      dbCar => !vehicles.some(myCar => myCar.id === dbCar.id)
+    const availableVehicles = (allVehicles || []).filter(
+      dbCar => !vehicles.some(myCar => String(myCar.id) === String(dbCar.id))
     );
 
     if (availableVehicles.length === 0) {
       Swal.fire({
+        ...darkSwal,
         icon: 'info',
         title: 'Colección Completa',
-        text: 'Ya tienes todos los vehículos disponibles en el catálogo.',
-        background: '#141414',
-        color: '#fff',
-        confirmButtonColor: '#f5b400'
+        text: 'Ya tienes todos los vehículos disponibles en el catálogo.'
       });
       return;
     }
@@ -187,6 +357,7 @@ function PerfilUsuarios() {
     });
 
     Swal.fire({
+      ...darkSwal,
       title: 'Agregar Vehículo',
       text: 'Selecciona un vehículo del catálogo:',
       input: 'select',
@@ -194,43 +365,51 @@ function PerfilUsuarios() {
       inputPlaceholder: 'Selecciona un vehículo...',
       showCancelButton: true,
       cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Seleccionar',
-      background: '#141414',
-      color: '#fff',
-      confirmButtonColor: '#f5b400',
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          if (value !== '') {
-            resolve();
-          } else {
-            resolve('Debes seleccionar un vehículo para agregarlo.');
-          }
-        });
-      }
+      confirmButtonText: 'Seleccionar'
     }).then((result) => {
       if (result.isConfirmed) {
-        const selectedId = parseInt(result.value);
-        const selectedCarDb = availableVehicles.find(c => c.id === selectedId);
+        const selectedId = result.value;
+        const selectedCarDb = availableVehicles.find(c => String(c.id) === String(selectedId));
 
         if (selectedCarDb) {
-          const newV = {
-            id: selectedCarDb.id,
-            name: selectedCarDb.name,
-            image: selectedCarDb.image,
-            year: selectedCarDb.year.toString(),
-            specs: `${selectedCarDb.motor} • ${selectedCarDb.mileage}`,
-            isFavorite: false,
-            importStatus: 1
-          };
-          setVehicles([...vehicles, newV]);
-          Swal.fire({
-            icon: 'success',
-            title: '¡Añadido!',
-            text: `El ${selectedCarDb.name} ha sido agregado a tu colección.`,
-            background: '#141414',
-            color: '#fff',
-            confirmButtonColor: '#f5b400'
-          });
+          // Guardamos en la base de datos para que persista
+          const savedUser = localStorage.getItem('user');
+          if (savedUser) {
+            const user = JSON.parse(savedUser);
+            const updatedFavorites = [...(user.favorites || []), String(selectedCarDb.id)];
+            
+            // Sincronizar servidor
+            fetch(`http://127.0.0.1:5000/users/${user.id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ favorites: updatedFavorites })
+            }).then(() => {
+                // Actualizar sesión local
+                user.favorites = updatedFavorites;
+                localStorage.setItem('user', JSON.stringify(user));
+                
+                const newV = {
+                  id: selectedCarDb.id,
+                  name: selectedCarDb.name,
+                  image: selectedCarDb.image,
+                  year: selectedCarDb.year.toString(),
+                  specs: `${selectedCarDb.motor} • ${selectedCarDb.mileage}`,
+                  isFavorite: true,
+                  importStatus: 1
+                };
+                setVehicles([...vehicles, newV]);
+
+                Swal.fire({
+                  ...darkSwal,
+                  icon: 'success',
+                  title: '¡Añadido!',
+                  text: `El ${selectedCarDb.name} ha sido agregado a tu colección.`
+                });
+            }).catch(err => {
+               console.error(err);
+               Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: 'No se pudo guardar en la base de datos.' });
+            });
+          }
         }
       }
     });
@@ -387,7 +566,6 @@ function PerfilUsuarios() {
                         </div>
                       </div>
                     )}
-
                   </div>
                 </section>
               )}
@@ -399,8 +577,8 @@ function PerfilUsuarios() {
                   <div className="settings-grid">
                     <div className="settings-card">
                       <h3>Seguridad</h3>
-                      <button className="btn-settings" onClick={() => Swal.fire({ title: 'Cambiar Contraseña', input: 'password', inputPlaceholder: 'Nueva contraseña', background: '#141414', color: '#fff', confirmButtonColor: '#f5b400' })}>Cambiar Contraseña</button>
-                      <button className="btn-settings outline" onClick={() => Swal.fire({ icon: 'info', title: 'Autenticación en 2 Pasos', text: 'Se enviará un código a tu teléfono', background: '#141414', color: '#fff', confirmButtonColor: '#f5b400' })}>Activar 2FA</button>
+                      <button className="btn-settings" onClick={() => Swal.fire({ ...darkSwal, title: 'Cambiar Contraseña', input: 'password', inputPlaceholder: 'Nueva contraseña' })}>Cambiar Contraseña</button>
+                      <button className="btn-settings outline" onClick={() => Swal.fire({ ...darkSwal, icon: 'info', title: 'Autenticación en 2 Pasos', text: 'Se enviará un código a tu teléfono' })}>Activar 2FA</button>
                     </div>
                     <div className="settings-card">
                       <h3>Preferencias</h3>
@@ -420,8 +598,8 @@ function PerfilUsuarios() {
                     <div className="settings-card danger-zone">
                       <h3 className="danger-text">Zona de Peligro</h3>
                       <p className="danger-desc">Estas acciones no se pueden deshacer.</p>
-                      <button className="btn-danger" onClick={() => Swal.fire({ icon: 'warning', title: '¿Cerrar Sesión?', showCancelButton: true, confirmButtonText: 'Sí, salir', cancelButtonText: 'Cancelar', background: '#141414', color: '#fff', confirmButtonColor: '#e63946' })}>Cerrar Sesión</button>
-                      <button className="btn-danger outline" onClick={() => Swal.fire({ icon: 'error', title: '¿Eliminar cuenta?', text: 'Se borrarán de forma permanente todos tus datos, favoritos y autos.', showCancelButton: true, confirmButtonText: 'Sí, eliminar', cancelButtonText: 'Cancelar', background: '#141414', color: '#fff', confirmButtonColor: '#e63946' })}>Eliminar Cuenta</button>
+                      <button className="btn-danger" onClick={handleLogout}>Cerrar Sesión</button>
+                      <button className="btn-danger outline" onClick={() => Swal.fire({ ...darkSwal, icon: 'error', title: '¿Eliminar cuenta?', text: 'Se borrarán de forma permanente todos tus datos, favoritos y autos.', showCancelButton: true, confirmButtonText: 'Sí, eliminar', cancelButtonText: 'Cancelar', confirmButtonColor: '#e63946' })}>Eliminar Cuenta</button>
                     </div>
                   </div>
                 </section>
@@ -458,6 +636,15 @@ function PerfilUsuarios() {
                     <div className="info-text">
                       <label>Ubicación</label>
                       <p>{userInfo.location}</p>
+                    </div>
+                  </div>
+                  <div className="info-item">
+                    <div className="icon-wrapper">
+                      <MapPin className="info-icon" size={20} color="#eab308" />
+                    </div>
+                    <div className="info-text">
+                      <label>Dirección exacta</label>
+                      <p>{userInfo.preciseAddress}</p>
                     </div>
                   </div>
                 </div>

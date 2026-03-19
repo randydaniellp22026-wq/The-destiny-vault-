@@ -1,7 +1,7 @@
 {
   "vehicles": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Hyundai Porter Doble Cabina",
       "motor": "2700cc Turbo Diésel",
       "type": "Pick Up",
@@ -20,7 +20,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Kia Bongo Doble Cabina",
       "motor": "2500cc Diésel",
       "type": "Pick Up (7 Pasajeros)",
@@ -39,7 +39,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Nissan Tiida",
       "motor": "1600cc Gasolina",
       "type": "Sedán",
@@ -58,7 +58,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Hyundai Tucson iX",
       "motor": "2000cc Diésel",
       "type": "SUV",
@@ -77,7 +77,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Hyundai Tucson iX20",
       "motor": "2000cc Diésel",
       "type": "SUV",
@@ -96,7 +96,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Hyundai Tucson TGDi",
       "motor": "1600cc T Diésel",
       "type": "SUV",
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Kia Sorento LX",
       "motor": "2000cc Diésel",
       "type": "SUV (7 Pasajeros)",
@@ -134,7 +134,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Kia Sorento LX (Nuevo Modelo)",
       "motor": "2200cc Diésel",
       "type": "SUV (7 Pasajeros)",
@@ -153,7 +153,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Chevrolet Trax T",
       "motor": "1400cc T Gasolina",
       "type": "SUV",
@@ -172,7 +172,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Hyundai Accent VGT",
       "motor": "1600cc Gasolina",
       "type": "Sedán",
@@ -191,7 +191,7 @@
       ]
     },
     {
-      "id": 11,
+      "id": "11",
       "name": "Hyundai Accent MC",
       "motor": "1400cc Diésel",
       "type": "Sedán",
@@ -212,26 +212,43 @@
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "nombre": "Administrador",
       "email": "admin@thedestinyvault.com",
       "password": "admin",
-      "rol": "admin"
+      "rol": "admin",
+      "favorites": []
+    },
+    {
+      "id": "2",
+      "nombre": "Yosimar",
+      "email": "Yosimarvv@gmail.com",
+      "password": "yosi12345",
+      "rol": "Cliente",
+      "telefono": "+506 72617462",
+      "ubicacion": "Puntarenas",
+      "favorites": [
+        "6",
+        "3",
+        "5",
+        "2"
+      ],
+      "direccion_precisa": "75 al oeste del antiguo bar el jardin"
     }
   ],
   "technical_glossary": [
     {
-      "id": 1,
+      "id": "1",
       "term": "V8 Atmosférico",
       "description": "Motor de 8 cilindros en V que no utiliza sobrealimentación (turbo o supercargador)."
     },
     {
-      "id": 2,
+      "id": "2",
       "term": "Twin-Turbo",
       "description": "Sistema de dos turbocargadores para aumentar la potencia y eficiencia del motor."
     },
     {
-      "id": 3,
+      "id": "3",
       "term": "Híbrido Enchufable (PHEV)",
       "description": "Vehículo con motor de combustión y motor eléctrico con batería recargable externamente."
     }

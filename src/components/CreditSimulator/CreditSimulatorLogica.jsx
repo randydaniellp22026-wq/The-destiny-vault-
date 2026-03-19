@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import dbData from '../../../db.json';
 
 export const useCreditSimulatorLogica = () => {
-  const [vehicles, setVehicles] = useState(dbData.vehicles);
+  const [vehicles, setVehicles] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [loading, setLoading] = useState(false);
   
@@ -23,7 +22,20 @@ export const useCreditSimulatorLogica = () => {
     salaryConfirmation: null
   });
 
-  // El useEffect con fetch fue removido porque ahora cargamos directamente de dbData.
+  // Fetch logic for credit simulator vehicles
+  useEffect(() => {
+    setLoading(true);
+    fetch('http://127.0.0.1:5000/vehicles')
+      .then(res => res.json())
+      .then(data => {
+        setVehicles(data || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Error loading credit simulator vehicles:", err);
+        setLoading(false);
+      });
+  }, []);
 
   // Update logistics automatically when vehicle changes
   useEffect(() => {
@@ -56,28 +68,21 @@ export const useCreditSimulatorLogica = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setDocuments(prev => ({
-          ...prev,
-          [name]: reader.result
-        }));
+        setDocuments(prev => ({ ...prev, [name]: reader.result }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // --- CALCULATIONS ---
   const priceFob = selectedVehicle ? selectedVehicle.price : 0;
   const cifValue = priceFob > 0 ? (priceFob / 520) + shipping + insurance : 0;
-  
   const selectiveTax = cifValue * 0.20;
   const vatTax = (cifValue + selectiveTax) * 0.13;
   const otherTaxes = cifValue * 0.05;
   const totalTaxes = selectedVehicle ? (selectiveTax + vatTax + otherTaxes) : 0;
-
   const registrationFees = selectedVehicle ? 800 : 0;
   const totalCostUSD = cifValue + totalTaxes + registrationFees;
   const totalCostCRC = totalCostUSD * 520;
-
   const loanAmount = totalCostCRC * ((100 - downPaymentPerc) / 100);
   const monthlyRate = (interestRate / 100) / 12;
   const monthlyPayment = loanAmount > 0 
@@ -93,14 +98,7 @@ export const useCreditSimulatorLogica = () => {
     downPaymentPerc,
     termMonths,
     interestRate,
-    calculations: {
-      priceFob,
-      cifValue,
-      totalTaxes,
-      totalCostCRC,
-      monthlyPayment,
-      loanAmount
-    },
+    calculations: { priceFob, cifValue, totalTaxes, totalCostCRC, monthlyPayment, loanAmount },
     documents,
     handleVehicleSelect,
     handleDocumentUpload,

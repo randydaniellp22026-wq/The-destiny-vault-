@@ -8,7 +8,7 @@ import './Navbar.css';
 
 const NavbarDiseño = () => {
   const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
-  const { } = useNavbarLogica();
+  const { user, isLoggedIn, handleUserClick, searchQuery, setSearchQuery, handleSearch } = useNavbarLogica();
   const navigate = useNavigate();
   const location = useLocation();
   const current = location.pathname;
@@ -49,14 +49,20 @@ const NavbarDiseño = () => {
               type="text" 
               placeholder="Buscar modelos, marcas..." 
               className="search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
             />
           </div>
-          <button className="icon-btn notification-btn" aria-label="Notificaciones">
-            <Bell size={20} />
-            <span className="notification-dot"></span>
-          </button>
-          <div className="avatar-container" onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}>
-            <div className="avatar">
+          
+          <div 
+            className={`session-manager ${isLoggedIn ? 'logged-in' : ''}`}
+            onClick={handleUserClick}
+          >
+            <span className="session-label">
+              {isLoggedIn ? `Perfil: ${user.nombre}` : 'Iniciar Sesión'}
+            </span>
+            <div className="avatar-wrapper">
               <User size={20} />
             </div>
           </div>

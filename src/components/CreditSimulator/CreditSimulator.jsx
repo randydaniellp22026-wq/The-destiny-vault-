@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { 
   Car, 
   Ship, 
@@ -34,6 +35,23 @@ const CreditSimulator = () => {
   } = useCreditSimulatorLogica();
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) {
+      Swal.fire({
+        background: '#0a0a0a',
+        color: '#fff',
+        confirmButtonColor: '#eab308',
+        icon: 'warning',
+        title: 'Acceso Restringido',
+        text: 'Debes iniciar sesión para realizar simulaciones de crédito y subir documentos.'
+      }).then(() => {
+        navigate('/login');
+      });
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const passedVehicle = location.state?.selectedVehicle;
