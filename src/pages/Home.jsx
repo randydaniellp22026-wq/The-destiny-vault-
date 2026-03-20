@@ -1,6 +1,7 @@
 import React from 'react';
 import Hero from '../components/home/Hero';
 import Brands from '../components/home/Brands';
+import Experience from '../components/home/Experience';
 import VehicleCatalog from '../components/catalog/VehicleCatalog';
 import PublicidadSAVS from '../components/PublicidadSAVS/PublicidadSAVS';
 import { useHomeLogica } from './HomeLogica';
@@ -12,6 +13,10 @@ const Home = () => {
     <main className="home-main">
       <Hero />
       <Brands />
+      
+      <section className="section-spacing">
+        <Experience />
+      </section>
       
       <section className="section-spacing">
         <PublicidadSAVS />
