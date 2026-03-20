@@ -141,7 +141,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.4rem 0.5rem 0.4rem 1.25rem;
+  padding: 0.4rem 0.6rem 0.4rem 0.4rem; /* Ajustado para avatar a la izquierda */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(234, 179, 8, 0.3);
   border-radius: 100px;
@@ -181,4 +181,31 @@
 
 .logged-in .avatar-wrapper {
   box-shadow: 0 0 15px rgba(234, 179, 8, 0.5);
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
+  margin-left: 0.25rem;
+}
+
+.logout-button:hover {
+  background: #ef4444;
+  color: white;
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+.session-label {
+  margin-right: 0.5rem;
 }

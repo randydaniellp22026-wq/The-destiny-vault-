@@ -195,6 +195,21 @@ function PerfilUsuarios() {
           Swal.showValidationMessage('Los campos destacados son obligatorios.');
           return false;
         }
+
+        // Validación de nombre (mínimo 3 caracteres, solo letras y espacios)
+        const regexName = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,}$/;
+        if (!regexName.test(name)) {
+          Swal.showValidationMessage('El nombre debe tener al menos 3 caracteres y contener solo letras.');
+          return false;
+        }
+
+        // Validación de teléfono (8 a 15 números)
+        const regexPhone = /^[0-9+]{8,15}$/;
+        if (!regexPhone.test(phone)) {
+          Swal.showValidationMessage('Ingresa un número de teléfono válido (8-15 dígitos).');
+          return false;
+        }
+
         return { name, phone, location, preciseAddress };
       }
     }).then(async (result) => {

@@ -44,10 +44,18 @@ export const useNavbarLogica = () => {
     }
   };
 
+  const handleLogout = (e) => {
+    if (e) e.stopPropagation(); // Evitar que el clic en logout active el navigation al perfil
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/login');
+  };
+
   return { 
     user, 
     isLoggedIn: !!user,
     handleUserClick,
+    handleLogout,
     searchQuery,
     setSearchQuery,
     handleSearch,

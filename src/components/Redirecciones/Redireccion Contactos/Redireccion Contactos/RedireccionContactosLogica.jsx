@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+const darkSwal = {
+  background: '#0a0a0a',
+  color: '#fff',
+  confirmButtonColor: '#eab308'
+};
+
 export const useRedireccionContactosLogica = () => {
   const location = useLocation();
   const initialVehicle = location.state?.vehicle;
@@ -28,17 +34,58 @@ export const useRedireccionContactosLogica = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
+
+    const { user_name, user_email, user_phone, message } = formData;
+
+    // Validación básica de campos obligatorios
+    if (!user_name.trim() || !user_email.trim() || !user_phone.trim()) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'error',
+        title: 'Campos obligatorios',
+        text: 'Por favor, ingresa tu nombre, correo y teléfono.',
+        confirmButtonColor: '#eab308'
+      });
+      return;
+    }
+
+    // Validación de formato de correo
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(user_email)) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'error',
+        title: 'Correo inválido',
+        text: 'Por favor, ingresa un formato de correo electrónico válido.',
+        confirmButtonColor: '#eab308'
+      });
+      return;
+    }
+
+    // Validación de teléfono (solo números)
+    const regexPhone = /^[0-9+]+$/;
+    if (!regexPhone.test(user_phone)) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'error',
+        title: 'Teléfono inválido',
+        text: 'El teléfono debe contener solo números (y opcionalmente el símbolo +).',
+        confirmButtonColor: '#eab308'
+      });
+      return;
+    }
     
     // Si viene de un vehículo, construimos el mensaje especial para WP
-    let finalMessage = formData.message;
+    let finalMessage = message;
     
     if (initialVehicle) {
       const vehicleUrl = `${window.location.origin}/details/${initialVehicle.id}`;
-      finalMessage = `Hola estoy interesado en este modelo: ${vehicleUrl} y quiero saber sobre el vehiculo`;
+      finalMessage = `Hola mi nombre es ${user_name}, estoy interesado en este modelo: ${vehicleUrl}. Mi contacto es ${user_phone}.`;
     }
 
     if (!finalMessage && !initialVehicle) {
       Swal.fire({
+        ...darkSwal,
         icon: 'warning',
         title: 'Mensaje vacío',
         text: 'Por favor escribe tu consulta.',
