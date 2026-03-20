@@ -1,6 +1,6 @@
 .brands-section {
   background-color: #1a1a1a;
-  padding: 60px 0;
+  padding: 10px 0; /* Espacio mínimo para el techo y piso */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -26,6 +26,7 @@
   margin: 0 auto;
   overflow: hidden; /* Important for the carousel */
   position: relative;
+  padding: 15px 0; /* Espacio vertical interno mucho más ajustado */
 }
 
 /* Gradient overlays for smooth fading edges */
@@ -33,7 +34,7 @@
 .brands-container::after {
   content: "";
   height: 100%;
-  width: 150px;
+  width: 80px; /* Reducido de 150px para ver más logos */
   position: absolute;
   z-index: 2;
   pointer-events: none;
@@ -60,7 +61,7 @@
   flex-direction: row;
   align-items: center;
   list-style: none;
-  padding: 0;
+  padding: 20px 0; /* Padding extra para el escalado */
   margin: 0;
   width: max-content; /* Critical: allow it to be as wide as content */
   animation: scroll 30s linear infinite; /* Adjust time for speed */
@@ -73,30 +74,59 @@
 
 .brand-item {
   flex: 0 0 auto;
-  padding: 0 60px; /* Spacing between logos */
+  padding: 0 50px; /* Un punto medio de espaciado lateral */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .brand-logo {
-  max-height: 40px;
+  max-height: 85px; /* De vuelta al tamaño grande que te gustó */
+  max-width: 300px;
   width: auto;
-  opacity: 0.6;
-  filter: brightness(0) invert(1);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  object-fit: contain;
-  cursor: pointer;
-}
-
-.brand-logo:hover {
   opacity: 1;
-  transform: scale(1.1);
+  filter: brightness(0) invert(1);
+  transition: all 0.4s ease;
+  object-fit: contain;
+  transform: scale(1.1); /* Mantener el escalado para llenar espacio */
 }
 
-/* Pause animation on hover for better UX */
-.brands-list:hover {
-  animation-play-state: paused;
+/* Hover Intercalado: Negro y Dorado */
+.brand-item:nth-child(odd):hover .brand-logo {
+  transform: scale(1.15); /* Aumentado un poco más en hover */
+  filter: brightness(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+}
+
+.brand-item:nth-child(even):hover .brand-logo {
+  transform: scale(1.15);
+  /* Tono Dorado Premium */
+  filter: brightness(0) saturate(100%) invert(84%) sepia(51%) saturate(543%) hue-rotate(352deg) brightness(101%) contrast(104%) drop-shadow(0 0 12px rgba(212, 175, 55, 0.6));
+}
+
+/* Ajuste específico para Genesis que tiene mucho espacio vacío lateral */
+.brand-genesis {
+  padding: 0 5px; /* Reducir padding horizontal del ítem completo */
+}
+
+.brand-genesis .brand-logo {
+  transform: scale(1.5, 1.1);
+  margin: 0 -15px;
+}
+
+/* Genesis Hover - Respetando alternancia */
+.brand-genesis:nth-child(odd):hover .brand-logo {
+  transform: scale(1.6, 1.2);
+  filter: brightness(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+.brand-genesis:nth-child(even):hover .brand-logo {
+  transform: scale(1.6, 1.2);
+  filter: brightness(0) saturate(100%) invert(84%) sepia(51%) saturate(543%) hue-rotate(352deg) brightness(101%) contrast(104%) drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
+}
+
+/* Continuous movement - avoid stopping on hover if requested */
+.brands-list {
+  animation: scroll 30s linear infinite;
 }
 
 /* Responsividad: Ajustar scroll en móviles si es necesario, 

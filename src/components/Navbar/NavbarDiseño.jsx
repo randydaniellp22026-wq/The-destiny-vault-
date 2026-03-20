@@ -33,9 +33,8 @@ const NavbarDiseño = () => {
             <button 
               onClick={() => setIsVehicleModalOpen(true)}
               className={current === '/simulate-credit' ? 'active' : ''} 
-              style={{display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: 'inherit', fontSize: 'inherit', fontFamily: 'inherit', cursor: 'pointer', padding: 0}}
             >
-              <Calculator size={18} /> Calcular Financiamiento
+              Calcular Financiamiento
             </button>
           </li>
           <li><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
