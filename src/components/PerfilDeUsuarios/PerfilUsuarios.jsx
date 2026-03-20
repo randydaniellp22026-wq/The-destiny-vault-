@@ -18,7 +18,9 @@ import {
   Mail,
   Phone,
   Plus,
-  Edit2
+  Edit2,
+  LogOut,
+  Car
 } from 'lucide-react';
 
 const darkSwal = {
@@ -477,6 +479,14 @@ function PerfilUsuarios() {
             <li className={activeTab === 'Configuración' ? 'active' : ''} onClick={() => setActiveTab('Configuración')}>
               <Settings size={20} />
               <span>Configuración</span>
+            </li>
+            <li onClick={() => navigate('/vender-auto')} style={{ color: '#f5b400', marginTop: '15px', borderTop: '1px solid #333', paddingTop: '15px' }}>
+              <Car size={20} />
+              <span>Vender mi auto</span>
+            </li>
+            <li className="logout-menu-item" onClick={handleLogout} style={{ color: '#e63946', marginTop: '10px' }}>
+              <LogOut size={20} />
+              <span>Cerrar Sesión</span>
             </li>
           </ul>
         </aside>

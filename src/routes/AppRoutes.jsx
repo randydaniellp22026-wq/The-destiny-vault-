@@ -9,6 +9,7 @@ import RedireccionContactos from '../components/Redirecciones/Redireccion Contac
 import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModeloAuto/RedireccionModeloAuto/RedireccionModeloAuto';
 import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
+import ClienteVendeSuAuto from '../components/ApartadoParaQueElClienteVendaSuAuto/ClienteVendeSuAuto';
 
 const AppRoutes = () => {
   return (
@@ -23,6 +24,7 @@ const AppRoutes = () => {
       <Route path="/modelAuto" element={<RedireccionModeloAuto />} />
       <Route path="/simulate-credit" element={<CreditSimulator />} />
       <Route path="/perfil" element={<PerfilUsuarios />} />
+      <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
     </Routes>
   );
 };
