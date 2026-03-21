@@ -93,42 +93,37 @@ const VehicleDetails = () => {
         </div>
       </section>
 
-      {/* 3. Equipamiento Destacado */}
+      {/* 3. Resumen del Vehículo */}
       <section className="features-section">
         <div className="container wrapper-padding">
-          <h2 className="section-heading centered">Confort y Tecnología de Vanguardia</h2>
+          <h2 className="section-heading centered">Conoce más sobre este vehículo</h2>
           
-          <div className="feature-block">
-            <div className="feature-image">
-              <img 
-                src={vehicle.interior_images?.[0] || "https://images.unsplash.com/photo-1606016259837-e070d65b6e4e?auto=format&fit=crop&q=80&w=1000"} 
-                alt={`${vehicle.name} interior - Vista del tablero`} 
-              />
-            </div>
-            <div className="feature-text">
-              <h3>Una cabina diseñada en torno a usted.</h3>
-              <ul className="feature-list">
-                <li><ChevronRight size={18} className="list-icon" /> Acabados premium y ergonomía superior.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Iluminación ambiental configurable.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Sistema de infoentretenimiento intuitivo.</li>
-              </ul>
-            </div>
-          </div>
+          <div className="summary-block">
+            <p className="summary-text" style={{ fontSize: '1.4rem', lineHeight: '1.8', color: '#d1d5db', textAlign: 'center', maxWidth: '900px', margin: '0 auto', paddingBottom: '3rem' }}>
+              {vehicle.summary || "Vehículo disponible para entrega y cotización. Importado desde Corea bajo los más exigentes estándares de calidad."}
+            </p>
+            
+            <div className="autowini-features" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
+              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
+                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
+                  <Shield size={24} /> Origen Certificado
+                </h4>
+                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Importado directamente a través de canales exclusivos desde Corea del Sur como Autowini, garantizando una procedencia segura.</p>
+              </div>
 
-          <div className="feature-block reverse">
-            <div className="feature-image">
-              <img 
-                src={vehicle.interior_images?.[1] || "https://images.unsplash.com/photo-1628126139942-1e96a2de69ab?auto=format&fit=crop&q=80&w=1000"} 
-                alt={`${vehicle.name} interior - Detalles de asientos`} 
-              />
-            </div>
-            <div className="feature-text">
-              <h3>Detalles que marcan la diferencia.</h3>
-              <ul className="feature-list">
-                <li><ChevronRight size={18} className="list-icon" /> Tapicería de alta resistencia y confort.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Amplio espacio para pasajeros y carga.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Seguridad integrada de última generación.</li>
-              </ul>
+              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
+                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
+                  <Sparkles size={24} /> Respaldo SAVS
+                </h4>
+                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Cada unidad que ofrecemos ha sido minuciosamente inspeccionada en motor, chasis y electrónica localmente por nuestro equipo experto.</p>
+              </div>
+              
+              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
+                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
+                  <Navigation size={24} /> Listo para Circular
+                </h4>
+                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Nuestros modelos son entregados en estado impecable. Completamos revisiones preventivas para que disfrutes tu inversión de forma inmediata.</p>
+              </div>
             </div>
           </div>
         </div>

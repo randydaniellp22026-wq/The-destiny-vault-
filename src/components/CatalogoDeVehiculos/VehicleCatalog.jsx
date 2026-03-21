@@ -6,7 +6,6 @@ import {
   Droplet, 
   ChevronDown, 
   ChevronUp, 
-  Settings as SettingsIcon, 
   Car, 
   DollarSign, 
   Filter 
@@ -84,7 +83,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
               <h3>Filtros Especializados</h3>
             </div>
 
-          <FilterSection id="technical" title="Técnicos" icon={SettingsIcon}>
+          <FilterSection id="technical" title="Técnicos" icon={Settings}>
             <div className="filter-group">
               <label>Transmisión</label>
               <div className="button-grid">
@@ -162,7 +161,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                     <p className="vehicle-meta">{car.type} • {car.year} • {car.fuel}</p>
                     <div className="vehicle-specs-grid">
                       <div className="spec-item"><Gauge size={16} className="spec-icon" /><span>{car.mileage}</span></div>
-                      <div className="spec-item"><SettingsIcon size={16} className="spec-icon" /><span>{car.transmission}</span></div>
+                      <div className="spec-item"><Settings size={16} className="spec-icon" /><span>{car.transmission}</span></div>
                       <div className="spec-item"><Droplet size={16} className="spec-icon" /><span>{car.color}</span></div>
                     </div>
                     <div className="vehicle-footer">

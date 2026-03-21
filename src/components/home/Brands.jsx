@@ -43,9 +43,15 @@ const Brands = () => {
                 <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
               </li>
             ))}
-            {/* Duplicate for infinite loop */}
+            {/* Double duplicate for truly infinite seamless loop */}
             {brands.map((brand) => (
               <li key={`${brand.id}-2`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
+              </li>
+            ))}
+            {/* Triple duplicate for safety */}
+            {brands.map((brand) => (
+              <li key={`${brand.id}-3`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
                 <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
               </li>
             ))}

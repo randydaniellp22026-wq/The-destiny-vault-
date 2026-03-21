@@ -72,15 +72,18 @@
 
 /* Specific styling for the secondary button on dark background */
 .hero-btn-outline {
-  background-color: transparent !important;
+  background-color: #1a1a1a !important;
   color: white !important;
-  border-color: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease !important;
 }
 
 .hero-btn-outline:hover {
-  background-color: white !important;
-  color: var(--color-primary) !important;
-  border-color: white !important;
+  background-color: #1a1a1a !important;
+  filter: brightness(1.5) !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
 @media (max-width: 768px) {
