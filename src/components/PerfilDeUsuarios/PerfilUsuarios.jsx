@@ -203,10 +203,10 @@ function PerfilUsuarios() {
           return false;
         }
 
-        // Validación de teléfono (8 a 15 números)
-        const regexPhone = /^[0-9+]{8,15}$/;
+        // Validación de teléfono (8 a 20 caracteres, permite +, números y espacios)
+        const regexPhone = /^[0-9+\s\-()]{8,20}$/;
         if (!regexPhone.test(phone)) {
-          Swal.showValidationMessage('Ingresa un número de teléfono válido (8-15 dígitos).');
+          Swal.showValidationMessage('Ingresa un número de teléfono válido.');
           return false;
         }
 
@@ -538,6 +538,25 @@ function PerfilUsuarios() {
                       <span>Entrega final</span>
                     </div>
                   </div>
+
+                  <div className="status-details">
+                    <div className="detail-item">
+                      <span className="detail-label">Fecha Estimada</span>
+                      <span className="detail-value">25 Abr 2026</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Ubicación</span>
+                      <span className="detail-value">Puerto de Moín, Limón</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Vessel / Naviera</span>
+                      <span className="detail-value">Maersk Line • V0924</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Estado</span>
+                      <span className="detail-value">En trámite aduanal</span>
+                    </div>
+                  </div>
                 </section>
               )}
 
@@ -655,7 +674,7 @@ function PerfilUsuarios() {
                   </div>
                   <div className="info-item">
                     <div className="icon-wrapper">
-                      <MapPin className="info-icon" size={20} color="#eab308" />
+                      <MapPin className="info-icon" size={20} />
                     </div>
                     <div className="info-text">
                       <label>Dirección exacta</label>
