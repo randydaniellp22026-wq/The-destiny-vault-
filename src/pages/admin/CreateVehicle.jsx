@@ -27,7 +27,12 @@ const initialFormState = {
   fuel: 'Gasolina',
   color: '',
   image: '',
-  summary: ''
+  summary: '',
+  engine_size: '',
+  doors: '',
+  drive: '',
+  passengers: '',
+  steering: ''
 };
 
 const CreateVehicle = () => {
@@ -234,6 +239,33 @@ const CreateVehicle = () => {
                   <label>Tipo de Carrocería</label>
                   <input type="text" name="type" value={formData.type} onChange={handleInputChange} placeholder="Ej. SUV 4x4" />
                 </div>
+              </div>
+
+              <div className="form-group-row">
+                <div className="form-group">
+                  <label>Cilindraje</label>
+                  <input type="text" name="engine_size" value={formData.engine_size} onChange={handleInputChange} placeholder="Ej. 2000cc" />
+                </div>
+                <div className="form-group">
+                  <label>Puertas</label>
+                  <input type="text" inputMode="numeric" name="doors" value={formData.doors} onChange={handleInputChange} placeholder="Ej. 5" />
+                </div>
+              </div>
+
+              <div className="form-group-row">
+                <div className="form-group">
+                  <label>Tracción</label>
+                  <input type="text" name="drive" value={formData.drive} onChange={handleInputChange} placeholder="Ej. 4x4 o FWD" />
+                </div>
+                <div className="form-group">
+                  <label>Pasajeros</label>
+                  <input type="text" inputMode="numeric" name="passengers" value={formData.passengers} onChange={handleInputChange} placeholder="Ej. 5" />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Dirección</label>
+                <input type="text" name="steering" value={formData.steering} onChange={handleInputChange} placeholder="Ej. Hidráulica / Eléctrica" />
               </div>
 
               <div className="form-group-row">
