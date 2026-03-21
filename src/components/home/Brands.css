@@ -79,6 +79,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.brand-item:hover {
+  z-index: 5; /* Ensure hovered item stays on top */
 }
 
 .brand-logo {
@@ -114,16 +121,18 @@
   margin: 0 -15px;
 }
 
-/* Genesis Hover - Respetando alternancia */
+/* Genesis Hover - Robust Scaling and illumination */
+.brand-genesis:nth-child(even):hover .brand-logo {
+  transform: scale(1.6, 1.25);
+  filter: brightness(0) saturate(100%) invert(84%) sepia(51%) saturate(543%) hue-rotate(352deg) brightness(101%) contrast(104%) drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
+}
+
 .brand-genesis:nth-child(odd):hover .brand-logo {
-  transform: scale(1.6, 1.2);
+  transform: scale(1.6, 1.25);
   filter: brightness(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
 
-.brand-genesis:nth-child(even):hover .brand-logo {
-  transform: scale(1.6, 1.2);
-  filter: brightness(0) saturate(100%) invert(84%) sepia(51%) saturate(543%) hue-rotate(352deg) brightness(101%) contrast(104%) drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
-}
+
 
 /* Ajuste específico para Nissan que se ve pequeño */
 .brand-nissan {
@@ -134,8 +143,15 @@
   transform: scale(1.4); /* Escalar el logo un 40% más */
 }
 
-.brand-nissan:hover .brand-logo {
-  transform: scale(1.5); /* Aumentar un poco más en hover */
+/* Nissan Hover - Combining specific scale with general illumination */
+.brand-nissan:nth-child(even):hover .brand-logo {
+  transform: scale(1.55);
+  filter: brightness(0) saturate(100%) invert(84%) sepia(51%) saturate(543%) hue-rotate(352deg) brightness(101%) contrast(104%) drop-shadow(0 0 12px rgba(212, 175, 55, 0.6));
+}
+
+.brand-nissan:nth-child(odd):hover .brand-logo {
+  transform: scale(1.55);
+  filter: brightness(0) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
 }
 
 /* Continuous movement is handled in the main declaration */

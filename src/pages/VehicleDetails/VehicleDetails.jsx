@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
 import './VehicleDetails.css';
 
@@ -9,9 +9,34 @@ const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', 
 const VehicleDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const vehicle = location.state?.vehicle;
+  const { id } = useParams();
+  const [vehicle, setVehicle] = React.useState(location.state?.vehicle);
+  const [loading, setLoading] = React.useState(!location.state?.vehicle || !location.state?.vehicle.engine_size);
   const { getMonthlyPayment } = useVehicleDetailsLogica(vehicle);
 
+  React.useEffect(() => {
+    // Si no tenemos vehículo en state, o si le faltan los nuevos campos técnicos, lo pedimos al API
+    const needsUpdate = !vehicle || !vehicle.engine_size;
+    
+    if (needsUpdate && (id || vehicle?.id)) {
+      setLoading(true);
+      const vehicleId = id || vehicle.id;
+      const API_URL = 'http://localhost:5000/vehicles';
+      
+      fetch(`${API_URL}/${vehicleId}`)
+        .then(res => res.json())
+        .then(data => {
+          setVehicle(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Error al refrescar datos del vehículo:", err);
+          setLoading(false);
+        });
+    }
+  }, [id, vehicle?.id]);
+
+  if (loading) return <div className="loading-container"><div className="loader"></div><span>Cargando detalles técnicos...</span></div>;
   if (!vehicle) return <div style={{marginTop: '100px', textAlign: 'center'}}>Vehículo no encontrado</div>;
 
   return (
@@ -87,8 +112,44 @@ const VehicleDetails = () => {
           <div className="spec-card">
             <div className="spec-icon-wrapper"><Shield size={24} /></div>
             <h3 className="spec-title">Transmisión</h3>
-            <p className="spec-data">Automática de 8 vel.</p>
-            <p className="spec-desc">Cambios imperceptibles para un confort inigualable.</p>
+            <p className="spec-data">{vehicle.transmission}</p>
+            <p className="spec-desc">Gestión optimizada para máxima eficiencia.</p>
+          </div>
+        </div>
+
+        {/* 2.1 Tabla de Especificaciones Técnicas Detalladas */}
+        <div className="technical-grid" style={{ marginTop: '4rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', background: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Cilindraje</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.engine_size || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Tipo de Motor</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.motor || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Puertas</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.doors || 'N/D'} Puertas</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Capacidad</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.passengers || 'N/D'} Pasajeros</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Tracción</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.drive || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Dirección</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.steering || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Combustible</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.fuel || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Color Exterior</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.color || 'N/D'}</span>
           </div>
         </div>
       </section>
