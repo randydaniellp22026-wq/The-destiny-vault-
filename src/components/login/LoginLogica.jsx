@@ -27,6 +27,20 @@ export const useLoginLogic = () => {
     setLoading(true);
     setError(null);
 
+    // Validaciones de frontend
+    if (!formData.email.trim() || !formData.password.trim()) {
+      setError('Por favor, completa todos los campos.');
+      setLoading(false);
+      return;
+    }
+
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexCorreo.test(formData.email)) {
+      setError('Ingresa un formato de correo válido.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch(
         `${API_URL}/users?email=${encodeURIComponent(formData.email)}&password=${encodeURIComponent(formData.password)}`

@@ -229,10 +229,29 @@ section {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
+.right-column {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+}
+
+.user-info-section {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  padding: 30px !important; /* Mantenemos el padding del cuadro pero el contenido nace en el borde interno */
+}
+
 section h2 {
-  font-size: 20px;
+  font-size: 24px;
   margin: 0 0 30px 0;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: left !important;
+  width: 100% !important;
 }
 
 /* 4. Status / Activity */
@@ -310,43 +329,98 @@ section h2 {
   background: linear-gradient(90deg, var(--accent-gold) 50%, var(--border-color) 50%);
 }
 
-/* 5. User Info */
-.info-list {
+.status-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-color);
+}
+
+.detail-item {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  margin-bottom: 40px;
+  gap: 6px;
+}
+
+.detail-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  opacity: 0.7;
+}
+
+.detail-value {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* 5. User Info */
+.info-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  margin-bottom: 40px !important;
+  width: 100% !important;
+  align-items: flex-start !important;
+  padding: 0 !important;
 }
 
 .info-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
+  display: grid !important;
+  grid-template-columns: 55px 1fr !important; /* Columna fija para el icono */
+  align-items: center !important;
+  width: 100% !important;
+  padding: 8px 0 !important; /* NOTA: Sin padding izquierdo para alinear con el título */
+  margin: 0 !important;
+  transition: all 0.3s ease;
+}
+
+.info-item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .icon-wrapper {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.03);
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  background-color: var(--bg-dark);
+  border: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--accent-gold);
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .info-text label {
   display: block;
-  font-size: 13px;
+  font-size: 11px;
+  text-transform: uppercase;
   color: var(--text-secondary);
-  margin-bottom: 5px;
+  margin-bottom: 2px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  opacity: 0.8;
 }
 
 .info-text p {
   margin: 0;
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text-primary);
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .edit-profile-btn {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bell, User, Calculator } from 'lucide-react';
+import { Search, Bell, User, Calculator, LogOut } from 'lucide-react';
 import savsLogo from '../../img/image copy 4.png';
 import { useNavbarLogica } from './Navbarlogica';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
@@ -8,7 +8,15 @@ import './Navbar.css';
 
 const NavbarDiseño = () => {
   const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
-  const { user, isLoggedIn, handleUserClick, searchQuery, setSearchQuery, handleSearch } = useNavbarLogica();
+  const { 
+    user, 
+    isLoggedIn, 
+    handleUserClick, 
+    handleLogout, 
+    searchQuery, 
+    setSearchQuery, 
+    handleSearch 
+  } = useNavbarLogica();
   const navigate = useNavigate();
   const location = useLocation();
   const current = location.pathname;
@@ -58,12 +66,21 @@ const NavbarDiseño = () => {
             className={`session-manager ${isLoggedIn ? 'logged-in' : ''}`}
             onClick={handleUserClick}
           >
-            <span className="session-label">
-              {isLoggedIn ? `Perfil: ${user.nombre}` : 'Iniciar Sesión'}
-            </span>
             <div className="avatar-wrapper">
               <User size={20} />
             </div>
+            <span className="session-label">
+              {isLoggedIn ? `Perfil: ${user.nombre}` : 'Iniciar Sesión'}
+            </span>
+            {isLoggedIn && (
+              <button 
+                className="logout-button" 
+                onClick={handleLogout}
+                title="Cerrar Sesión"
+              >
+                <LogOut size={18} />
+              </button>
+            )}
           </div>
         </div>
       </div>

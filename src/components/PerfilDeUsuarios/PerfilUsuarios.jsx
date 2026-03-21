@@ -195,6 +195,21 @@ function PerfilUsuarios() {
           Swal.showValidationMessage('Los campos destacados son obligatorios.');
           return false;
         }
+
+        // Validación de nombre (mínimo 3 caracteres, solo letras y espacios)
+        const regexName = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,}$/;
+        if (!regexName.test(name)) {
+          Swal.showValidationMessage('El nombre debe tener al menos 3 caracteres y contener solo letras.');
+          return false;
+        }
+
+        // Validación de teléfono (8 a 20 caracteres, permite +, números y espacios)
+        const regexPhone = /^[0-9+\s\-()]{8,20}$/;
+        if (!regexPhone.test(phone)) {
+          Swal.showValidationMessage('Ingresa un número de teléfono válido.');
+          return false;
+        }
+
         return { name, phone, location, preciseAddress };
       }
     }).then(async (result) => {
@@ -523,6 +538,25 @@ function PerfilUsuarios() {
                       <span>Entrega final</span>
                     </div>
                   </div>
+
+                  <div className="status-details">
+                    <div className="detail-item">
+                      <span className="detail-label">Fecha Estimada</span>
+                      <span className="detail-value">25 Abr 2026</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Ubicación</span>
+                      <span className="detail-value">Puerto de Moín, Limón</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Vessel / Naviera</span>
+                      <span className="detail-value">Maersk Line • V0924</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Estado</span>
+                      <span className="detail-value">En trámite aduanal</span>
+                    </div>
+                  </div>
                 </section>
               )}
 
@@ -640,7 +674,7 @@ function PerfilUsuarios() {
                   </div>
                   <div className="info-item">
                     <div className="icon-wrapper">
-                      <MapPin className="info-icon" size={20} color="#eab308" />
+                      <MapPin className="info-icon" size={20} />
                     </div>
                     <div className="info-text">
                       <label>Dirección exacta</label>
