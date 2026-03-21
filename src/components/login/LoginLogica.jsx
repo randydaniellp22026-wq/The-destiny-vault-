@@ -52,7 +52,7 @@ export const useLoginLogic = () => {
 
       if (users.length > 0) {
         const user = users[0];
-        // Guardamos la sesión completa incluyendo el ID y favoritos para persistencia
+        // Guardamos la sesión completa incluyendo el ID, favoritos y foto para persistencia
         localStorage.setItem('user', JSON.stringify({ 
           id: user.id, 
           nombre: user.nombre, 
@@ -60,7 +60,8 @@ export const useLoginLogic = () => {
           rol: user.rol || 'Usuario',
           telefono: user.telefono || '',
           ubicacion: user.ubicacion || 'Costa Rica',
-          favorites: user.favorites || []
+          favorites: user.favorites || [],
+          image: user.image || ''
         }));
         
         Swal.fire({

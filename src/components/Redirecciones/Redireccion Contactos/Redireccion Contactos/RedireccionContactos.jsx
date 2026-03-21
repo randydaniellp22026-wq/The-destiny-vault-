@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRedireccionContactosLogica } from "./RedireccionContactosLogica";
 import { Calculator } from 'lucide-react';
 import { useNavigate, Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import "./DiseñoContacto.css";
 function RedireccionContactos() {
   const { formData, loading, handleChange, sendEmail } = useRedireccionContactosLogica();
   const navigate = useNavigate();
+  const [activeMap, setActiveMap] = useState('heredia');
 
   return (
     <div className="paginaContacto">
@@ -52,7 +53,7 @@ function RedireccionContactos() {
           <input 
             type="text" 
             name="user_phone"
-            placeholder="Ej. +52 (55) 1234-5678" 
+            placeholder="Ej. +506 72617462" 
             value={formData.user_phone}
             onChange={handleChange}
           />
@@ -119,18 +120,62 @@ function RedireccionContactos() {
 
           <div className="cardDireccion">
             <h3>Dirección</h3>
-            <p>Puntarenas, Heredia</p>
+            <p>Heredia: Edificio Boulevard Cariari, 2do Piso.<br/>Puntarenas: Sucursal Importadora SAVS, Chacarita.</p>
           </div>
 
-          <div className="mapa">
-            <img
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab"
-              alt="mapa"
-            />
-            <div className="mapaTexto">
-              <p>NUESTRA UBICACIÓN</p>
-              <h4>Puntarenas, Heredia</h4>
+          <div className="mapa-interactivo-container" style={{ marginTop: '2rem', padding: '1.5rem', background: '#111', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+            <h3 style={{ textAlign: 'center', marginBottom: '1.5rem', color: '#eab308', fontSize: '1.3rem', letterSpacing: '0.5px' }}>Ubicación de nuestras Sucursales</h3>
+            
+            <div className="mapa-tabs" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+              <button 
+                onClick={() => setActiveMap('heredia')}
+                style={{
+                  padding: '10px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s',
+                  background: activeMap === 'heredia' ? '#eab308' : 'rgba(255,255,255,0.05)',
+                  color: activeMap === 'heredia' ? '#000' : '#fff',
+                  border: activeMap === 'heredia' ? 'none' : '1px solid rgba(255,255,255,0.2)',
+                  fontSize: '0.95rem'
+                }}
+              >
+                📍 Sede Heredia
+              </button>
+              <button 
+                onClick={() => setActiveMap('puntarenas')}
+                style={{
+                  padding: '10px 24px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s',
+                  background: activeMap === 'puntarenas' ? '#eab308' : 'rgba(255,255,255,0.05)',
+                  color: activeMap === 'puntarenas' ? '#000' : '#fff',
+                  border: activeMap === 'puntarenas' ? 'none' : '1px solid rgba(255,255,255,0.2)',
+                  fontSize: '0.95rem'
+                }}
+              >
+                📍 Sede Puntarenas
+              </button>
             </div>
+
+            <div className="mapa-iframe-wrapper" style={{ width: '100%', height: '350px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+              {activeMap === 'heredia' ? (
+                <iframe 
+                  title="Mapa Heredia"
+                  width="100%" height="100%" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" 
+                  src="https://maps.google.com/maps?q=9.9819859%2C-84.1593673&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                  style={{ filter: 'contrast(1.1) opacity(0.9) brightness(0.9)' }}
+                />
+              ) : (
+                <iframe 
+                  title="Mapa Puntarenas"
+                  width="100%" height="100%" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" 
+                  src="https://maps.google.com/maps?q=9.9839446%2C-84.7644265&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                  style={{ filter: 'contrast(1.1) opacity(0.9) brightness(0.9)' }}
+                />
+              )}
+            </div>
+            
+            <p style={{ textAlign: 'center', marginTop: '1.2rem', color: '#fff', fontSize: '0.95rem', background: 'rgba(234, 179, 8, 0.1)', padding: '0.8rem', borderRadius: '8px', border: '1px solid rgba(234, 179, 8, 0.2)' }}>
+              {activeMap === 'heredia' 
+                ? ' Edificio Boulevard Cariari, 2do Piso, BeWorking, Heredia.' 
+                : ' Sucursal Oficial Chacarita, Puntarenas.'}
+            </p>
           </div>
         </div>
       </div>

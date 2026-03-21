@@ -61,15 +61,16 @@
   flex-direction: row;
   align-items: center;
   list-style: none;
-  padding: 20px 0; /* Padding extra para el escalado */
+  padding: 20px 0;
   margin: 0;
-  width: max-content; /* Critical: allow it to be as wide as content */
-  animation: scroll 30s linear infinite; /* Adjust time for speed */
+  width: max-content;
+  animation: scroll-v3 40s linear infinite; /* Slightly slower for 3 sets */
+  will-change: transform;
 }
 
-@keyframes scroll {
+@keyframes scroll-v3 {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* Scrolls half of the total width (the first set) */
+  100% { transform: translateX(-33.333333%); }
 }
 
 .brand-item {
@@ -124,10 +125,20 @@
   filter: brightness(0) saturate(100%) invert(84%) sepia(51%) saturate(543%) hue-rotate(352deg) brightness(101%) contrast(104%) drop-shadow(0 0 12px rgba(212, 175, 55, 0.5));
 }
 
-/* Continuous movement - avoid stopping on hover if requested */
-.brands-list {
-  animation: scroll 30s linear infinite;
+/* Ajuste específico para Nissan que se ve pequeño */
+.brand-nissan {
+  padding: 0 40px; /* Reducir un poco el padding para que el logo más grande no se sienta apretado */
 }
+
+.brand-nissan .brand-logo {
+  transform: scale(1.4); /* Escalar el logo un 40% más */
+}
+
+.brand-nissan:hover .brand-logo {
+  transform: scale(1.5); /* Aumentar un poco más en hover */
+}
+
+/* Continuous movement is handled in the main declaration */
 
 /* Responsividad: Ajustar scroll en móviles si es necesario, 
    aunque el carrusel infinito funciona bien en todas las pantallas. */

@@ -9,6 +9,12 @@ import RedireccionContactos from '../components/Redirecciones/Redireccion Contac
 import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModeloAuto/RedireccionModeloAuto/RedireccionModeloAuto';
 import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
+import ClienteVendeSuAuto from '../components/ApartadoParaQueElClienteVendaSuAuto/ClienteVendeSuAuto';
+
+import AdminRoute from './AdminRoute';
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import ReviewRequests from '../pages/admin/ReviewRequests';
+import CreateVehicle from '../pages/admin/CreateVehicle';
 
 const AppRoutes = () => {
   return (
@@ -23,6 +29,12 @@ const AppRoutes = () => {
       <Route path="/modelAuto" element={<RedireccionModeloAuto />} />
       <Route path="/simulate-credit" element={<CreditSimulator />} />
       <Route path="/perfil" element={<PerfilUsuarios />} />
+      <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
+      
+      {/* Rutas Privadas de Administrador */}
+      <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+      <Route path="/admin/requests" element={<AdminRoute><ReviewRequests /></AdminRoute>} />
+      <Route path="/admin/create-vehicle" element={<AdminRoute><CreateVehicle /></AdminRoute>} />
     </Routes>
   );
 };

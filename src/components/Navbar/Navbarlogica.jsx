@@ -4,10 +4,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 export const useNavbarLogica = () => {
   const [user, setUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
+    // Cerrar el menú si cambiamos de ruta
+    setIsMenuOpen(false);
+    
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
@@ -48,8 +52,12 @@ export const useNavbarLogica = () => {
     if (e) e.stopPropagation(); // Evitar que el clic en logout active el navigation al perfil
     localStorage.removeItem('user');
     setUser(null);
+    setIsMenuOpen(false); // Extra safety
     navigate('/login');
   };
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
 
   return { 
     user, 
@@ -59,6 +67,9 @@ export const useNavbarLogica = () => {
     searchQuery,
     setSearchQuery,
     handleSearch,
-    onSearchSubmit
+    onSearchSubmit,
+    isMenuOpen,
+    toggleMenu,
+    closeMenu
   };
 };

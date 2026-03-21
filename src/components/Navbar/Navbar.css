@@ -17,6 +17,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 100% !important; /* Permitir que use más espacio */
+  padding: 0 2rem !important; /* Padding controlado para los bordes */
 }
 
 .navbar-logo {
@@ -60,11 +62,12 @@
 
 .navbar-links {
   display: none;
-  gap: 2.5rem;
+  gap: 1.25rem; /* Ajuste: enlaces más juntos */
   font-weight: 600;
   color: #e2e8f0;
-  font-size: 1.05rem;
+  font-size: 1.0rem; /* Un poco más pequeño para ahorrar espacio */
   align-items: center;
+  margin: 0 2rem; /* Separación con logo y buscador */
 }
 @media (min-width: 1024px) { .navbar-links { display: flex; } }
 
@@ -208,4 +211,147 @@
 
 .session-label {
   margin-right: 0.5rem;
+}
+
+/* ===== MOBILE MENU & RESPONSIVENESS ===== */
+
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 2001;
+  transition: transform 0.3s ease;
+}
+
+.hamburger-btn:active {
+  transform: scale(0.9);
+}
+
+.mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Hidden by default */
+  width: 80%;
+  max-width: 350px;
+  height: 100vh;
+  background: linear-gradient(180deg, #0d0d0d 0%, #000000 100%);
+  z-index: 2000;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  padding: 100px 2rem 2rem;
+  border-left: 1px solid rgba(234, 179, 8, 0.2);
+}
+
+.mobile-menu-drawer.open {
+  right: 0;
+}
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1999;
+}
+
+.mobile-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mobile-links li a,
+.mobile-links li button {
+  font-size: 1.5rem;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  background: none;
+  border: none;
+  display: block;
+  width: 100%;
+  text-align: left;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.mobile-links li a:hover,
+.mobile-links li a.active,
+.mobile-links li button:hover {
+  color: var(--color-primary);
+}
+
+.mobile-footer {
+  margin-top: auto;
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.mobile-menu-logo {
+  width: 80px;
+  margin-bottom: 1rem;
+  filter: brightness(0) invert(80%);
+}
+
+.mobile-footer p {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+@media (max-width: 1023px) {
+  .navbar-links {
+    display: none !important;
+  }
+  
+  .hamburger-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-text {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    display: none !important;
+  }
+  
+  .session-label {
+    display: none; /* Hide name on mobile to save space */
+  }
+
+  .session-manager {
+    padding: 0.4rem;
+  }
+
+  .logo-text {
+    display: none; /* Only show image logo on very small screens if needed, or keep it tiny */
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 1rem !important;
+  }
+  
+  .logo-icon-savs {
+    width: 40px;
+    height: 40px;
+  }
 }
