@@ -21,7 +21,7 @@ export const useCatalogoLogica = (initialVehicles) => {
   useEffect(() => {
     if (!initialVehicles) {
       setLoading(true);
-      fetch('http://127.0.0.1:5000/vehicles')
+      fetch('http://127.0.0.1:3000/vehicles')
         .then(res => res.json())
         .then(data => {
           setVehicles(data);

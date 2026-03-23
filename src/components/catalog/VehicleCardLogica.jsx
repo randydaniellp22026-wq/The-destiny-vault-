@@ -70,7 +70,7 @@ export const useVehicleCardLogica = (vehicleId) => {
 
     try {
       // Sincronizar con el servidor (CRUD - Update)
-      const res = await fetch(`http://127.0.0.1:5000/users/${user.id}`, {
+      const res = await fetch(`http://127.0.0.1:3000/users/${user.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ favorites: updatedFavorites })

@@ -39,6 +39,7 @@ const NavbarDiseño = () => {
             </button>
           </li>
           <li><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
+          <li><Link to="/reseñas" className={current === '/reseñas' ? 'active' : ''}>Reseñas</Link></li>
         </ul>
 
         {/* Right Section */}

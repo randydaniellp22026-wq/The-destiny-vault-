@@ -15,7 +15,7 @@ export const useRedireccionModeloAutoLogica = () => {
   });
 
   useEffect(() => {
-    fetch('http://localhost:5000/vehicles')
+    fetch('http://localhost:3000/vehicles')
       .then(res => res.json())
       .then(data => {
         setAutos(data);

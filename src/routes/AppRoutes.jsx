@@ -10,6 +10,7 @@ import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModelo
 import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
 import ClienteVendeSuAuto from '../components/ApartadoParaQueElClienteVendaSuAuto/ClienteVendeSuAuto';
+import Reseñas from '../components/TechnicalGlossary/ApartadoDeReseñas/Reseñas';
 
 const AppRoutes = () => {
   return (
@@ -25,6 +26,8 @@ const AppRoutes = () => {
       <Route path="/simulate-credit" element={<CreditSimulator />} />
       <Route path="/perfil" element={<PerfilUsuarios />} />
       <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
+      <Route path="/reseñas" element={<Reseñas />} />
+      <Route path="/reviews" element={<Reseñas />} />
     </Routes>
   );
 };
