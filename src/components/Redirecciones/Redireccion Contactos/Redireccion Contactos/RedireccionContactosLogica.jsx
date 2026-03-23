@@ -142,6 +142,7 @@ export const useRedireccionContactosLogica = () => {
 
   return {
     formData,
+    setFormData,
     loading,
     handleChange,
     sendEmail

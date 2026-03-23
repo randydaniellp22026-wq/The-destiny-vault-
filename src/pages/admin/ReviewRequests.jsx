@@ -232,17 +232,21 @@ const ReviewRequests = () => {
               </div>
               
               <div className="request-card-actions">
-                {(req.status === 'pending' || req.status === 'replied') && (
+                {(req.status === 'pending' || req.status === 'replied' || req.status === 'accepted' || req.status === 'rejected') && (
                   <>
-                    <button className="btn-action check" onClick={() => handleAction(req, 'accept')}><CheckCircle size={18}/> Aceptar</button>
-                    <button className="btn-action close" onClick={() => handleAction(req, 'reject')}><XCircle size={18}/> Rechazar</button>
+                    {req.status !== 'accepted' && (
+                      <button className="btn-action check" onClick={() => handleAction(req, 'accept')}><CheckCircle size={18}/> Aceptar</button>
+                    )}
+                    {req.status !== 'rejected' && (
+                      <button className="btn-action close" onClick={() => handleAction(req, 'reject')}><XCircle size={18}/> Rechazar</button>
+                    )}
                   </>
                 )}
-                {(req.status === 'pending' || req.status === 'accepted' || req.status === 'replied') && (
+                {(req.status !== 'rejected') && (
                   <button className="btn-action reply" onClick={() => handleAction(req, 'reply')}><Send size={18}/> Responder</button>
                 )}
-                {(userRole === 'gerente' || userRole === 'admin') && req.status !== 'pending' && (
-                  <button className="btn-action delete" style={{ background: '#333', color: '#e63946' }} onClick={() => handleAction(req, 'delete')}>
+                {(userRole === 'gerente' || userRole === 'admin') && (req.status === 'accepted' || req.status === 'rejected' || req.status === 'replied') && (
+                  <button className="btn-action delete" style={{ background: '#333', color: '#e63946', marginLeft: 'auto' }} onClick={() => handleAction(req, 'delete')}>
                     <Trash2 size={18}/> Eliminar
                   </button>
                 )}

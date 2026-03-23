@@ -210,7 +210,12 @@ const VehicleDetails = () => {
           <p className="cta-subtitle">Nuestros asesores premium están listos para guiarle a través del proceso de financiamiento o coordinar una visita exclusiva.</p>
           
           <div className="cta-buttons">
-            <button className="btn btn-primary btn-lg">Agendar un Test Drive VIP</button>
+            <button 
+              className="btn btn-primary btn-lg"
+              onClick={() => navigate('/contact?subject=Test Drive', { state: { vehicle } })}
+            >
+              Agendar un Test Drive VIP
+            </button>
             <button 
               className="btn btn-outline btn-lg" 
               onClick={() => navigate('/contact', { state: { vehicle } })}

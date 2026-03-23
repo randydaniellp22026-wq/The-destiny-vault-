@@ -5,13 +5,28 @@ import savsLogo from '../../img/image copy 4.png';
 import './Footer.css';
 
 const Footer = () => {
+  const [settings, setSettings] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch('http://localhost:5000/settings')
+      .then(res => res.json())
+      .then(data => setSettings(data))
+      .catch(err => console.error("Error fetching footer settings:", err));
+  }, []);
+
+  const company = settings?.company || {
+    name: "Importadora de Vehículos SAVS",
+    main_email: "ventas@importadorasavs.com",
+    main_phone: "+506 6476-9091"
+  };
+
   return (
     <footer className="footer-savs">
       <div className="footer-top">
         {/* Left Column */}
         <div className="footer-col-left">
           <img src={savsLogo} alt="SAVS Logo" className="footer-logo" />
-          <p className="footer-brand-name">Importadora de Vehículos SAVS</p>
+          <p className="footer-brand-name">{company.name}</p>
           <p className="footer-follow">Síguenos</p>
           <div className="footer-social-top">
             <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
@@ -37,9 +52,9 @@ const Footer = () => {
           <h3 className="footer-title">Ubicación y Contacto</h3>
 
           <ul className="footer-contact-info">
-            <li><Mail size={18} /> ventas@importadorasavs.com</li>
+            <li><Mail size={18} /> {company.main_email}</li>
             <li><MapPin size={18} /> Heredia & Puntarenas</li>
-            <li><Phone size={18} /> +506 6476-9091</li>
+            <li><Phone size={18} /> {company.main_phone}</li>
             <li><Clock size={18} /> Lun-Sáb: 8:00 AM - 6:00 PM</li>
           </ul>
         </div>
@@ -47,7 +62,7 @@ const Footer = () => {
         {/* Image Column */}
         <div className="footer-col-img">
           <img 
-            src="https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png" 
+            src={company.footer_car_img || "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png"} 
             alt="Vehículo SAVS" 
             className="footer-car-img" 
           />
@@ -55,7 +70,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>Copyright © 2025. All rights reserved. Powered by Grid Studio Costa Rica.</p>
+        <p>Copyright © {new Date().getFullYear()}. All rights reserved. Powered by Grid Studio Costa Rica.</p>
         <div className="footer-social-bottom">
           <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
           <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
