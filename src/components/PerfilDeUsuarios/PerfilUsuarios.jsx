@@ -612,7 +612,7 @@ function PerfilUsuarios() {
                     {displayedVehicles.map((vehicle) => (
                       <div className="vehicle-card" key={vehicle.id} onClick={() => setSelectedVehicle(vehicle)} style={{ cursor: 'pointer' }}>
                         <div className="card-image">
-                          <img src={vehicle.image} alt={vehicle.name} />
+                          <img src={vehicle.image} alt={vehicle.name} referrerPolicy="no-referrer" />
                           <button 
                             className="favorite-btn" 
                             onClick={(e) => { 

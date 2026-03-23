@@ -40,19 +40,19 @@ const Brands = () => {
           <ul className="brands-list">
             {brands.map((brand) => (
               <li key={`${brand.id}-1`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
+                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" referrerPolicy="no-referrer" />
               </li>
             ))}
             {/* Double duplicate for truly infinite seamless loop */}
             {brands.map((brand) => (
               <li key={`${brand.id}-2`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
+                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" referrerPolicy="no-referrer" />
               </li>
             ))}
             {/* Triple duplicate for safety */}
             {brands.map((brand) => (
               <li key={`${brand.id}-3`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
+                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" referrerPolicy="no-referrer" />
               </li>
             ))}
           </ul>

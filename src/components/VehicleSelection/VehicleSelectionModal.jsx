@@ -135,7 +135,12 @@ const VehicleSelectionModal = ({ isOpen, onClose }) => {
                     >
                       <div className={`model-radio ${selectedVehicle?.id === vehicle.id ? 'selected' : ''}`}></div>
                       <div className="model-image-wrapper">
-                        <img src={vehicle.image} alt={vehicle.name} className="model-image" />
+                        <img 
+                          src={vehicle.image} 
+                          alt={vehicle.name} 
+                          className="model-image" 
+                          referrerPolicy="no-referrer"
+                        />
                       </div>
                       <span className="model-name">
                         {vehicle.name}

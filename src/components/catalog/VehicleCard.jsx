@@ -13,7 +13,12 @@ const VehicleCard = ({ vehicle }) => {
   return (
     <div className="vehicle-card card-base">
       <div className="card-image-wrapper">
-        <img src={localImages[vehicle.image] || vehicle.image} alt={vehicle.name} className="card-image" />
+        <img 
+          src={localImages[vehicle.image] || vehicle.image} 
+          alt={vehicle.name} 
+          className="card-image" 
+          referrerPolicy="no-referrer"
+        />
         <div className={`card-tag ${getTagClass(vehicle.tag)}`}>
           {vehicle.tag}
         </div>

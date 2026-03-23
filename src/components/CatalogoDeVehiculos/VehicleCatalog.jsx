@@ -152,7 +152,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                 return (
                 <div key={car.id} className="card vehicle-card">
                   <div className="vehicle-image-container">
-                    <img src={imageSrc} alt={car.name} className="vehicle-image" />
+                    <img src={imageSrc} alt={car.name} className="vehicle-image" referrerPolicy="no-referrer" />
                     <div className="vehicle-tag" style={{ backgroundColor: car.tagColor }}>{car.tag}</div>
                     <FavoriteButton vehicleId={car.id} />
                   </div>
