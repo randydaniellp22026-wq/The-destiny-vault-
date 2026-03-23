@@ -10,15 +10,15 @@ import {
   DollarSign, 
   Filter 
 } from 'lucide-react';
+import { useVehicleFavorites } from '../../hooks/useVehicleFavorites';
 import { useCatalogoLogica } from './catalogoLogica';
 import { useNavigate } from 'react-router-dom';
-import { useVehicleCardLogica } from '../catalog/VehicleCardLogica';
 import './VehicleCatalog.css';
 
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
 
 const FavoriteButton = ({ vehicleId }) => {
-  const { isFavorite, toggleFavorite } = useVehicleCardLogica(vehicleId);
+  const { isFavorite, toggleFavorite } = useVehicleFavorites(vehicleId);
   return (
     <button 
       className={`favorite-btn ${isFavorite ? 'active' : ''}`} 

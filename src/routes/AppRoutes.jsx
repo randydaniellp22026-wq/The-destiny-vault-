@@ -15,6 +15,8 @@ import AdminRoute from './AdminRoute';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import ReviewRequests from '../pages/admin/ReviewRequests';
 import CreateVehicle from '../pages/admin/CreateVehicle';
+import UserManagement from '../pages/admin/UserManagement';
+import AdminLayout from '../components/admin/AdminLayout';
 
 const AppRoutes = () => {
   return (
@@ -31,10 +33,11 @@ const AppRoutes = () => {
       <Route path="/perfil" element={<PerfilUsuarios />} />
       <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
       
-      {/* Rutas Privadas de Administrador */}
-      <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-      <Route path="/admin/requests" element={<AdminRoute><ReviewRequests /></AdminRoute>} />
-      <Route path="/admin/create-vehicle" element={<AdminRoute><CreateVehicle /></AdminRoute>} />
+      {/* Rutas Privadas de Administración (Admin y Gerente) */}
+      <Route path="/admin" element={<AdminRoute><AdminLayout><AdminDashboard /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/users" element={<AdminRoute><AdminLayout><UserManagement /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/requests" element={<AdminRoute><AdminLayout><ReviewRequests /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/create-vehicle" element={<AdminRoute><AdminLayout><CreateVehicle /></AdminLayout></AdminRoute>} />
     </Routes>
   );
 };

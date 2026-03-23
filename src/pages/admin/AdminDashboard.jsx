@@ -4,25 +4,28 @@ import { ShieldCheck, PlusCircle, ClipboardList } from 'lucide-react';
 import './Admin.css';
 
 const AdminDashboard = () => {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+
   return (
-    <div className="admin-container">
+    <div className="admin-dashboard-overview">
       <div className="admin-header">
         <h1 className="admin-title">Panel de Control <ShieldCheck size={36} className="admin-icon-title" /></h1>
-        <p className="admin-subtitle">Bienvenido al sistema de administración exclusivo de SAVS.</p>
+        <p className="admin-subtitle">Bienvenido, {user.nombre}. Gestiona el inventario y usuarios de SAVS.</p>
       </div>
       
-      <div className="admin-cards">
-        <Link to="/admin/requests" className="admin-card">
-          <ClipboardList size={48} className="admin-icon" />
-          <h3>Revisión de Solicitudes</h3>
-          <p>Gestiona las solicitudes de los clientes que desean vender su auto.</p>
-        </Link>
+      <div className="dashboard-stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
+        <div className="stat-card" style={{ background: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <h3 style={{ color: '#9ca3af', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '1rem' }}>Estado del Sistema</h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', color: '#10b981' }}>
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10b981' }}></div>
+            <span style={{ fontWeight: '600' }}>Operativo</span>
+          </div>
+        </div>
         
-        <Link to="/admin/create-vehicle" className="admin-card">
-          <PlusCircle size={48} className="admin-icon" />
-          <h3>Publicar Nuevo Auto</h3>
-          <p>Añade un nuevo vehículo oficial al inventario para que aparezca en el catálogo.</p>
-        </Link>
+        <div className="stat-card" style={{ background: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <h3 style={{ color: '#9ca3af', fontSize: '0.9rem', textTransform: 'uppercase', marginBottom: '1rem' }}>Tu Rol</h3>
+          <span style={{ color: '#eab308', fontWeight: '700', fontSize: '1.2rem' }}>{user.rol?.toUpperCase()}</span>
+        </div>
       </div>
     </div>
   );

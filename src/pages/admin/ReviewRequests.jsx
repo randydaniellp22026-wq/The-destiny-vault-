@@ -132,10 +132,10 @@ const ReviewRequests = () => {
 
   const getStatusBadge = (status) => {
     switch(status) {
-      case 'pending': return <span className="status-badge pending"><Clock size={14}/> Pendiente</span>;
-      case 'accepted': return <span className="status-badge accepted"><CheckCircle size={14}/> Aceptada</span>;
-      case 'rejected': return <span className="status-badge rejected"><XCircle size={14}/> Rechazada</span>;
-      case 'replied': return <span className="status-badge replied"><Send size={14}/> Respondida</span>;
+      case 'pending': return <span className="admin-status-badge pending"><Clock size={14}/> Pendiente</span>;
+      case 'accepted': return <span className="admin-status-badge accepted"><CheckCircle size={14}/> Aceptada</span>;
+      case 'rejected': return <span className="admin-status-badge rejected"><XCircle size={14}/> Rechazada</span>;
+      case 'replied': return <span className="admin-status-badge replied"><Send size={14}/> Respondida</span>;
       default: return null;
     }
   };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRedireccionContactosLogica } from "./RedireccionContactosLogica";
-import { Calculator } from 'lucide-react';
+import { Calculator, Clock } from 'lucide-react';
 import { useNavigate, Link } from "react-router-dom";
 import "./DiseñoContacto.css";
 
@@ -106,10 +106,15 @@ function RedireccionContactos() {
             <p>importadoravehiculosavs@gmail.com</p>
           </div>
 
+          <div className="cardInfo">
+            <h3>Horarios</h3>
+            <p>Lunes a Sábado: 8:00 AM - 6:00 PM<br/>Domingos: CERRADO</p>
+          </div>
+
           <div className="cardInfo wp-card-highlight">
             <h3>Chat Directo</h3>
             <a 
-              href="https://api.whatsapp.com/send?phone=%2B50664769091&token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyNSJ9.eyJleHAiOjE3NzQwMjAzODQsInBob25lIjoiKzUwNjY0NzY5MDkxIiwiY29udGV4dCI6IkFmY04tRXNxR0QyMVpMbHkwdlhERFNndGlMamEyTzh1eW5oa3RWUkU2M0R1b2pWRDlVWGhDZE5HbDk2ZEJTN2tHbGdfcUpRellmVmhGUjFTREhRTVlzRnB1Y0VMZlRhZmVUTm5udVl3RHRFX1hGS0NRUUIxY2xPUWlBLUxBY25ZV05lQl9HT3N1UWhpLWl2LTFYRUhxMU1xcHciLCJzb3VyY2UiOiJGQl9QYWdlIiwiYXBwIjoiZmFjZWJvb2siLCJlbnRyeV9wb2ludCI6InBhZ2VfY3RhIn0.LgxgM9wEllIT7HL5PlDfvscTzkZOyLKfRnUvwDUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW&fbclid=IwY2xjawQo9ShleHRuA2FlbQIxMABicmlkETAxWW9KQlEwdFRtWjVsSmdhc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHm20Lw8hPwP0BkS0-kvrzhVm581fF10FntyC5-3LdNeVEap4xxg1AhF19mCe_aem_TYKjMTCG48V95ufM0NEiEA" 
+              href="https://api.whatsapp.com/send?phone=%2B50664769091&token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyNSJ9.eyJleHAiOjE3NzQwMjAzODQsInBob25lIjoiKzUwNjY0NzY5MDkxIiwiY29udGV4dCI6IkFmY04tRXNxR0QyMVpMbHkwdlhERFNndGlMamEyTzh1eW5oa3RWUkU2M0R1b2pWRDlVWGhDZE5HbDk2ZEJTN2tHbGdfcUpRellmVmhGUjFTREhRTVlzRnB1Y0VMZlRhZmVUTm5udVl3RHRFX1hGS0NRUUIxY2xPUWlBLUxBY25ZV05lQl9HT3N1UWhpLWl2LTFYRUhxMU1xcHciLCJzb3VyY2UiOiJGQl9QYWdlIiwiYXBwIjoiZmFjZWJvb2siLCJlbnRyeV9wb2ludCI6InBhZ2VfY3RhIn0.LgxgM9wEllIT7HL5PlDfvscTzkZOyLKfRnUvwDUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW&fbclid=IwY2xjawQo9ShleHRuA2FlbQIxMABicmlkETAxWW9KQlEwdFRtWjVsSmdhc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHm20Lw8hPwP0BkS0-kvrzhVm581fF10FntyC5-3LdNeVEap2xxg1AhF19mCe_aem_TYKjMTCG48V95ufM0NEiEA" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="btnWP"

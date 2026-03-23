@@ -1,5 +1,5 @@
 .admin-container {
-  padding: 8rem 2rem 4rem;
+  padding: 0 0 4rem;
   max-width: 1200px;
   margin: 0 auto;
   min-height: 80vh;
@@ -180,7 +180,7 @@
   margin-top: 0.4rem;
 }
 
-.status-badge {
+.admin-status-badge {
   padding: 0.4rem 0.8rem;
   border-radius: 100px;
   font-size: 0.8rem;
@@ -190,22 +190,22 @@
   gap: 0.4rem;
 }
 
-.status-badge.pending {
+.admin-status-badge.pending {
   background: rgba(234, 179, 8, 0.2);
   color: #eab308;
 }
 
-.status-badge.accepted {
+.admin-status-badge.accepted {
   background: rgba(16, 185, 129, 0.2);
   color: #10b981;
 }
 
-.status-badge.rejected {
+.admin-status-badge.rejected {
   background: rgba(239, 68, 68, 0.2);
   color: #ef4444;
 }
 
-.status-badge.replied {
+.admin-status-badge.replied {
   background: rgba(59, 130, 246, 0.2);
   color: #3b82f6;
 }

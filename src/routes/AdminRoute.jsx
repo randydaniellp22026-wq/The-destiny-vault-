@@ -10,7 +10,8 @@ const AdminRoute = ({ children }) => {
 
   try {
     const user = JSON.parse(userString);
-    if (user.rol !== 'admin') {
+    const hasPermission = user.rol === 'admin' || user.rol === 'gerente';
+    if (!hasPermission) {
       return <Navigate to="/" replace />;
     }
   } catch (error) {

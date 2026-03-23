@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Bell, User, Calculator, LogOut, Menu, X } from 'lucide-react';
 import savsLogo from '../../img/image copy 4.png';
-import { useNavbarLogica } from './Navbarlogica';
+import { useNavbarStatus } from '../../hooks/useNavbar';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import VehicleSelectionModal from '../VehicleSelection/VehicleSelectionModal';
 import './Navbar.css';
@@ -15,11 +15,11 @@ const NavbarDiseño = () => {
     handleLogout, 
     searchQuery, 
     setSearchQuery, 
-    handleSearch,
+    onSearchSubmit,
     isMenuOpen,
     toggleMenu,
     closeMenu
-  } = useNavbarLogica();
+  } = useNavbarStatus();
   const navigate = useNavigate();
   const location = useLocation();
   const current = location.pathname;
@@ -49,8 +49,8 @@ const NavbarDiseño = () => {
             </button>
           </li>
           <li><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
-          {user?.rol === 'admin' && (
-            <li><Link to="/admin" onClick={(e) => { e.preventDefault(); window.location.href = '/admin'; }} className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Panel Admin</Link></li>
+          {(user?.rol === 'admin' || user?.rol === 'gerente') && (
+            <li><Link to="/admin" onClick={(e) => { e.preventDefault(); window.location.href = '/admin'; }} className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>
           )}
         </ul>
 
@@ -65,7 +65,7 @@ const NavbarDiseño = () => {
               className="search-input"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleSearch}
+              onKeyDown={(e) => e.key === 'Enter' && onSearchSubmit(e)}
             />
           </div>
           
@@ -115,11 +115,9 @@ const NavbarDiseño = () => {
               </button>
             </li>
             <li onClick={closeMenu}><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
-            {user?.rol === 'admin' && (
-              <li onClick={closeMenu}>
-                <Link to="/admin" onClick={(e) => { e.preventDefault(); window.location.href = '/admin'; }} className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Panel Admin</Link>
-              </li>
-            )}
+          {(user?.rol === 'admin' || user?.rol === 'gerente') && (
+            <li><Link to="/admin" onClick={(e) => { e.preventDefault(); window.location.href = '/admin'; }} className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>
+          )}
           </ul>
           
           <div className="mobile-footer">
