@@ -9,7 +9,8 @@ import {
   ChevronRight,
   ExternalLink,
   Star,
-  RefreshCw
+  RefreshCw,
+  Car
 } from 'lucide-react';
 import './AdminSidebar.css';
 
@@ -60,8 +61,8 @@ const AdminSidebar = () => {
           </NavLink>
 
           <NavLink to="/admin/create-vehicle" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
-            <PlusCircle size={20} />
-            <span>Nuevo Auto</span>
+            <Car size={20} />
+            <span>Inventario</span>
             <ChevronRight size={14} className="arrow" />
           </NavLink>
 
