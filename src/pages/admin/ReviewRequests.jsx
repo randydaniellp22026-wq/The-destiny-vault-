@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Admin.css';
-import { Mail, Phone, Calendar, CheckCircle, XCircle, Clock, Send, FileText } from 'lucide-react';
+import { Mail, Phone, Calendar, CheckCircle, XCircle, Clock, Send, FileText, Trash2 } from 'lucide-react';
 import Swal from 'sweetalert2';
 
 const API_URL = 'http://localhost:5000/requests';
@@ -15,11 +15,14 @@ const darkSwal = {
 const ReviewRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userRole, setUserRole] = useState('');
 
   // Filtro de estado
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    setUserRole(user.rol || '');
     fetchRequests();
   }, []);
 
@@ -127,6 +130,39 @@ const ReviewRequests = () => {
           }, 1500);
         }
       });
+    } else if (action === 'delete') {
+      Swal.fire({
+        ...darkSwal,
+        title: '¿Eliminar Solicitud?',
+        text: 'Esta acción es permanente y eliminará el registro.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#e63946',
+        confirmButtonText: 'Eliminar permanentemente',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) deleteRequest(request.id);
+      });
+    }
+  };
+
+  const deleteRequest = async (id) => {
+    try {
+      const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Error al eliminar');
+      
+      setRequests(prev => prev.filter(req => req.id !== id));
+      
+      Swal.fire({
+        ...darkSwal,
+        icon: 'success',
+        title: '¡Eliminado!',
+        text: 'Solicitud borrada exitosamente.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    } catch (error) {
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: 'No se pudo eliminar la solicitud.' });
     }
   };
 
@@ -196,14 +232,19 @@ const ReviewRequests = () => {
               </div>
               
               <div className="request-card-actions">
-                {req.status === 'pending' && (
+                {(req.status === 'pending' || req.status === 'replied') && (
                   <>
                     <button className="btn-action check" onClick={() => handleAction(req, 'accept')}><CheckCircle size={18}/> Aceptar</button>
                     <button className="btn-action close" onClick={() => handleAction(req, 'reject')}><XCircle size={18}/> Rechazar</button>
                   </>
                 )}
-                {(req.status === 'pending' || req.status === 'accepted') && (
+                {(req.status === 'pending' || req.status === 'accepted' || req.status === 'replied') && (
                   <button className="btn-action reply" onClick={() => handleAction(req, 'reply')}><Send size={18}/> Responder</button>
+                )}
+                {(userRole === 'gerente' || userRole === 'admin') && req.status !== 'pending' && (
+                  <button className="btn-action delete" style={{ background: '#333', color: '#e63946' }} onClick={() => handleAction(req, 'delete')}>
+                    <Trash2 size={18}/> Eliminar
+                  </button>
                 )}
               </div>
             </div>

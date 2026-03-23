@@ -164,7 +164,7 @@ const VehicleDetails = () => {
           <h2 className="section-heading" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Explora Cada Detalle</h2>
           <p style={{ color: '#9ca3af', fontSize: '1.1rem', letterSpacing: '2px', textTransform: 'uppercase' }}>Vistas Exclusivas del Modelo</p>
         </div>
-        <VehicleCarousel />
+        <VehicleCarousel vehicle={vehicle} />
       </section>
 
       {/* 3. Resumen del Vehículo */}

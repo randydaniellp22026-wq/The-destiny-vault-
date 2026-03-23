@@ -6,21 +6,41 @@ import { ChevronRight, ChevronLeft, Pause, Play } from 'lucide-react';
 const hyundaiImagesRaw = import.meta.glob('../../img/Hyundai Tucson IX20/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
 const hyundaiImages = Object.values(hyundaiImagesRaw);
 
-const VehicleCarousel = () => {
+const ferrariImagesRaw = import.meta.glob('../../img/ferrari/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+const ferrariImages = Object.values(ferrariImagesRaw);
+
+const localCarrosImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+
+const VehicleCarousel = ({ vehicle }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
 
-  // Mapeamos las imágenes para construir el arreglo de SLIDES
+  // Mapeamos las imágenes según el vehículo
   const slides = useMemo(() => {
-    return hyundaiImages.map((imgUrl, index) => ({
+    const name = vehicle?.name?.toLowerCase() || '';
+    let selectedImages = [];
+    
+    if (name.includes('tucson')) {
+      selectedImages = hyundaiImages;
+    } else if (name.includes('ferrari')) {
+      selectedImages = ferrariImages;
+    } else if (vehicle?.image) {
+      // Fallback: Si no hay galería específica, usamos la imagen principal resuelta
+      const solvedImage = localCarrosImages[vehicle.image] || vehicle.image;
+      selectedImages = [solvedImage];
+    }
+
+    if (selectedImages.length === 0) return [];
+
+    return selectedImages.map((imgUrl, index) => ({
       image: imgUrl,
-      title: index === 0 ? 'Hyundai Tucson IX20' : 'Diseño Excepcional',
-      subtitle: index === 0 ? 'NUEVO INGRESO' : `VISTA ${index + 1}`,
+      title: vehicle?.name || 'Diseño Excepcional',
+      subtitle: index === 0 ? 'DATOS TÉCNICOS' : `VISTA ${index + 1}`,
       text: index === 0 
-        ? 'Explora cada detalle de este increíble SUV. Rendimiento, confort y tecnología avanzada.'
+        ? (vehicle?.summary || 'Explora cada detalle de este increíble vehículo. Rendimiento, confort y tecnología avanzada.')
         : 'Cada ángulo está pensado para brindarte la mejor experiencia de conducción premium.'
     }));
-  }, []);
+  }, [vehicle]);
 
   useEffect(() => {
     let interval;

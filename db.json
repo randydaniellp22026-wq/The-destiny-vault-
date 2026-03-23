@@ -252,8 +252,8 @@
     {
       "id": "2",
       "nombre": "Yosimar",
-      "email": "Yosimarvv@gmail.com",
-      "password": "yosi51234",
+      "email": "yosimarvv@gmail.com",
+      "password": "yosi12345",
       "rol": "Cliente",
       "telefono": "+506 72617462",
       "ubicacion": "Puntarenas",
@@ -328,7 +328,7 @@
     {
       "id": "4ba3",
       "user_name": "Yosimar Vargas Villalta",
-      "user_email": "Yosimarvv@gmail.com",
+      "user_email": "yosimarvv@gmail.com",
       "user_phone": "+506 72617462",
       "subject": "Consulta General",
       "message": "me gustaria saber si no tinenen otros precios para el nissan",

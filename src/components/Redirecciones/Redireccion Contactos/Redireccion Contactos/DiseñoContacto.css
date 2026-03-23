@@ -1,7 +1,15 @@
+:root {
+  --color-primary: #eab308;
+  --color-secondary: #ca8a04;
+  --bg-dark: #080808;
+  --card-bg: #111111;
+  --transition: all 0.3s ease;
+}
+
 body{
 margin:0;
 font-family:'Inter', Arial, sans-serif;
-background:#080808;
+background: var(--bg-dark);
 color:#f8f8f8;
 }
 
@@ -141,6 +149,15 @@ border:1px solid rgba(234,179,8,0.2);
 .wp-card-highlight {
   border-color: #22c55e;
   background: linear-gradient(145deg, #111e15, #0a0a0a);
+}
+
+.mapa-interactivo-container {
+  animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .btnWP {

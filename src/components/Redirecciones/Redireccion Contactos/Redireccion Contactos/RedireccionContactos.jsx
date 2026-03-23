@@ -164,14 +164,16 @@ function RedireccionContactos() {
                   title="Mapa Heredia"
                   width="100%" height="100%" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" 
                   src="https://maps.google.com/maps?q=9.9819859%2C-84.1593673&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                  style={{ filter: 'contrast(1.1) opacity(0.9) brightness(0.9)' }}
+                  loading="lazy"
+                  allowFullScreen
                 />
               ) : (
                 <iframe 
                   title="Mapa Puntarenas"
                   width="100%" height="100%" frameBorder="0" scrolling="no" marginHeight="0" marginWidth="0" 
                   src="https://maps.google.com/maps?q=9.9839446%2C-84.7644265&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                  style={{ filter: 'contrast(1.1) opacity(0.9) brightness(0.9)' }}
+                  loading="lazy"
+                  allowFullScreen
                 />
               )}
             </div>
