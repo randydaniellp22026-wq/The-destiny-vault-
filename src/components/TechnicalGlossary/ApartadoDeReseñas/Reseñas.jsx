@@ -12,7 +12,7 @@ const darkSwal = {
     }
 };
 
-const API_URL = 'http://localhost:3000/reviews';
+const API_URL = 'http://localhost:5000/reviews';
 
 const Reseñas = () => {
     const [reviews, setReviews] = useState([]);

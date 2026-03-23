@@ -11,7 +11,7 @@ const darkSwal = {
   cancelButtonColor: '#333'
 };
 
-const API_URL = 'http://127.0.0.1:5000/vehicles';
+const API_URL = 'http://localhost:5000/vehicles';
 
 const initialFormState = {
   id: '',

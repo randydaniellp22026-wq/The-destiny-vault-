@@ -26,7 +26,7 @@ const VehicleSelectionModal = ({ isOpen, onClose }) => {
   // Fetch all vehicles once when the modal opens
   useEffect(() => {
     if (isOpen) {
-      fetch('http://127.0.0.1:3000/vehicles')
+      fetch('http://localhost:5000/vehicles')
         .then(res => res.json())
         .then(data => setAllVehicles(data || []))
         .catch(err => console.error("Error loading vehicles for selection:", err));
