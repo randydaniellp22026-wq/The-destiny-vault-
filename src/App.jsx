@@ -1,5 +1,4 @@
-import React from 'react';
-import './App.css';
+import { useLocation } from 'react-router-dom';
 
 // Layout Components
 import Navbar from './components/layout/Navbar';
@@ -7,11 +6,14 @@ import Footer from './components/footer/Footer';
 import AppRoutes from './routes/AppRoutes';
 
 function App() {
+  const location = useLocation();
+  const isAdminPath = location.pathname.startsWith('/admin');
+
   return (
     <div className="app-container">
-      <Navbar />
+      {!isAdminPath && <Navbar />}
       <AppRoutes />
-      <Footer />
+      {!isAdminPath && <Footer />}
     </div>
   );
 }

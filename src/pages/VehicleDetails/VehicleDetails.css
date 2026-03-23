@@ -16,13 +16,22 @@
   height: 85vh;
   max-height: 900px;
   min-height: 600px;
-  background-size: contain;
-  background-position: 65% 45%;
-  background-repeat: no-repeat;
   background-color: #000;
   display: flex;
   align-items: flex-end;
   padding-bottom: 4rem;
+  overflow: hidden;
+}
+
+.hero-background-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 65% 45%;
+  z-index: 1;
 }
 
 .right-tag {
@@ -154,6 +163,37 @@
   width: 1px;
   height: 50px;
   background-color: rgba(234, 179, 8, 0.2);
+}
+
+/* Detailed Technical Grid styling */
+.technical-grid {
+  transition: all 0.5s ease;
+}
+
+.technical-grid:hover {
+  border-color: rgba(234, 179, 8, 0.3);
+  box-shadow: inset 0 0 20px rgba(234, 179, 8, 0.05);
+}
+
+.tech-item {
+  position: relative;
+  padding: 0.5rem 0;
+  transition: transform 0.3s ease;
+}
+
+.tech-item:hover {
+  transform: translateX(5px);
+}
+
+.tech-item span:first-child {
+  color: #eab308 !important;
+  opacity: 0.8;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700 !important;
+}
+
+.tech-item span:last-child {
+  font-family: 'Outfit', sans-serif;
 }
 
 /* 2. Specs Section */

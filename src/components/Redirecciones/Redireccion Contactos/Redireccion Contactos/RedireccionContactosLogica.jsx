@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+const darkSwal = {
+  background: '#0a0a0a',
+  color: '#fff',
+  confirmButtonColor: '#eab308'
+};
+
 export const useRedireccionContactosLogica = () => {
   const location = useLocation();
   const initialVehicle = location.state?.vehicle;
@@ -28,17 +34,58 @@ export const useRedireccionContactosLogica = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
+
+    const { user_name, user_email, user_phone, message } = formData;
+
+    // Validación básica de campos obligatorios
+    if (!user_name.trim() || !user_email.trim() || !user_phone.trim()) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'error',
+        title: 'Campos obligatorios',
+        text: 'Por favor, ingresa tu nombre, correo y teléfono.',
+        confirmButtonColor: '#eab308'
+      });
+      return;
+    }
+
+    // Validación de formato de correo
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(user_email)) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'error',
+        title: 'Correo inválido',
+        text: 'Por favor, ingresa un formato de correo electrónico válido.',
+        confirmButtonColor: '#eab308'
+      });
+      return;
+    }
+
+    // Validación de teléfono (permite +, números y espacios)
+    const regexPhone = /^[0-9+\s\-()]{8,20}$/;
+    if (!regexPhone.test(user_phone.trim())) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'error',
+        title: 'Teléfono inválido',
+        text: 'Asegúrate de incluir el código de país con un espacio, ej: +506 72617462.',
+        confirmButtonColor: '#eab308'
+      });
+      return;
+    }
     
-    // Si viene de un vehículo, construimos el mensaje especial para WP
-    let finalMessage = formData.message;
+    // Si viene de un vehículo, construimos el mensaje especial
+    let finalMessage = message;
     
     if (initialVehicle) {
       const vehicleUrl = `${window.location.origin}/details/${initialVehicle.id}`;
-      finalMessage = `Hola estoy interesado en este modelo: ${vehicleUrl} y quiero saber sobre el vehiculo`;
+      finalMessage = `Hola mi nombre es ${user_name}, estoy interesado en este modelo: ${vehicleUrl}. Mi contacto es ${user_phone}.`;
     }
 
     if (!finalMessage && !initialVehicle) {
       Swal.fire({
+        ...darkSwal,
         icon: 'warning',
         title: 'Mensaje vacío',
         text: 'Por favor escribe tu consulta.',
@@ -47,22 +94,50 @@ export const useRedireccionContactosLogica = () => {
       return;
     }
 
-    const companyPhone = "+50664769091";
-    const token = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyNSJ9.eyJleHAiOjE3NzQwMjAzODQsInBob25lIjoiKzUwNjY0NzY5MDkxIiwiY29udGV4dCI6IkFmY04tRXNxR0QyMVpMbHkwdlhERFNndGlMamEyTzh1eW5oa3RWUkU2M0R1b2pWRDlVWGhDZE5HbDk2ZEJTN2tHbGdfcUpRellmVmhGUjFTREhRTVlzRnB1Y0VMZlRhZmVUTm5udVl3RHRFX1hGS0NRUUIxY2xPUWlBLUxBY25ZV05lQl9HT3N1UWhpLWl2LTFYRUhxMU1xcHciLCJzb3VyY2UiOiJGQl9QYWdlIiwiYXBwIjoiZmFjZWJvb2siLCJlbnRyeV9wb2ludCI6InBhZ2VfY3RhIn0.LgxgM9wEllIT7HL5PlDfvscTzkZOyLKfRnUvwDUQDvDUxFShoWWbHougyHjr0tFz3E38fX8e0bnTUpya-P0mXW&fbclid=IwY2xjawQo9ShleHRuA2FlbQIxMABicmlkETAxWW9KQlEwdFRtWjVsSmdhc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHm20Lw8hPwP0BkS0-kvrzhVm581fF10FntyC5-3LdNeVEap4xxg1AhF19mCe_aem_TYKjMTCG48V95ufM0NEiEA";
-    
-    // Usamos el formato codificado para asegurar que aparezca en la barra de texto
-    const encodedMessage = encodeURIComponent(finalMessage);
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${encodeURIComponent(companyPhone)}&text=${encodedMessage}&token=${token}`;
+    // En lugar de redirigir directamente a WhatsApp, guardamos la solicitud en la base de datos para que el admin la procese
+    const requestPayload = {
+      user_name,
+      user_email,
+      user_phone,
+      subject: formData.subject,
+      message: finalMessage,
+      status: 'pending', // 'pending', 'accepted', 'rejected', 'replied'
+      date: new Date().toISOString()
+    };
 
-    window.open(whatsappUrl, '_blank');
-    
-    Swal.fire({
-      icon: 'success',
-      title: 'Redirigiendo a WhatsApp',
-      text: 'Se abrirá una ventana para completar el envío.',
-      timer: 2000,
-      showConfirmButton: false
-    });
+    setLoading(true);
+
+    fetch('http://127.0.0.1:5000/requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestPayload)
+    })
+      .then(res => {
+        if (!res.ok) throw new Error('Error al guardar solicitud');
+        return res.json();
+      })
+      .then(data => {
+        Swal.fire({
+          ...darkSwal,
+          icon: 'success',
+          title: '¡Solicitud Enviada!',
+          text: 'Nuestro equipo evaluará tu consulta y te responderá pronto.',
+          confirmButtonColor: '#10b981'
+        });
+        setFormData(prev => ({ ...prev, message: '' })); // Limpiamos mensaje
+      })
+      .catch(err => {
+        console.error(err);
+        Swal.fire({
+          ...darkSwal,
+          icon: 'error',
+          title: 'Error',
+          text: 'No pudimos procesar tu solicitud en este momento. Inténtalo más tarde.'
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return {

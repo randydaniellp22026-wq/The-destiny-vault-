@@ -1,5 +1,6 @@
 import React from 'react';
-import { Facebook, Instagram, Mail, MapPin, Phone, Globe } from 'lucide-react';
+import { Facebook, Instagram, Mail, MapPin, Phone, Globe, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import savsLogo from '../../img/image copy 4.png';
 import './Footer.css';
 
@@ -22,11 +23,11 @@ const Footer = () => {
         <div className="footer-col-mid">
           <h3 className="footer-title">Información</h3>
           <ul className="footer-links">
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">¿Quiénes Somos?</a></li>
-            <li><a href="#">Políticas de Privacidad</a></li>
-            <li><a href="#">Venta de Autos</a></li>
-            <li><a href="#">Contáctanos</a></li>
+            <li><Link to="/">Inicio</Link></li>
+            <li><Link to="/inventory">Catálogo</Link></li>
+            <li><Link to="/perfil">Mi Perfil</Link></li>
+            <li><Link to="/vender-auto">Vender mi auto</Link></li>
+            <li><Link to="/contact">Contacto</Link></li>
           </ul>
         </div>
 
@@ -37,6 +38,7 @@ const Footer = () => {
             <li><Mail size={18} /> ventas@importadorasavs.com</li>
             <li><MapPin size={18} /> Heredia & Puntarenas</li>
             <li><Phone size={18} /> +506 6476-9091</li>
+            <li><Clock size={18} /> Lun-Sáb: 8:00 AM - 6:00 PM</li>
           </ul>
         </div>
 

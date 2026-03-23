@@ -20,7 +20,11 @@ import {
   Plus,
   Edit2,
   LogOut,
-  Car
+  Car,
+  FileText,
+  CheckCircle,
+  XCircle,
+  Send
 } from 'lucide-react';
 
 const darkSwal = {
@@ -57,6 +61,7 @@ function PerfilUsuarios() {
   ]);
 
   const [selectedVehicle, setSelectedVehicle] = useState(vehicles[0]);
+  const [userRequests, setUserRequests] = useState([]);
 
   const [userInfo, setUserInfo] = useState({
     id: null,
@@ -145,6 +150,17 @@ function PerfilUsuarios() {
       } catch (err) {
         console.error("Error cargando favoritos:", err);
       }
+
+      // Fetch user requests for the Peticiones tab
+      try {
+        if (user.email) {
+          const reqRes = await fetch(`http://127.0.0.1:5000/requests?user_email=${encodeURIComponent(user.email)}`);
+          const reqData = await reqRes.json();
+          setUserRequests(reqData.sort((a,b) => new Date(b.date) - new Date(a.date)));
+        }
+      } catch (err) {
+        console.error("Error fetching requests:", err);
+      }
     };
 
     loadData();
@@ -161,7 +177,7 @@ function PerfilUsuarios() {
         </div>
         <div style="text-align: left; margin-bottom: 20px;">
           <div style="margin-bottom: 8px;"><label style="font-size: 14px; color: #a0a0a0;">Teléfono</label></div>
-          <input id="swal-input-phone" type="text" class="swal2-input" value="${userInfo.phone}" style="margin: 0; width: 90%;">
+          <input id="swal-input-phone" type="text" class="swal2-input" value="${userInfo.phone}" placeholder="Ej: +506 72617462" style="margin: 0; width: 90%;">
         </div>
         <div style="text-align: left; margin-bottom: 20px;">
           <div style="margin-bottom: 8px;"><label style="font-size: 14px; color: #a0a0a0;">Provincia (Costa Rica)</label></div>
@@ -197,6 +213,21 @@ function PerfilUsuarios() {
           Swal.showValidationMessage('Los campos destacados son obligatorios.');
           return false;
         }
+
+        // Validación de nombre (mínimo 3 caracteres, solo letras y espacios)
+        const regexName = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{3,}$/;
+        if (!regexName.test(name)) {
+          Swal.showValidationMessage('El nombre debe tener al menos 3 caracteres y contener solo letras.');
+          return false;
+        }
+
+        // Validación de teléfono (8 a 20 caracteres, permite +, números y espacios)
+        const regexPhone = /^[0-9+\s\-()]{8,20}$/;
+        if (!regexPhone.test(phone)) {
+          Swal.showValidationMessage('Asegúrate de incluir el código de país con un espacio, ej: +506 72617462.');
+          return false;
+        }
+
         return { name, phone, location, preciseAddress };
       }
     }).then(async (result) => {
@@ -272,8 +303,25 @@ function PerfilUsuarios() {
     }).then((result) => {
       if (result.isConfirmed && result.value) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-          setUserInfo({ ...userInfo, image: e.target.result });
+        reader.onload = async (e) => {
+          const newImage = e.target.result;
+          setUserInfo({ ...userInfo, image: newImage });
+
+          // Actualizar localStorage para que persista al recargar la página actual
+          const sessionUser = JSON.parse(localStorage.getItem('user'));
+          localStorage.setItem('user', JSON.stringify({ ...sessionUser, image: newImage }));
+
+          // Actualizar servidor para que persista en futuros inicios de sesión
+          try {
+            await fetch(`http://127.0.0.1:5000/users/${userInfo.id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ image: newImage })
+            });
+          } catch (err) {
+            console.error('Error guardando imagen en el backend', err);
+          }
+
           Swal.fire({
             ...darkSwal,
             icon: 'success',
@@ -429,10 +477,10 @@ function PerfilUsuarios() {
           <span className="logo-text">DESTINY<span className="gold">VAULT</span></span>
         </div>
         <ul className="navbar-links">
-          <li>Inicio</li>
-          <li>Vehículos</li>
-          <li>Servicios</li>
-          <li className="active-link">Perfil</li>
+          <li onClick={() => navigate('/')}>Inicio</li>
+          <li onClick={() => navigate('/inventory')}>Vehículos</li>
+          <li onClick={() => navigate('/contact')}>Servicios</li>
+          <li className="active-link" onClick={() => setActiveTab('Dashboard')}>Perfil</li>
         </ul>
         <div className="navbar-icons">
           <button className="icon-btn"><Bell size={20} /></button>
@@ -468,9 +516,9 @@ function PerfilUsuarios() {
               <Heart size={20} fill={activeTab === 'Favoritos' ? '#f5b400' : 'none'} color={activeTab === 'Favoritos' ? '#f5b400' : 'currentColor'} />
               <span>Favoritos</span>
             </li>
-            <li className={activeTab === 'Búsquedas' ? 'active' : ''} onClick={() => setActiveTab('Búsquedas')}>
-              <Search size={20} />
-              <span>Búsquedas recientes</span>
+            <li className={activeTab === 'Peticiones' ? 'active' : ''} onClick={() => setActiveTab('Peticiones')}>
+              <FileText size={20} />
+              <span>Estado de Peticiones</span>
             </li>
             <li className={activeTab === 'Estado' ? 'active' : ''} onClick={() => setActiveTab('Estado')}>
               <Ship size={20} />
@@ -480,11 +528,11 @@ function PerfilUsuarios() {
               <Settings size={20} />
               <span>Configuración</span>
             </li>
-            <li onClick={() => navigate('/vender-auto')} style={{ color: '#f5b400', marginTop: '15px', borderTop: '1px solid #333', paddingTop: '15px' }}>
+            <li className={`sell-car-menu-item ${activeTab === 'Vender' ? 'active' : ''}`} onClick={() => navigate('/vender-auto')}>
               <Car size={20} />
               <span>Vender mi auto</span>
             </li>
-            <li className="logout-menu-item" onClick={handleLogout} style={{ color: '#e63946', marginTop: '10px' }}>
+            <li className="logout-menu-item" onClick={handleLogout}>
               <LogOut size={20} />
               <span>Cerrar Sesión</span>
             </li>
@@ -533,6 +581,25 @@ function PerfilUsuarios() {
                       <span>Entrega final</span>
                     </div>
                   </div>
+
+                  <div className="status-details">
+                    <div className="detail-item">
+                      <span className="detail-label">Fecha Estimada</span>
+                      <span className="detail-value">25 Abr 2026</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Ubicación</span>
+                      <span className="detail-value">Puerto de Moín, Limón</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Vessel / Naviera</span>
+                      <span className="detail-value">Maersk Line • V0924</span>
+                    </div>
+                    <div className="detail-item">
+                      <span className="detail-label">Estado</span>
+                      <span className="detail-value">En trámite aduanal</span>
+                    </div>
+                  </div>
                 </section>
               )}
 
@@ -545,7 +612,7 @@ function PerfilUsuarios() {
                     {displayedVehicles.map((vehicle) => (
                       <div className="vehicle-card" key={vehicle.id} onClick={() => setSelectedVehicle(vehicle)} style={{ cursor: 'pointer' }}>
                         <div className="card-image">
-                          <img src={vehicle.image} alt={vehicle.name} />
+                          <img src={vehicle.image} alt={vehicle.name} referrerPolicy="no-referrer" />
                           <button 
                             className="favorite-btn" 
                             onClick={(e) => { 
@@ -577,6 +644,47 @@ function PerfilUsuarios() {
                       </div>
                     )}
                   </div>
+                </section>
+              )}
+
+              {/* Nuevas Peticiones Tab */}
+              {activeTab === 'Peticiones' && (
+                <section className="requests-user-section">
+                  <h2>Estado de mis Peticiones</h2>
+                  {userRequests.length === 0 ? (
+                    <div style={{ background: '#111', padding: '2rem', borderRadius: '12px', color: '#9ca3af', textAlign: 'center' }}>
+                      No tienes peticiones activas. Ve a la sección de contacto para enviar una.
+                    </div>
+                  ) : (
+                    <div className="user-requests-list" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      {userRequests.map(req => (
+                        <div key={req.id} style={{ background: '#111', border: '1px solid rgba(234,179,8,0.2)', padding: '1.5rem', borderRadius: '12px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                            <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#fff' }}>{req.subject}</h3>
+                            <span style={{ 
+                              padding: '4px 10px', 
+                              borderRadius: '100px', 
+                              fontSize: '0.8rem', 
+                              fontWeight: '600',
+                              backgroundColor: req.status === 'accepted' ? 'rgba(16,185,129,0.2)' : req.status === 'rejected' ? 'rgba(239,68,68,0.2)' : req.status === 'replied' ? 'rgba(59,130,246,0.2)' : 'rgba(234,179,8,0.2)',
+                              color: req.status === 'accepted' ? '#10b981' : req.status === 'rejected' ? '#ef4444' : req.status === 'replied' ? '#3b82f6' : '#eab308'
+                             }}>
+                               {req.status === 'accepted' ? 'Aprobada' : req.status === 'rejected' ? 'Rechazada' : req.status === 'replied' ? 'Respondida' : 'En revisión'}
+                            </span>
+                          </div>
+                          <p style={{ margin: 0, color: '#9ca3af', fontStyle: 'italic', fontSize: '0.9rem', marginBottom: '1rem' }}>"{req.message}"</p>
+                          <small style={{ color: '#6b7280', display: 'block' }}>{new Date(req.date).toLocaleDateString()}</small>
+                          
+                          {req.reply && (
+                            <div style={{ marginTop: '1rem', background: 'rgba(234, 179, 8, 0.05)', borderLeft: '3px solid #eab308', padding: '1rem', borderRadius: '0 8px 8px 0' }}>
+                              <strong style={{ color: '#eab308', display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem' }}>Respuesta del Administrador:</strong>
+                              <p style={{ margin: 0, color: '#fff', fontSize: '0.95rem' }}>{req.reply}</p>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </section>
               )}
 
@@ -650,7 +758,7 @@ function PerfilUsuarios() {
                   </div>
                   <div className="info-item">
                     <div className="icon-wrapper">
-                      <MapPin className="info-icon" size={20} color="#eab308" />
+                      <MapPin className="info-icon" size={20} />
                     </div>
                     <div className="info-text">
                       <label>Dirección exacta</label>

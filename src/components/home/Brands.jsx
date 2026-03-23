@@ -1,6 +1,18 @@
 import React from 'react';
 import './Brands.css';
 
+// Importación de logos locales
+import nissanLogo from '../../img/25571-7-nissan-transparent_64x64.ico';
+import genesisLogo from '../../img/Genesis_Logo_PNG(1).png';
+import landRoverLogo from '../../img/NicePng_land-rover-logo-png_1391393.png';
+import mazdaLogo from '../../img/NicePng_mazda-logo-png_1337697.png';
+import kiaLogo from '../../img/kia-512.png';
+import mitsubishiLogo from '../../img/mitsubishi-512.png';
+import bmwLogo from '../../img/bmw-512.png';
+import chevroletLogo from '../../img/chevrolet-4-logo-black-and-white.png';
+import lexusLogo from '../../img/lexus-512.png';
+import hondaLogo from '../../img/pngwing.com.png';
+
 const Brands = () => {
   // URLs estáticas con fondos transparentes para poder aplicar el filtro monocromático
   // Para los logos más fieles a tu imagen de referencia, puedes sustituir estos enlaces
@@ -8,16 +20,16 @@ const Brands = () => {
   const brands = [
     { id: 1, name: 'Hyundai', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Hyundai_Motor_Company_logo.svg' },
     { id: 2, name: 'Toyota', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Toyota_carlogo.svg' },
-    { id: 3, name: 'Land Rover', logoUrl: 'https://upload.wikimedia.org/wikipedia/en/4/4a/Landrover_logo_2024.svg' },
-    { id: 4, name: 'Nissan', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Nissan_2020_logo.svg' },
-    { id: 5, name: 'Honda', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Honda_Logo.svg' },
-    { id: 6, name: 'Kia', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/47/KIA_logo_2.svg' },
-    { id: 7, name: 'Chevrolet', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Chevrolet_Logo_2024.svg' },
-    { id: 8, name: 'Mitsubishi', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Mitsubishi-logo.svg' },
-    { id: 9, name: 'Mazda', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/b5/Mazda_Logo_2024.svg' },
-    { id: 10, name: 'Genesis', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/28/Genesis_Motor_logo.svg' },
-    { id: 11, name: 'Lexus', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Lexus_logo.svg' },
-    { id: 12, name: 'BMW', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg' }
+    { id: 3, name: 'Land Rover', logoUrl: landRoverLogo },
+    { id: 4, name: 'Nissan', logoUrl: nissanLogo },
+    { id: 5, name: 'Honda', logoUrl: hondaLogo },
+    { id: 6, name: 'Kia', logoUrl: kiaLogo },
+    { id: 7, name: 'Chevrolet', logoUrl: chevroletLogo },
+    { id: 8, name: 'Mitsubishi', logoUrl: mitsubishiLogo },
+    { id: 9, name: 'Mazda', logoUrl: mazdaLogo },
+    { id: 10, name: 'Genesis', logoUrl: genesisLogo },
+    { id: 11, name: 'Lexus', logoUrl: lexusLogo },
+    { id: 12, name: 'BMW', logoUrl: bmwLogo }
   ];
 
   return (
@@ -27,14 +39,20 @@ const Brands = () => {
         <div className="brands-wrapper">
           <ul className="brands-list">
             {brands.map((brand) => (
-              <li key={`${brand.id}-1`} className="brand-item">
-                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
+              <li key={`${brand.id}-1`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" referrerPolicy="no-referrer" />
               </li>
             ))}
-            {/* Duplicate for infinite loop */}
+            {/* Double duplicate for truly infinite seamless loop */}
             {brands.map((brand) => (
-              <li key={`${brand.id}-2`} className="brand-item">
-                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" />
+              <li key={`${brand.id}-2`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" referrerPolicy="no-referrer" />
+              </li>
+            ))}
+            {/* Triple duplicate for safety */}
+            {brands.map((brand) => (
+              <li key={`${brand.id}-3`} className={`brand-item brand-${brand.name.toLowerCase().replace(/\s+/g, '-')}`}>
+                <img src={brand.logoUrl} alt={`${brand.name} logo`} className="brand-logo" referrerPolicy="no-referrer" />
               </li>
             ))}
           </ul>

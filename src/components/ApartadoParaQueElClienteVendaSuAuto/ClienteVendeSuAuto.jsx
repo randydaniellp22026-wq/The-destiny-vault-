@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './DiseñoClienteVendeSuAuto.css';
 
-const API_URL = 'http://127.0.0.1:3000/sale_requests';
+const darkSwal = {
+  background: '#141414',
+  color: '#fff',
+  confirmButtonColor: '#f5b400'
+};
+
+const API_URL = 'http://127.0.0.1:5000/sale_requests';
 
 const initialFormState = {
   id: null,
@@ -24,8 +30,6 @@ const ClienteVendeSuAuto = () => {
   const [vehiculos, setVehiculos] = useState([]);
   const [usersMap, setUsersMap] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [vehiculoAEliminar, setVehiculoAEliminar] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userId, setUserId] = useState(null);
   const [userRole, setUserRole] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,9 +41,7 @@ const ClienteVendeSuAuto = () => {
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
       Swal.fire({
-        background: '#141414',
-        color: '#fff',
-        confirmButtonColor: '#f5b400',
+        ...darkSwal,
         icon: 'warning',
         title: 'Acceso Denegado',
         text: 'Por favor inicia sesión para poder vender tu auto.',
@@ -124,12 +126,14 @@ const ClienteVendeSuAuto = () => {
     // 1. Bloqueo total de cualquier signo menos "-" en todos los campos
     const valueWithoutMinuses = value.replace(/-/g, '');
 
-    // 2. Para campos numéricos, forzar solo dígitos positivos (remover todo lo que no sea número)
+    // 2. Para campos numéricos, forzar solo dígitos positivos
     if (name === 'precio' || name === 'kilometraje' || name === 'anio') {
-      const cleanValue = valueWithoutMinuses.replace(/\D/g, ''); 
+      const cleanValue = valueWithoutMinuses.replace(/\D/g, '');
+      // Evitar ceros a la izquierda innecesarios
+      const finalValue = cleanValue === "" ? "" : parseInt(cleanValue, 10).toString();
       setFormData({
         ...formData,
-        [name]: cleanValue
+        [name]: finalValue
       });
       return;
     }
@@ -163,9 +167,7 @@ const ClienteVendeSuAuto = () => {
       const valor = formData[campo] ? formData[campo].toString() : "";
       if (valor.trim().length === 0) {
         Swal.fire({
-          background: '#141414',
-          color: '#fff',
-          confirmButtonColor: '#f5b400',
+          ...darkSwal,
           icon: 'error',
           title: 'Campo inválido',
           text: `El campo ${campo} no puede estar vacío.`
@@ -174,9 +176,7 @@ const ClienteVendeSuAuto = () => {
       }
       if (valor.includes('-')) {
         Swal.fire({
-          background: '#141414',
-          color: '#fff',
-          confirmButtonColor: '#f5b400',
+          ...darkSwal,
           icon: 'error',
           title: 'Carácter no permitido',
           text: `El signo menos (-) no está permitido en el campo ${campo}.`
@@ -192,9 +192,7 @@ const ClienteVendeSuAuto = () => {
 
     if (precioNum <= 0 || kmNum < 0 || anioNum <= 0) {
       Swal.fire({
-        background: '#141414',
-        color: '#fff',
-        confirmButtonColor: '#f5b400',
+        ...darkSwal,
         icon: 'error',
         title: 'Valores inválidos',
         text: 'Los valores de precio, kilometraje y año deben ser válidos y no negativos.'
@@ -204,9 +202,7 @@ const ClienteVendeSuAuto = () => {
 
     if (!formData.imagen) {
       Swal.fire({
-        background: '#141414',
-        color: '#fff',
-        confirmButtonColor: '#f5b400',
+        ...darkSwal,
         icon: 'warning',
         title: 'Falta imagen',
         text: 'Por favor, selecciona al menos una imagen de tu vehículo.'
@@ -286,29 +282,37 @@ const ClienteVendeSuAuto = () => {
   };
 
   const confirmDelete = (vehiculo) => {
-    setVehiculoAEliminar(vehiculo);
-    setShowDeleteModal(true);
+    Swal.fire({
+      ...darkSwal,
+      icon: 'warning',
+      title: '¿Estás seguro?',
+      text: `Se eliminará la solicitud de venta para: ${vehiculo.marca} ${vehiculo.modelo}. Esta acción no se puede deshacer.`,
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#e63946'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDelete(vehiculo.id);
+      }
+    });
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/${vehiculoAEliminar.id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
       if (response.ok) {
-        setVehiculos(vehiculos.filter(v => v.id !== vehiculoAEliminar.id));
-        setShowDeleteModal(false);
-        setVehiculoAEliminar(null);
+        setVehiculos(vehiculos.filter(v => v.id !== id));
         Swal.fire({
+          ...darkSwal,
           icon: 'success',
           title: 'Eliminado',
-          background: '#141414',
-          color: '#fff',
-          confirmButtonColor: '#f5b400',
           timer: 1500,
           showConfirmButton: false
         });
       }
     } catch (error) {
-      Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo eliminar.', background: '#141414', color: '#fff' });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: 'No se pudo eliminar.' });
     }
   };
 
@@ -500,20 +504,6 @@ const ClienteVendeSuAuto = () => {
         </div>
       </div>
 
-      {/* Modal de confirmación */}
-      {showDeleteModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>¿Estás seguro?</h3>
-            <p>Se eliminará la solicitud de venta para: <strong>{vehiculoAEliminar?.marca} {vehiculoAEliminar?.modelo}</strong></p>
-            <p className="modal-warning">Esta acción no se puede deshacer.</p>
-            <div className="modal-actions">
-              <button className="btn-cancel" onClick={() => setShowDeleteModal(false)}>Cancelar</button>
-              <button className="btn-delete-confirm" onClick={handleDelete}>Sí, eliminar</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

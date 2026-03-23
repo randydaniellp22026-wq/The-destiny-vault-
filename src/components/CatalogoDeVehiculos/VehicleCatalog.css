@@ -289,7 +289,8 @@
 .vehicle-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Cambiado de cover a contain para mostrar el carro completo */
+  padding: 12px; /* Espacio extra para que el carro se vea más pequeño dentro del recuadro */
 }
 
 .vehicle-tag {

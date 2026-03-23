@@ -35,10 +35,14 @@ export const useRegistroUsuariosLogica = () => {
       return false;
     }
 
-    // Permitimos números, espacios, guiones y el signo + para teléfonos
-    const regexTelefono = /^[0-9\s\-+]+$/;
-    if (!regexTelefono.test(telefono)) {
-      Swal.fire({ ...darkSwal, icon: 'error', title: 'Teléfono inválido', text: 'El teléfono solo debe contener números, espacios o los signos + y -.' });
+    const regexTelefono = /^[0-9+\s\-()]{8,20}$/;
+    if (!regexTelefono.test(telefono.trim())) {
+      Swal.fire({ 
+        ...darkSwal, 
+        icon: 'error', 
+        title: 'Teléfono inválido', 
+        text: 'Asegúrate de incluir el código de país con un espacio, ej: +506 72617462.'
+      });
       return false;
     }
 
