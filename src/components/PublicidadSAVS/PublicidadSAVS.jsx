@@ -27,7 +27,7 @@ const PublicidadSAVS = () => {
         {flyers.map((item, i) => (
           <div className="savs-card-nba" key={i}>
             <div className="savs-card-img-wrapper">
-              <img src={item.img} alt={item.title} className="savs-card-img" />
+              <img src={item.img} alt={item.title} className="savs-card-img" referrerPolicy="no-referrer" />
             </div>
             <div className="savs-card-info">
               <span className="savs-card-subtitle">{item.subtitle}</span>

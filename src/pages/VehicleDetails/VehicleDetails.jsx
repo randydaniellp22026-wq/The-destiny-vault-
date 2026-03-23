@@ -42,10 +42,13 @@ const VehicleDetails = () => {
   return (
     <div className="vehicle-details-page">
       {/* 1. Header / Hero Section */}
-      <section 
-        className="details-hero"
-        style={{ backgroundImage: `url(${localImages[vehicle.image] || vehicle.image})` }}
-      >
+      <section className="details-hero">
+        <img 
+          src={localImages[vehicle.image] || vehicle.image} 
+          alt={vehicle.name} 
+          className="hero-background-img"
+          referrerPolicy="no-referrer"
+        />
         <div className="details-hero-overlay"></div>
         <div className="container details-hero-content">
           <button 
