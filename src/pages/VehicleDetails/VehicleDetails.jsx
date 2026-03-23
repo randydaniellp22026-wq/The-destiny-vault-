@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'lucide-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
+import VehicleCarousel from '../../components/FerrariCarousel/FerrariCarousel';
 import './VehicleDetails.css';
 
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
@@ -155,6 +156,15 @@ const VehicleDetails = () => {
             <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.color || 'N/D'}</span>
           </div>
         </div>
+      </section>
+
+      {/* 2.5. Carrusel de Vehículo */}
+      <section className="vehicle-gallery-section" style={{ margin: '6rem 0', backgroundColor: '#080808', position: 'relative' }}>
+        <div className="container" style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
+          <h2 className="section-heading" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Explora Cada Detalle</h2>
+          <p style={{ color: '#9ca3af', fontSize: '1.1rem', letterSpacing: '2px', textTransform: 'uppercase' }}>Vistas Exclusivas del Modelo</p>
+        </div>
+        <VehicleCarousel />
       </section>
 
       {/* 3. Resumen del Vehículo */}
