@@ -7,7 +7,8 @@ import {
   PlusCircle, 
   LogOut,
   ChevronRight,
-  ExternalLink
+  ExternalLink,
+  Star
 } from 'lucide-react';
 import './AdminSidebar.css';
 
@@ -50,10 +51,13 @@ const AdminSidebar = () => {
             <span>Solicitudes</span>
             <ChevronRight size={14} className="arrow" />
           </NavLink>
-        </div>
 
-        <div className="nav-section">
-          <label>Inventario</label>
+          <NavLink to="/admin/reviews" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+            <Star size={20} />
+            <span>Reseñas</span>
+            <ChevronRight size={14} className="arrow" />
+          </NavLink>
+
           <NavLink to="/admin/create-vehicle" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <PlusCircle size={20} />
             <span>Nuevo Auto</span>

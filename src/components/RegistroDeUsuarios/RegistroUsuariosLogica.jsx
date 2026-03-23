@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://127.0.0.1:3000';
+const API_URL = 'http://localhost:5000';
 
 const darkSwal = {
   background: '#0a0a0a',

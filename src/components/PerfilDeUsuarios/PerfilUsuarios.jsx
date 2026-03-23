@@ -126,7 +126,7 @@ function PerfilUsuarios() {
 
       try {
         // Obtenemos todos los vehículos del servidor para filtrar los favoritos
-        const res = await fetch('http://127.0.0.1:3000/vehicles');
+        const res = await fetch('http://localhost:5000/vehicles');
         const allVehiclesFromDb = await res.json();
         setAllVehicles(allVehiclesFromDb); // Guardar lista maestra para agregar manual
 
@@ -154,7 +154,7 @@ function PerfilUsuarios() {
       // Fetch user requests for the Peticiones tab
       try {
         if (user.email) {
-          const reqRes = await fetch(`http://127.0.0.1:5000/requests?user_email=${encodeURIComponent(user.email)}`);
+          const reqRes = await fetch(`http://localhost:5000/requests?user_email=${encodeURIComponent(user.email)}`);
           const reqData = await reqRes.json();
           setUserRequests(reqData.sort((a,b) => new Date(b.date) - new Date(a.date)));
         }
@@ -234,7 +234,7 @@ function PerfilUsuarios() {
       if (result.isConfirmed) {
         try {
           // Operación CRUD (Update) en el servidor
-          const res = await fetch(`http://127.0.0.1:3000/users/${userInfo.id}`, {
+          const res = await fetch(`http://localhost:5000/users/${userInfo.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -313,7 +313,7 @@ function PerfilUsuarios() {
 
           // Actualizar servidor para que persista en futuros inicios de sesión
           try {
-            await fetch(`http://127.0.0.1:5000/users/${userInfo.id}`, {
+            await fetch(`http://localhost:5000/users/${userInfo.id}`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ image: newImage })
@@ -352,7 +352,7 @@ function PerfilUsuarios() {
 
     try {
       // Sincronizar con el servidor (CRUD - Update)
-      const res = await fetch(`http://127.0.0.1:3000/users/${user.id}`, {
+      const res = await fetch(`http://localhost:5000/users/${user.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ favorites: updatedFavorites })
@@ -429,7 +429,7 @@ function PerfilUsuarios() {
             const updatedFavorites = [...(user.favorites || []), String(selectedCarDb.id)];
             
             // Sincronizar servidor
-            fetch(`http://127.0.0.1:3000/users/${user.id}`, {
+            fetch(`http://localhost:5000/users/${user.id}`, {
               method: 'PATCH',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ favorites: updatedFavorites })

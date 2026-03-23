@@ -9,7 +9,7 @@ const darkSwal = {
   confirmButtonColor: '#f5b400'
 };
 
-const API_URL = 'http://127.0.0.1:5000/sale_requests';
+const API_URL = 'http://localhost:5000/sale_requests';
 
 const initialFormState = {
   id: null,
@@ -67,7 +67,7 @@ const ClienteVendeSuAuto = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:3000/users');
+      const response = await fetch('http://localhost:5000/users');
       if (response.ok) {
         const users = await response.json();
         const map = {};
@@ -464,7 +464,7 @@ const ClienteVendeSuAuto = () => {
                     ) : (
                       <div className="no-image">Sin imagen</div>
                     )}
-                    <span className={`status-badge ${getStatusColor(vehiculo.estado)}`}>
+                    <span className={`vende-status-badge ${getStatusColor(vehiculo.estado)}`}>
                       {vehiculo.estado}
                     </span>
                   </div>

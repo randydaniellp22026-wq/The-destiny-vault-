@@ -3,7 +3,7 @@ import './Admin.css';
 import { Mail, Phone, Calendar, CheckCircle, XCircle, Clock, Send, FileText } from 'lucide-react';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://127.0.0.1:5000/requests';
+const API_URL = 'http://localhost:5000/requests';
 
 const darkSwal = {
   background: '#141414',

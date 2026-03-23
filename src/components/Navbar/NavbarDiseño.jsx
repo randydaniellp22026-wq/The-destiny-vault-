@@ -50,7 +50,7 @@ const NavbarDiseño = () => {
           </li>
           <li><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
           {(user?.rol === 'admin' || user?.rol === 'gerente') && (
-            <li><Link to="/admin" onClick={(e) => { e.preventDefault(); window.location.href = '/admin'; }} className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>
+            <li><Link to="/admin" className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>
           )}
         </ul>
 
@@ -116,7 +116,7 @@ const NavbarDiseño = () => {
             </li>
             <li onClick={closeMenu}><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
           {(user?.rol === 'admin' || user?.rol === 'gerente') && (
-            <li><Link to="/admin" onClick={(e) => { e.preventDefault(); window.location.href = '/admin'; }} className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>
+            <li onClick={closeMenu}><Link to="/admin" className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>
           )}
           </ul>
           
