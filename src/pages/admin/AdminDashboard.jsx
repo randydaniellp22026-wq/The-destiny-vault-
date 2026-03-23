@@ -6,7 +6,8 @@ import {
   ClipboardList, 
   Star,
   Activity,
-  ArrowUpRight
+  ArrowUpRight,
+  RefreshCw
 } from 'lucide-react';
 import './Admin.css';
 
@@ -16,7 +17,8 @@ const AdminDashboard = () => {
     vehicles: 0,
     users: 0,
     requests: 0,
-    reviews: 0
+    reviews: 0,
+    tradeIn: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -28,10 +30,11 @@ const AdminDashboard = () => {
           'http://localhost:5000/vehicles',
           'http://localhost:5000/users',
           'http://localhost:5000/requests',
-          'http://localhost:5000/reviews'
+          'http://localhost:5000/reviews',
+          'http://localhost:5000/sale_requests'
         ];
         
-        const [v, u, req, rev] = await Promise.all(
+        const [v, u, req, rev, sreq] = await Promise.all(
           endpoints.map(url => fetch(url).then(r => r.ok ? r.json() : []))
         );
 
@@ -39,7 +42,8 @@ const AdminDashboard = () => {
           vehicles: v.length,
           users: u.length,
           requests: req.length,
-          reviews: rev.length
+          reviews: rev.length,
+          tradeIn: sreq.length
         });
       } catch (error) {
         console.error("Error fetching dashboard stats:", error);
@@ -102,16 +106,18 @@ const AdminDashboard = () => {
           <span style={{ fontSize: '2rem', fontWeight: '700', color: '#fff' }}>{loading ? '...' : stats.requests}</span>
         </div>
 
-        {/* Card: Reseñas */}
+        {/* Card: Trade-in */}
         <div className="stat-card" style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-            <div style={{ background: 'rgba(249, 115, 22, 0.1)', padding: '10px', borderRadius: '10px', color: '#f97316' }}>
-              <Star size={24} />
+            <div style={{ background: 'rgba(168, 85, 247, 0.1)', padding: '10px', borderRadius: '10px', color: '#a855f7' }}>
+              <RefreshCw size={24} />
             </div>
           </div>
-          <h3 style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '0.5rem', letterSpacing: '0.5px' }}>Opiniones</h3>
-          <span style={{ fontSize: '2rem', fontWeight: '700', color: '#fff' }}>{loading ? '...' : stats.reviews}</span>
+          <h3 style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '0.5rem', letterSpacing: '0.5px' }}>Trade-in (Auto Pago)</h3>
+          <span style={{ fontSize: '2rem', fontWeight: '700', color: '#fff' }}>{loading ? '...' : stats.tradeIn}</span>
         </div>
+
+        {/* Card: Opiniones */}
 
         {/* Card: Estado del Sistema */}
         <div className="stat-card" style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>

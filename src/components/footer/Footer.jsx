@@ -26,7 +26,8 @@ const Footer = () => {
             <li><Link to="/">Inicio</Link></li>
             <li><Link to="/inventory">Catálogo</Link></li>
             <li><Link to="/perfil">Mi Perfil</Link></li>
-            <li><Link to="/vender-auto">Vender mi auto</Link></li>
+            <li><Link to="/vender-auto">Auto como parte de pago</Link></li>
+            <li><Link to="/reviews">Reseñas</Link></li>
             <li><Link to="/contact">Contacto</Link></li>
           </ul>
         </div>
@@ -34,6 +35,7 @@ const Footer = () => {
         {/* Right Column */}
         <div className="footer-col-right">
           <h3 className="footer-title">Ubicación y Contacto</h3>
+
           <ul className="footer-contact-info">
             <li><Mail size={18} /> ventas@importadorasavs.com</li>
             <li><MapPin size={18} /> Heredia & Puntarenas</li>

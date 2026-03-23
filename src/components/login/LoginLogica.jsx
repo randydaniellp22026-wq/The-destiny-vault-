@@ -70,7 +70,7 @@ export const useLoginLogic = () => {
           title: '¡Bienvenido!',
           text: `Sesión iniciada como ${user.nombre}`
         }).then(() => {
-          window.location.href = '/reseñas';
+          navigate('/');
         });
       } else {
         throw new Error('Credenciales incorrectas. Verifica tu correo y contraseña.');
