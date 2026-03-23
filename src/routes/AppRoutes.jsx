@@ -8,6 +8,16 @@ import LoginVista from '../components/login/LoginVista';
 import RedireccionContactos from '../components/Redirecciones/Redireccion Contactos/Redireccion Contactos/RedireccionContactos';
 import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModeloAuto/RedireccionModeloAuto/RedireccionModeloAuto';
 import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
+import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
+import ClienteVendeSuAuto from '../components/ApartadoParaQueElClienteVendaSuAuto/ClienteVendeSuAuto';
+import Reseñas from '../components/TechnicalGlossary/ApartadoDeReseñas/Reseñas';
+
+import AdminRoute from './AdminRoute';
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import ReviewRequests from '../pages/admin/ReviewRequests';
+import CreateVehicle from '../pages/admin/CreateVehicle';
+import UserManagement from '../pages/admin/UserManagement';
+import AdminLayout from '../components/admin/AdminLayout';
 
 const AppRoutes = () => {
   return (
@@ -21,6 +31,15 @@ const AppRoutes = () => {
       <Route path="/contact" element={<RedireccionContactos />} />
       <Route path="/modelAuto" element={<RedireccionModeloAuto />} />
       <Route path="/simulate-credit" element={<CreditSimulator />} />
+      <Route path="/perfil" element={<PerfilUsuarios />} />
+      <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
+      
+      {/* Rutas Privadas de Administración (Admin y Gerente) */}
+      <Route path="/admin" element={<AdminRoute><AdminLayout><AdminDashboard /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/users" element={<AdminRoute><AdminLayout><UserManagement /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/requests" element={<AdminRoute><AdminLayout><ReviewRequests /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/create-vehicle" element={<AdminRoute><AdminLayout><CreateVehicle /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/reviews" element={<AdminRoute><AdminLayout><Reseñas /></AdminLayout></AdminRoute>} />
     </Routes>
   );
 };

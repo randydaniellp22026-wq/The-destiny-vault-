@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Car } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './Hero.css';
 
@@ -8,6 +8,15 @@ const Hero = () => {
 
   const handleInventoryClick = () => {
     navigate('/inventory');
+  };
+
+  const handleSellCarClick = () => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      navigate('/vender-auto');
+    } else {
+      navigate('/register');
+    }
   };
 
   return (
@@ -25,6 +34,10 @@ const Hero = () => {
             <button className="btn btn-primary" onClick={handleInventoryClick}>
               Ver Inventario
               <ArrowRight size={18} />
+            </button>
+            <button className="btn hero-btn-outline" onClick={handleSellCarClick}>
+              Vende tu auto
+              <Car size={18} style={{ marginLeft: '8px' }} />
             </button>
           </div>
         </div>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Car, Truck, Zap, Flame, ChevronLeft, ChevronRight, X, Bus, ArrowLeft } from 'lucide-react';
-import dbData from '../../../db.json';
 import './VehicleSelectionModal.css';
 
 const categoriesData = [
@@ -20,21 +19,31 @@ const VehicleSelectionModal = ({ isOpen, onClose }) => {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [fadeState, setFadeState] = useState('fade-in');
   const [models, setModels] = useState([]);
+  const [allVehicles, setAllVehicles] = useState([]);
   
   const carouselRef = useRef(null);
 
+  // Fetch all vehicles once when the modal opens
+  useEffect(() => {
+    if (isOpen) {
+      fetch('http://localhost:5000/vehicles')
+        .then(res => res.json())
+        .then(data => setAllVehicles(data || []))
+        .catch(err => console.error("Error loading vehicles for selection:", err));
+    }
+  }, [isOpen]);
+
   // When category changes, filter models
   useEffect(() => {
-    if (selectedCategory) {
-      // Basic matching just to show some mock data if exact type isn't found
-      const filtered = dbData.vehicles.filter(v => 
+    if (selectedCategory && allVehicles.length > 0) {
+      const filtered = allVehicles.filter(v => 
         v.type.toLowerCase().includes(selectedCategory.toLowerCase())
       );
-      // Fallback to all vehicles if the category has no matches in db.json, just to demonstrate flow
-      setModels(filtered.length > 0 ? filtered : dbData.vehicles.slice(0, 4));
+      // Fallback to slicing some vehicles if category is empty
+      setModels(filtered.length > 0 ? filtered : allVehicles.slice(0, 4));
       setSelectedVehicle(null);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, allVehicles]);
 
   const handleCategorySelect = (catId) => {
     setSelectedCategory(catId);
@@ -95,7 +104,6 @@ const VehicleSelectionModal = ({ isOpen, onClose }) => {
                       onClick={() => handleCategorySelect(cat.id)}
                     >
                       <div className="category-icon-wrapper">
-                        {/* Enlarged icon to simulate a silhouette for now */}
                         <Icon size={70} strokeWidth={1} />
                       </div>
                       <span className="category-name">{cat.label}</span>
@@ -103,8 +111,6 @@ const VehicleSelectionModal = ({ isOpen, onClose }) => {
                   );
                 })}
               </div>
-
-
             </>
           )}
 
@@ -129,7 +135,12 @@ const VehicleSelectionModal = ({ isOpen, onClose }) => {
                     >
                       <div className={`model-radio ${selectedVehicle?.id === vehicle.id ? 'selected' : ''}`}></div>
                       <div className="model-image-wrapper">
-                        <img src={vehicle.image} alt={vehicle.name} className="model-image" />
+                        <img 
+                          src={vehicle.image} 
+                          alt={vehicle.name} 
+                          className="model-image" 
+                          referrerPolicy="no-referrer"
+                        />
                       </div>
                       <span className="model-name">
                         {vehicle.name}
@@ -142,8 +153,6 @@ const VehicleSelectionModal = ({ isOpen, onClose }) => {
                   <ChevronRight size={48} />
                 </button>
               </div>
-
-
             </>
           )}
         </div>

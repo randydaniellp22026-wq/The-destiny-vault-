@@ -6,16 +6,37 @@ import {
   Droplet, 
   ChevronDown, 
   ChevronUp, 
-  Settings as SettingsIcon, 
   Car, 
   DollarSign, 
   Filter 
 } from 'lucide-react';
+import { useVehicleFavorites } from '../../hooks/useVehicleFavorites';
 import { useCatalogoLogica } from './catalogoLogica';
 import { useNavigate } from 'react-router-dom';
 import './VehicleCatalog.css';
 
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+
+const FavoriteButton = ({ vehicleId }) => {
+  const { isFavorite, toggleFavorite } = useVehicleFavorites(vehicleId);
+  return (
+    <button 
+      className={`favorite-btn ${isFavorite ? 'active' : ''}`} 
+      aria-label="Añadir a favoritos"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleFavorite(e);
+      }}
+    >
+      <Heart 
+        size={20} 
+        fill={isFavorite ? '#eab308' : 'none'} 
+        color={isFavorite ? '#eab308' : 'white'} 
+      />
+    </button>
+  );
+};
 
 const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false }) => {
   const {
@@ -62,7 +83,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
               <h3>Filtros Especializados</h3>
             </div>
 
-          <FilterSection id="technical" title="Técnicos" icon={SettingsIcon}>
+          <FilterSection id="technical" title="Técnicos" icon={Settings}>
             <div className="filter-group">
               <label>Transmisión</label>
               <div className="button-grid">
@@ -131,16 +152,16 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                 return (
                 <div key={car.id} className="card vehicle-card">
                   <div className="vehicle-image-container">
-                    <img src={imageSrc} alt={car.name} className="vehicle-image" />
+                    <img src={imageSrc} alt={car.name} className="vehicle-image" referrerPolicy="no-referrer" />
                     <div className="vehicle-tag" style={{ backgroundColor: car.tagColor }}>{car.tag}</div>
-                    <button className="favorite-btn" aria-label="Añadir a favoritos"><Heart size={20} /></button>
+                    <FavoriteButton vehicleId={car.id} />
                   </div>
                   <div className="vehicle-info">
                     <h3 className="vehicle-name">{car.type} - {car.name}</h3>
                     <p className="vehicle-meta">{car.type} • {car.year} • {car.fuel}</p>
                     <div className="vehicle-specs-grid">
                       <div className="spec-item"><Gauge size={16} className="spec-icon" /><span>{car.mileage}</span></div>
-                      <div className="spec-item"><SettingsIcon size={16} className="spec-icon" /><span>{car.transmission}</span></div>
+                      <div className="spec-item"><Settings size={16} className="spec-icon" /><span>{car.transmission}</span></div>
                       <div className="spec-item"><Droplet size={16} className="spec-icon" /><span>{car.color}</span></div>
                     </div>
                     <div className="vehicle-footer">

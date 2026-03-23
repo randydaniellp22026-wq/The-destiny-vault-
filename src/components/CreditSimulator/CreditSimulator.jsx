@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { 
   Car, 
   Ship, 
@@ -27,11 +28,30 @@ const CreditSimulator = () => {
     downPaymentPerc,
     termMonths,
     calculations,
+    documents,
     handleVehicleSelect,
+    handleDocumentUpload,
     setTermMonths
   } = useCreditSimulatorLogica();
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) {
+      Swal.fire({
+        background: '#0a0a0a',
+        color: '#fff',
+        confirmButtonColor: '#eab308',
+        icon: 'warning',
+        title: 'Acceso Restringido',
+        text: 'Debes iniciar sesión para realizar simulaciones de crédito y subir documentos.'
+      }).then(() => {
+        navigate('/login');
+      });
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const passedVehicle = location.state?.selectedVehicle;
@@ -174,6 +194,84 @@ const CreditSimulator = () => {
                         {Math.floor(termMonths / 12)} {termMonths / 12 === 1 ? 'Año' : 'Años'}
                       </span>
                     </div>
+                  </div>
+                </div>
+
+                <div className="divider" />
+
+                <div className="section-intro">
+                  <div className="icon-box"><FileText /></div>
+                  <h3>Paso 4: Documentación Requerida</h3>
+                </div>
+
+                <div className="docs-grid">
+                  <div className="doc-item">
+                    <div className="doc-icon"><CreditCard size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Cédula por ambos lados</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    {documents.idCard && <img src={documents.idCard} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.idCard ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('idCard', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><FileText size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Orden patronal</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    {documents.employmentOrder && <img src={documents.employmentOrder} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.employmentOrder ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('employmentOrder', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><DollarSign size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Últimas 2 colillas de pago</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    {documents.paymentStubs && <img src={documents.paymentStubs} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.paymentStubs ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('paymentStubs', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><FileText size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Constancia de salario</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    {documents.salaryConfirmation && <img src={documents.salaryConfirmation} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.salaryConfirmation ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('salaryConfirmation', e.target.files[0])}
+                      />
+                    </label>
                   </div>
                 </div>
               </div>

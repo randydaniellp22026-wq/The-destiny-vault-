@@ -1,7 +1,8 @@
 import React from 'react';
 import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
+import VehicleCarousel from '../../components/FerrariCarousel/FerrariCarousel';
 import './VehicleDetails.css';
 
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
@@ -9,18 +10,46 @@ const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', 
 const VehicleDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const vehicle = location.state?.vehicle;
+  const { id } = useParams();
+  const [vehicle, setVehicle] = React.useState(location.state?.vehicle);
+  const [loading, setLoading] = React.useState(!location.state?.vehicle || !location.state?.vehicle.engine_size);
   const { getMonthlyPayment } = useVehicleDetailsLogica(vehicle);
 
+  React.useEffect(() => {
+    // Si no tenemos vehículo en state, o si le faltan los nuevos campos técnicos, lo pedimos al API
+    const needsUpdate = !vehicle || !vehicle.engine_size;
+    
+    if (needsUpdate && (id || vehicle?.id)) {
+      setLoading(true);
+      const vehicleId = id || vehicle.id;
+      const API_URL = 'http://localhost:5000/vehicles';
+      
+      fetch(`${API_URL}/${vehicleId}`)
+        .then(res => res.json())
+        .then(data => {
+          setVehicle(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Error al refrescar datos del vehículo:", err);
+          setLoading(false);
+        });
+    }
+  }, [id, vehicle?.id]);
+
+  if (loading) return <div className="loading-container"><div className="loader"></div><span>Cargando detalles técnicos...</span></div>;
   if (!vehicle) return <div style={{marginTop: '100px', textAlign: 'center'}}>Vehículo no encontrado</div>;
 
   return (
     <div className="vehicle-details-page">
       {/* 1. Header / Hero Section */}
-      <section 
-        className="details-hero"
-        style={{ backgroundImage: `url(${localImages[vehicle.image] || vehicle.image})` }}
-      >
+      <section className="details-hero">
+        <img 
+          src={localImages[vehicle.image] || vehicle.image} 
+          alt={vehicle.name} 
+          className="hero-background-img"
+          referrerPolicy="no-referrer"
+        />
         <div className="details-hero-overlay"></div>
         <div className="container details-hero-content">
           <button 
@@ -31,9 +60,10 @@ const VehicleDetails = () => {
             <ArrowLeft size={20} />
             Volver
           </button>
+
+          <span className="hero-tag right-tag">{vehicle.tag || 'NUEVO INGRESO'}</span>
           
           <div className="hero-text-content">
-            <span className="hero-tag">{vehicle.tag || 'NUEVO INGRESO'}</span>
             <h1 className="hero-title">{vehicle.name}</h1>
             <p className="hero-subtitle">La redefinición absoluta del rendimiento y la elegancia. Diseñado para quienes exigen más que solo conducir.</p>
             
@@ -86,42 +116,88 @@ const VehicleDetails = () => {
           <div className="spec-card">
             <div className="spec-icon-wrapper"><Shield size={24} /></div>
             <h3 className="spec-title">Transmisión</h3>
-            <p className="spec-data">Automática de 8 vel.</p>
-            <p className="spec-desc">Cambios imperceptibles para un confort inigualable.</p>
+            <p className="spec-data">{vehicle.transmission}</p>
+            <p className="spec-desc">Gestión optimizada para máxima eficiencia.</p>
+          </div>
+        </div>
+
+        {/* 2.1 Tabla de Especificaciones Técnicas Detalladas */}
+        <div className="technical-grid" style={{ marginTop: '4rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', background: 'rgba(255,255,255,0.02)', padding: '2rem', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Cilindraje</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.engine_size || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Tipo de Motor</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.motor || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Puertas</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.doors || 'N/D'} Puertas</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Capacidad</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.passengers || 'N/D'} Pasajeros</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Tracción</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.drive || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Dirección</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.steering || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Combustible</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.fuel || 'N/D'}</span>
+          </div>
+          <div className="tech-item" style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+            <span style={{ color: '#9ca3af', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Color Exterior</span>
+            <span style={{ color: '#fff', fontSize: '1.1rem', fontWeight: '600' }}>{vehicle.color || 'N/D'}</span>
           </div>
         </div>
       </section>
 
-      {/* 3. Equipamiento Destacado */}
+      {/* 2.5. Carrusel de Vehículo */}
+      <section className="vehicle-gallery-section" style={{ margin: '6rem 0', backgroundColor: '#080808', position: 'relative' }}>
+        <div className="container" style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
+          <h2 className="section-heading" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Explora Cada Detalle</h2>
+          <p style={{ color: '#9ca3af', fontSize: '1.1rem', letterSpacing: '2px', textTransform: 'uppercase' }}>Vistas Exclusivas del Modelo</p>
+        </div>
+        <VehicleCarousel />
+      </section>
+
+      {/* 3. Resumen del Vehículo */}
       <section className="features-section">
         <div className="container wrapper-padding">
-          <h2 className="section-heading centered">Confort y Tecnología de Vanguardia</h2>
+          <h2 className="section-heading centered">Conoce más sobre este vehículo</h2>
           
-          <div className="feature-block">
-            <div className="feature-image">
-              <img src="https://images.unsplash.com/photo-1606016259837-e070d65b6e4e?auto=format&fit=crop&q=80&w=1000" alt="Interior lujoso" />
-            </div>
-            <div className="feature-text">
-              <h3>Una cabina diseñada en torno a usted.</h3>
-              <ul className="feature-list">
-                <li><ChevronRight size={18} className="list-icon" /> Asientos deportivos en cuero premium.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Iluminación ambiental configurable.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Sistema acústico de alta fidelidad Envolvente.</li>
-              </ul>
-            </div>
-          </div>
+          <div className="summary-block">
+            <p className="summary-text" style={{ fontSize: '1.4rem', lineHeight: '1.8', color: '#d1d5db', textAlign: 'center', maxWidth: '900px', margin: '0 auto', paddingBottom: '3rem' }}>
+              {vehicle.summary || "Vehículo disponible para entrega y cotización. Importado desde Corea bajo los más exigentes estándares de calidad."}
+            </p>
+            
+            <div className="autowini-features" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
+              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
+                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
+                  <Shield size={24} /> Origen Certificado
+                </h4>
+                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Importado directamente a través de canales exclusivos desde Corea del Sur como Autowini, garantizando una procedencia segura.</p>
+              </div>
 
-          <div className="feature-block reverse">
-            <div className="feature-image">
-              <img src="https://images.unsplash.com/photo-1628126139942-1e96a2de69ab?auto=format&fit=crop&q=80&w=1000" alt="Tecnología automotriz" />
-            </div>
-            <div className="feature-text">
-              <h3>Seguridad intuitiva.</h3>
-              <ul className="feature-list">
-                <li><ChevronRight size={18} className="list-icon" /> Sistema de frenado autónomo de emergencia.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Sensores 360° y cámara de retroceso HD.</li>
-                <li><ChevronRight size={18} className="list-icon" /> Asistente de mantenimiento de carril adaptativo.</li>
-              </ul>
+              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
+                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
+                  <Sparkles size={24} /> Respaldo SAVS
+                </h4>
+                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Cada unidad que ofrecemos ha sido minuciosamente inspeccionada en motor, chasis y electrónica localmente por nuestro equipo experto.</p>
+              </div>
+              
+              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
+                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
+                  <Navigation size={24} /> Listo para Circular
+                </h4>
+                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Nuestros modelos son entregados en estado impecable. Completamos revisiones preventivas para que disfrutes tu inversión de forma inmediata.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -135,7 +211,12 @@ const VehicleDetails = () => {
           
           <div className="cta-buttons">
             <button className="btn btn-primary btn-lg">Agendar un Test Drive VIP</button>
-            <button className="btn btn-outline btn-lg">Solicitar Cotización Formal &rarr;</button>
+            <button 
+              className="btn btn-outline btn-lg" 
+              onClick={() => navigate('/contact', { state: { vehicle } })}
+            >
+              Solicitar Cotización Formal &rarr;
+            </button>
           </div>
           
           <p className="cta-disclaimer">Aprobación de financiamiento sujeta a análisis crediticio. Garantía extendida disponible.</p>

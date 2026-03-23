@@ -54,7 +54,7 @@ function RegistroUsuarios() {
             id="telefono"
             type="tel"
             name="telefono"
-            placeholder="Ej: 50412345678"
+            placeholder="Ej: +506 72617462"
             value={formData.telefono}
             onChange={handleChange}
             required

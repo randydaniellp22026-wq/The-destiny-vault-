@@ -151,45 +151,7 @@ Ver Detalles
 
 {/* FOOTER */}
 
-<footer className="footer">
 
-<div className="footerGrid">
-
-<div>
-<h3>🚗 GESTIONADORA</h3>
-<p>
-Líderes en financiamiento y gestión
-de créditos automotrices en la región.
-</p>
-</div>
-
-<div>
-<h4>Enlaces Rápidos</h4>
-<p>Calculadora de Crédito</p>
-<p>Preguntas Frecuentes</p>
-<p>Términos y Condiciones</p>
-</div>
-
-<div>
-<h4>Soporte</h4>
-<p>Centro de Ayuda</p>
-<p>Contacto</p>
-<p>Sucursales</p>
-</div>
-
-<div>
-<h4>Newsletter</h4>
-<input placeholder="Tu correo electrónico"/>
-<button>Unirse</button>
-</div>
-
-</div>
-
-<p className="copyright">
-© 2026 Gestionadora de Créditos
-</p>
-
-</footer>
 
 </div>
 )
