@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, CheckCircle, Star, MapPin, ShieldCheck, Users, History } from 'lucide-react';
+import { Award, CheckCircle, Star, MapPin, ShieldCheck, Users, History, Target, Eye } from 'lucide-react';
 import showroomImg from '../../img/494797711_659190636874640_8507294170366078964_n.jpg';
 import './Experience.css';
 
@@ -40,6 +40,19 @@ const Experience = () => {
         }
     ];
 
+    const objectiveCards = [
+        {
+            icon: <Target className="objective-icon" />,
+            title: "Misión",
+            text: "Facilitar el acceso a vehículos de alta calidad mediante un proceso de importación transparente, brindando seguridad y respaldo a cada familia costarricense."
+        },
+        {
+            icon: <Eye className="objective-icon" />,
+            title: "Visión",
+            text: "Ser la importadora líder y más confiable de Costa Rica, reconocida por nuestra innovación en el servicio y el compromiso inquebrantable con la satisfacción total del cliente."
+        }
+    ];
+
     return (
         <section className="experience-section">
             <div className="container">
@@ -49,6 +62,18 @@ const Experience = () => {
                     <p className="experience-subtitle">
                         Importadora SAVS nace de la pasión por los autos y el compromiso con el servicio excepcional. En solo 3 años, nos hemos convertido en el referente de importación premium en Costa Rica, facilitando el sueño de más de 160 familias con transparencia absoluta y el respaldo de nuestras sedes físicas en Heredia y Puntarenas.
                     </p>
+                </div>
+
+                <div className="objectives-grid">
+                    {objectiveCards.map((obj, i) => (
+                        <div key={i} className="objective-card-premium">
+                            <div className="objective-icon-wrapper">
+                                {React.cloneElement(obj.icon, { size: 36 })}
+                            </div>
+                            <h3>{obj.title}</h3>
+                            <p>{obj.text}</p>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="experience-grid">

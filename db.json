@@ -231,18 +231,23 @@
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-accent-2012-1.png",
       "summary": "El Hyundai Accent MC 2012 es un sedán extremadamente económico gracias a su noble motor diésel. Su durabilidad legendaria, junto a un chasis liviano y bajo consumo de combustible diario, lo convierten en una opción inmejorable para flotillas o uso personal prolongado."
     }
-
   ],
   "users": [
     {
       "id": "1",
-      "nombre": "Administrador",
+      "nombre": "Administrador General",
       "email": "admin@thedestinyvault.com",
       "password": "admin",
       "rol": "admin",
-      "favorites": [
-        "4"
-      ]
+      "favorites": ["4"]
+    },
+    {
+      "id": "gerente_1",
+      "nombre": "Gerente de Operaciones",
+      "email": "gerente@thedestinyvault.com",
+      "password": "gerente",
+      "rol": "gerente",
+      "favorites": []
     },
     {
       "id": "2",
@@ -324,8 +329,18 @@
       "user_phone": "+506 72617462",
       "subject": "Consulta General",
       "message": "me gustaria saber si no tinenen otros precios para el nissan",
-      "status": "pending",
+      "status": "accepted",
       "date": "2026-03-21T07:50:25.492Z"
+    },
+    {
+      "id": "ebb2",
+      "user_name": "juanito",
+      "user_email": "juanito@gmail.com",
+      "user_phone": "+506 7468-7437",
+      "subject": "Asesoría de crédito",
+      "message": "quiero vender mi auto\n",
+      "status": "rejected",
+      "date": "2026-03-23T14:57:54.677Z"
     }
   ]
 }

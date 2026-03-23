@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Instagram, Mail, MapPin, Phone, Globe } from 'lucide-react';
+import { Facebook, Instagram, Mail, MapPin, Phone, Globe, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import savsLogo from '../../img/image copy 4.png';
 import './Footer.css';
@@ -38,6 +38,7 @@ const Footer = () => {
             <li><Mail size={18} /> ventas@importadorasavs.com</li>
             <li><MapPin size={18} /> Heredia & Puntarenas</li>
             <li><Phone size={18} /> +506 6476-9091</li>
+            <li><Clock size={18} /> Lun-Sáb: 8:00 AM - 6:00 PM</li>
           </ul>
         </div>
 
