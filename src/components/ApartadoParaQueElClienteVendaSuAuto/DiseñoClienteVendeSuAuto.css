@@ -146,11 +146,29 @@
 }
 
 .form-group input:focus, 
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-control-admin:focus {
   outline: none;
   border-color: var(--gold-accent);
   background: rgba(245, 180, 0, 0.08);
   box-shadow: 0 0 15px rgba(245, 180, 0, 0.15), 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.form-control-admin {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(245, 180, 0, 0.4); /* Un poco más brillante para indicar control admin */
+  color: var(--gold-accent);
+  padding: 12px 15px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.form-control-admin option {
+  background-color: var(--bg-panel);
+  color: white;
 }
 
 /* Custom File Upload */
@@ -413,6 +431,38 @@
   overflow: hidden;
   /* line-clamp fallback */
   line-clamp: 2;
+}
+
+/* Seller Info en Admin */
+.seller-info {
+  background-color: rgba(245, 180, 0, 0.05);
+  border: 1px solid rgba(245, 180, 0, 0.2);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.seller-info h4 {
+  color: var(--gold-accent);
+  font-size: 0.85rem;
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.seller-info p {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.seller-info i {
+  color: var(--gold-accent);
+  width: 15px;
 }
 
 .vehiculo-actions {

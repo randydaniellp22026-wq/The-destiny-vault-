@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://127.0.0.1:5000';
+const API_URL = 'http://127.0.0.1:3000';
 
 const darkSwal = {
   background: '#0a0a0a',
@@ -59,12 +59,17 @@ export const useRegistroUsuariosLogica = () => {
     if (!validarFormulario()) return;
 
     try {
-      // Check if email already exists
-      const checkRes = await fetch(`${API_URL}/users?correo=${formData.correo}`);
-      const existingUsers = await checkRes.json();
+      // Check if email already exists (json-server returns matching items)
+      const resCheck = await fetch(`${API_URL}/users?email=${encodeURIComponent(formData.correo)}`);
+      const existingUsers = await resCheck.json();
 
       if (existingUsers.length > 0) {
-        Swal.fire({ ...darkSwal, icon: 'warning', title: 'Correo ya registrado', text: 'Este correo ya tiene una cuenta. Inicia sesión.' });
+        Swal.fire({ 
+          ...darkSwal, 
+          icon: 'warning', 
+          title: 'Correo ya registrado', 
+          text: 'Este correo ya tiene una cuenta asociada. Inicia sesión para continuar.' 
+        });
         return;
       }
 
@@ -74,23 +79,25 @@ export const useRegistroUsuariosLogica = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nombre: formData.nombre,
-          email: formData.correo,  // stored as "email" for login compatibility
-          correo: formData.correo,
-          telefono: formData.telefono,
+          email: formData.correo.trim(),
+          correo: formData.correo.trim(),
+          telefono: formData.telefono.trim(),
           password: formData.password,
+          rol: 'Cliente',
+          ubicacion: 'Costa Rica',
           createdAt: new Date().toISOString(),
-          favorites: [] // Initialize favorites array
+          favorites: []
         })
       });
 
-      if (!res.ok) throw new Error('Error al guardar el usuario.');
+      if (!res.ok) throw new Error('Error al guardar el usuario en la base de datos.');
 
       Swal.fire({
         ...darkSwal,
         icon: 'success',
         title: '¡Registro exitoso!',
-        text: 'Tu cuenta ha sido creada. Ya puedes iniciar sesión.',
-        confirmButtonText: 'Iniciar sesión'
+        text: 'Tu cuenta ha sido creada con éxito. Ya puedes iniciar sesión.',
+        confirmButtonText: 'Ir a Iniciar Sesión'
       }).then(() => {
         window.location.href = '/login';
       });
@@ -98,7 +105,13 @@ export const useRegistroUsuariosLogica = () => {
       setFormData({ nombre: '', correo: '', telefono: '', password: '' });
 
     } catch (err) {
-      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error del servidor', text: err.message });
+      console.error("Error en registro:", err);
+      Swal.fire({ 
+        ...darkSwal, 
+        icon: 'error', 
+        title: 'Error de servidor', 
+        text: 'No se pudo conectar con el servidor. Asegúrate de que json-server esté ejecutándose.' 
+      });
     }
   };
 

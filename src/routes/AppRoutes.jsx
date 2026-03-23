@@ -10,6 +10,7 @@ import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModelo
 import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
 import ClienteVendeSuAuto from '../components/ApartadoParaQueElClienteVendaSuAuto/ClienteVendeSuAuto';
+import Reseñas from '../components/TechnicalGlossary/ApartadoDeReseñas/Reseñas';
 
 import AdminRoute from './AdminRoute';
 import AdminDashboard from '../pages/admin/AdminDashboard';

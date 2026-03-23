@@ -28,9 +28,13 @@ const ClienteVendeSuAuto = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormState);
   const [vehiculos, setVehiculos] = useState([]);
+  const [usersMap, setUsersMap] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [userRole, setUserRole] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const isAdminOrManager = userRole === 'admin' || userRole === 'gerente' || userRole === 'manager';
 
   // Cargar datos del usuario y sus solicitudes
   useEffect(() => {
@@ -47,10 +51,59 @@ const ClienteVendeSuAuto = () => {
       return;
     }
     
+    
     const user = JSON.parse(savedUser);
+    const role = (user.rol || '').toLowerCase();
     setUserId(user.id);
-    fetchUserVehicles(user.id);
+    setUserRole(role);
+    
+    if (role === 'admin' || role === 'gerente' || role === 'manager') {
+      fetchAllVehicles();
+      fetchAllUsers();
+    } else {
+      fetchUserVehicles(user.id);
+    }
   }, [navigate]);
+
+  const fetchAllUsers = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:3000/users');
+      if (response.ok) {
+        const users = await response.json();
+        const map = {};
+        users.forEach(u => {
+          map[u.id] = u;
+        });
+        setUsersMap(map);
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const fetchAllVehicles = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(API_URL);
+      if (response.ok) {
+        const data = await response.json();
+        setVehiculos(formatVehicles(data));
+      }
+    } catch (error) {
+      console.error("Error fetching all vehicles:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formatVehicles = (data) => {
+    return data.map(v => ({
+      ...v,
+      precio: Number(v.precio),
+      kilometraje: Number(v.kilometraje),
+      anio: Number(v.anio)
+    })).reverse();
+  };
 
   const fetchUserVehicles = async (uid) => {
     setLoading(true);
@@ -58,17 +111,10 @@ const ClienteVendeSuAuto = () => {
       const response = await fetch(`${API_URL}?userId=${uid}`);
       if (response.ok) {
         const data = await response.json();
-        // Asegurarnos de que los datos numéricos lleguen como números
-        const formattedData = data.map(v => ({
-          ...v,
-          precio: Number(v.precio),
-          kilometraje: Number(v.kilometraje),
-          anio: Number(v.anio)
-        }));
-        setVehiculos(formattedData);
+        setVehiculos(formatVehicles(data));
       }
     } catch (error) {
-      console.error("Error fetching vehicles:", error);
+      console.error("Error fetching user vehicles:", error);
     } finally {
       setLoading(false);
     }
@@ -173,7 +219,7 @@ const ClienteVendeSuAuto = () => {
       precio: precioNum,
       kilometraje: kmNum,
       anio: anioNum,
-      userId
+      userId: isEditing ? formData.userId : userId // IMPORTANTE: Mantener el dueño original si estamos editando
     };
 
     setLoading(true);
@@ -202,7 +248,7 @@ const ClienteVendeSuAuto = () => {
         const response = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...cleanData, id: String(Date.now()), estado: 'Pendiente' })
+          body: JSON.stringify({ ...cleanData, id: String(Date.now()) })
         });
         
         if (response.ok) {
@@ -345,6 +391,23 @@ const ClienteVendeSuAuto = () => {
                 />
               </div>
 
+              {isAdminOrManager && (
+                <div className="form-group">
+                  <label>Estado de la Solicitud</label>
+                  <select 
+                    name="estado" 
+                    value={formData.estado} 
+                    onChange={handleInputChange} 
+                    className="form-control-admin"
+                  >
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En revisión">En revisión</option>
+                    <option value="Aprobado">Aprobado</option>
+                    <option value="Rechazado">Rechazado</option>
+                  </select>
+                </div>
+              )}
+
               <div className="form-group">
                 <label>Descripción y Estado del Vehículo</label>
                 <textarea name="descripcion" value={formData.descripcion} onChange={handleInputChange} required placeholder="Detalla las condiciones generales, historial de servicios..." rows="4"></textarea>
@@ -382,7 +445,7 @@ const ClienteVendeSuAuto = () => {
 
         {/* Panel Derecho: Lista de Autos */}
         <div className="vender-auto-list-section">
-          <h2>Mis Solicitudes ({vehiculos.length})</h2>
+          <h2>{isAdminOrManager ? 'Solicitudes Globales' : 'Mis Solicitudes'} ({vehiculos.length})</h2>
           
           {loading && vehiculos.length === 0 ? (
              <div className="loading-req">Cargando solicitudes...</div>
@@ -416,9 +479,22 @@ const ClienteVendeSuAuto = () => {
                     
                     <p className="vehiculo-desc">{vehiculo.descripcion}</p>
                     
+                    {isAdminOrManager && usersMap[vehiculo.userId] && (
+                      <div className="seller-info">
+                        <h4>Datos del Vendedor:</h4>
+                        <p><i className="fas fa-user"></i> {usersMap[vehiculo.userId].nombre}</p>
+                        <p><i className="fas fa-envelope"></i> {usersMap[vehiculo.userId].email || usersMap[vehiculo.userId].correo}</p>
+                        <p><i className="fas fa-phone"></i> {usersMap[vehiculo.userId].telefono || 'Sin teléfono'}</p>
+                      </div>
+                    )}
+                    
                     <div className="vehiculo-actions">
-                      <button className="btn-edit" onClick={() => handleEdit(vehiculo)}>Editar</button>
-                      <button className="btn-delete" onClick={() => confirmDelete(vehiculo)}>Eliminar</button>
+                      {(isAdminOrManager || String(vehiculo.userId) === String(userId)) && (
+                        <>
+                          <button className="btn-edit" onClick={() => handleEdit(vehiculo)}>Editar</button>
+                          <button className="btn-delete" onClick={() => confirmDelete(vehiculo)}>Eliminar</button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
