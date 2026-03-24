@@ -36,7 +36,7 @@ const Hero = () => {
               <ArrowRight size={18} />
             </button>
             <button className="btn hero-btn-outline" onClick={handleSellCarClick}>
-              Vende tu auto
+              Entrega tu auto
               <Car size={18} style={{ marginLeft: '8px' }} />
             </button>
           </div>

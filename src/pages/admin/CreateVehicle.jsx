@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { ArrowLeft, CarFront, Tag, Settings, Fuel, Palette, FileText, Image as ImageIcon, Search } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  CarFront, 
+  Tag, 
+  Settings, 
+  Fuel, 
+  Palette, 
+  FileText, 
+  Image as ImageIcon, 
+  Search,
+  Trash2,
+  Edit,
+  Plus,
+  RefreshCcw,
+  CheckCircle,
+  XCircle
+} from 'lucide-react';
 import './Admin.css';
 
 const darkSwal = {
@@ -11,7 +27,7 @@ const darkSwal = {
   cancelButtonColor: '#333'
 };
 
-const API_URL = 'http://127.0.0.1:5000/vehicles';
+const API_URL = 'http://localhost:5000/vehicles';
 
 const initialFormState = {
   id: '',
@@ -37,6 +53,7 @@ const initialFormState = {
 
 const CreateVehicle = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState(initialFormState);
   const [vehiculos, setVehiculos] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -52,14 +69,23 @@ const CreateVehicle = () => {
     fetchVehicles();
   }, []);
 
+  useEffect(() => {
+    // Manejar parámetro de edición desde el dashboard
+    const params = new URLSearchParams(location.search);
+    const editId = params.get('edit');
+    if (editId && vehiculos.length > 0) {
+      const v = vehiculos.find(car => car.id === editId);
+      if (v) handleEdit(v);
+    }
+  }, [location.search, vehiculos]);
+
   const fetchVehicles = async () => {
     setLoading(true);
     try {
       const response = await fetch(API_URL);
       if (response.ok) {
         const data = await response.json();
-        // Ordenamos los creados más reciente primero usando el ID (normalmente numérico o timestamp si lo creamos)
-        setVehiculos(data.reverse());
+        setVehiculos(data.slice().reverse());
       }
     } catch (error) {
       console.error("Error fetching admin vehicles:", error);
@@ -70,14 +96,11 @@ const CreateVehicle = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    
-    // Validar price o year si quieres forzar numeros
     if (name === 'price' || name === 'year') {
       const cleanValue = value.replace(/[^0-9]/g, '');
       setFormData({ ...formData, [name]: cleanValue });
       return;
     }
-
     setFormData({ ...formData, [name]: value });
   };
 
@@ -94,16 +117,14 @@ const CreateVehicle = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validaciones
     const requiredFields = ['name', 'motor', 'type', 'year', 'price', 'mileage', 'summary', 'image'];
     for (const field of requiredFields) {
       if (!formData[field]) {
         Swal.fire({
           ...darkSwal,
           icon: 'warning',
-          title: 'Campo vacío',
-          text: `Asegúrate de rellenar toda la información, incluyendo la imagen y el resumen.`
+          title: 'Campo incompleto',
+          text: `El campo ${field} es obligatorio.`
         });
         return;
       }
@@ -112,21 +133,7 @@ const CreateVehicle = () => {
     const priceNum = Number(formData.price);
     const yearNum = Number(formData.year);
 
-    if (priceNum <= 0 || yearNum <= 0) {
-      Swal.fire({
-        ...darkSwal,
-        icon: 'error',
-        title: 'Valores inválidos',
-        text: 'Precio y Año deben ser mayores a cero.'
-      });
-      return;
-    }
-
-    const cleanData = {
-      ...formData,
-      price: priceNum,
-      year: yearNum
-    };
+    const cleanData = { ...formData, price: priceNum, year: yearNum };
 
     setLoading(true);
     try {
@@ -136,12 +143,12 @@ const CreateVehicle = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(cleanData)
         });
-        
         if (response.ok) {
           const updated = await response.json();
           setVehiculos(vehiculos.map(v => v.id === updated.id ? updated : v));
-          Swal.fire({ ...darkSwal, icon: 'success', title: '¡Actualizado!', text: 'Vehículo modificado en el catálogo.', timer: 1500, showConfirmButton: false });
+          Swal.fire({ ...darkSwal, icon: 'success', title: '¡Actualizado!', timer: 1500, showConfirmButton: false });
           setIsEditing(false);
+          setFormData(initialFormState);
         }
       } else {
         const payload = { ...cleanData, id: String(Date.now()) };
@@ -150,19 +157,15 @@ const CreateVehicle = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        
         if (response.ok) {
           const newCar = await response.json();
           setVehiculos([newCar, ...vehiculos]);
-          Swal.fire({ ...darkSwal, icon: 'success', title: '¡Publicado!', text: 'Nuevo vehículo publicado en el catálogo.', timer: 1500, showConfirmButton: false });
+          Swal.fire({ ...darkSwal, icon: 'success', title: '¡Publicado!', timer: 1500, showConfirmButton: false });
+          setFormData(initialFormState);
         }
       }
-      setFormData(initialFormState);
-      if(document.getElementById('admin-image-upload')) {
-          document.getElementById('admin-image-upload').value = '';
-      }
     } catch (error) {
-      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error de servidor', text: 'No se pudo guardar la publicación.' });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: 'No se pudo guardar.' });
     } finally {
       setLoading(false);
     }
@@ -182,12 +185,12 @@ const CreateVehicle = () => {
     Swal.fire({
       ...darkSwal,
       icon: 'warning',
-      title: 'Eliminar del catálogo',
-      text: `¿Borrar definitivamente a ${vehiculo.name}?`,
+      title: '¿Eliminar vehículo?',
+      text: `Esta acción borrará definitivamente el ${vehiculo.name} del catálogo.`,
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#e63946'
+      confirmButtonColor: '#ef4444'
     }).then((result) => {
       if (result.isConfirmed) {
         handleDelete(vehiculo.id);
@@ -199,98 +202,91 @@ const CreateVehicle = () => {
     try {
       const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
       if (response.ok) {
-        setVehiculos(vehiculos.filter(v => v.id !== id));
+        setVehiculos(prev => prev.filter(v => v.id !== id));
         Swal.fire({ ...darkSwal, icon: 'success', title: 'Eliminado', timer: 1000, showConfirmButton: false });
       }
     } catch (error) {
-      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: 'No se pudo eliminar de la base de datos.' });
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error al eliminar' });
     }
   };
 
   return (
     <div className="admin-container">
-      <div className="admin-header" style={{ marginTop: '0.5rem', marginBottom: '2rem' }}>
-        <h1 className="admin-title">Gestión de Catálogo SAVS</h1>
-        <p className="admin-subtitle">Añade nuevos vehículos oficiales o edita la información y fotos del inventario existente.</p>
+      <div className="admin-header" style={{ marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h1 className="admin-title">Gestión de Inventario SAVS</h1>
+            <p className="admin-subtitle">Administra el catálogo de vehículos: añade, edita o elimina unidades.</p>
+          </div>
+          <button 
+            onClick={() => { setIsEditing(false); setFormData(initialFormState); }}
+            style={{ 
+              background: 'rgba(234, 179, 8, 0.1)', 
+              color: '#eab308', 
+              border: '1px solid rgba(234, 179, 8, 0.2)', 
+              padding: '0.8rem 1.5rem', 
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              cursor: 'pointer'
+            }}
+          >
+            <Plus size={18} /> Nuevo Registro
+          </button>
+        </div>
       </div>
 
-      <div className="vender-auto-layout" style={{ gap: '3rem' }}>
+      <div className="vender-auto-layout" style={{ display: 'flex', gap: '2.5rem', alignItems: 'flex-start' }}>
         
-        {/* Lado izquierdo: Editor / Formulario */}
-        <div className="vender-auto-form-section" style={{ flex: '1.2' }}>
-          <div className="form-card-glow" style={{ padding: '2.5rem' }}>
-            <h2 style={{ fontSize: '1.6rem', marginBottom: '2rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', color: '#fff' }}>
-              {isEditing ? 'Modificando Vehículo' : 'Crear Nueva Publicación'}
+        {/* Lado izquierdo: Editor */}
+        <div className="vender-auto-form-section" style={{ flex: '1.4' }}>
+          <div className="form-card-glow" style={{ padding: '2.2rem', background: 'rgba(20,20,20,0.6)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '24px' }}>
+            <h2 style={{ fontSize: '1.4rem', marginBottom: '1.8rem', color: '#fff', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              {isEditing ? <Edit size={22} style={{ color: '#3b82f6' }} /> : <Plus size={22} style={{ color: '#eab308' }} />}
+              {isEditing ? 'Editando Especificaciones' : 'Detalles del Nuevo Vehículo'}
             </h2>
             
             <form className="vender-auto-form" onSubmit={handleSubmit}>
-              
               <div className="form-group">
-                <label><CarFront size={14} style={{ display: 'inline', marginRight: '6px' }}/> Nombre del Automóvil</label>
-                <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="Ej. Hyundai Tucson Limousine" />
+                <label><CarFront size={14} /> Marca y Modelo</label>
+                <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="Hyundai Tucson..." />
               </div>
 
-              <div className="form-group-row">
+              <div className="form-group-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div className="form-group">
-                  <label><Settings size={14} style={{ display: 'inline', marginRight: '6px' }}/> Motor y Capacidad</label>
-                  <input type="text" name="motor" value={formData.motor} onChange={handleInputChange} placeholder="Ej. 2000cc Diésel" />
+                  <label><Settings size={14} /> Motor / Cilindrada</label>
+                  <input type="text" name="motor" value={formData.motor} onChange={handleInputChange} placeholder="2000cc" />
                 </div>
                 <div className="form-group">
-                  <label>Tipo de Carrocería</label>
-                  <input type="text" name="type" value={formData.type} onChange={handleInputChange} placeholder="Ej. SUV 4x4" />
-                </div>
-              </div>
-
-              <div className="form-group-row">
-                <div className="form-group">
-                  <label>Cilindraje</label>
-                  <input type="text" name="engine_size" value={formData.engine_size} onChange={handleInputChange} placeholder="Ej. 2000cc" />
-                </div>
-                <div className="form-group">
-                  <label>Puertas</label>
-                  <input type="text" inputMode="numeric" name="doors" value={formData.doors} onChange={handleInputChange} placeholder="Ej. 5" />
+                  <label>Estilo</label>
+                  <input type="text" name="type" value={formData.type} onChange={handleInputChange} placeholder="SUV, Sedán..." />
                 </div>
               </div>
 
-              <div className="form-group-row">
-                <div className="form-group">
-                  <label>Tracción</label>
-                  <input type="text" name="drive" value={formData.drive} onChange={handleInputChange} placeholder="Ej. 4x4 o FWD" />
-                </div>
-                <div className="form-group">
-                  <label>Pasajeros</label>
-                  <input type="text" inputMode="numeric" name="passengers" value={formData.passengers} onChange={handleInputChange} placeholder="Ej. 5" />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Dirección</label>
-                <input type="text" name="steering" value={formData.steering} onChange={handleInputChange} placeholder="Ej. Hidráulica / Eléctrica" />
-              </div>
-
-              <div className="form-group-row">
+              <div className="form-group-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div className="form-group">
                   <label>Año</label>
-                  <input type="text" inputMode="numeric" name="year" value={formData.year} onChange={handleInputChange} placeholder="Ej. 2018" />
+                  <input type="text" inputMode="numeric" name="year" value={formData.year} onChange={handleInputChange} placeholder="2024" />
                 </div>
                 <div className="form-group">
-                  <label>Precio (CRC)</label>
-                  <input type="text" inputMode="numeric" name="price" value={formData.price} onChange={handleInputChange} placeholder="Ej. 13500000" />
+                  <label>Precio Final (CRC)</label>
+                  <input type="text" inputMode="numeric" name="price" value={formData.price} onChange={handleInputChange} placeholder="Ej: 15000000" />
                 </div>
               </div>
 
-              <div className="form-group-row">
+              <div className="form-group-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div className="form-group">
                   <label>Transmisión</label>
-                  <select name="transmission" value={formData.transmission} onChange={handleInputChange} className="admin-select">
+                  <select name="transmission" value={formData.transmission} onChange={handleInputChange} className="admin-select" style={{ width: '100%', padding: '0.8rem', background: '#111', color: '#fff', border: '1px solid #333', borderRadius: '8px' }}>
                     <option value="Automática">Automática</option>
                     <option value="Manual">Manual</option>
-                    <option value="Dual / Shiftronic">Dual / Shiftronic</option>
+                    <option value="Dual">Dual</option>
                   </select>
                 </div>
                 <div className="form-group">
-                  <label><Fuel size={14} style={{ display: 'inline', marginRight: '6px' }}/> Combustible</label>
-                  <select name="fuel" value={formData.fuel} onChange={handleInputChange} className="admin-select">
+                  <label><Fuel size={14} /> Combustible</label>
+                  <select name="fuel" value={formData.fuel} onChange={handleInputChange} className="admin-select" style={{ width: '100%', padding: '0.8rem', background: '#111', color: '#fff', border: '1px solid #333', borderRadius: '8px' }}>
                     <option value="Diésel">Diésel</option>
                     <option value="Gasolina">Gasolina</option>
                     <option value="Eléctrico">Eléctrico</option>
@@ -299,129 +295,95 @@ const CreateVehicle = () => {
                 </div>
               </div>
 
-              <div className="form-group-row">
-                <div className="form-group">
-                  <label>Kilometraje (Libre)</label>
-                  <input type="text" name="mileage" value={formData.mileage} onChange={handleInputChange} placeholder="Ej. 68,000 km o 0km (Importar)" />
-                </div>
-                <div className="form-group">
-                  <label><Palette size={14} style={{ display: 'inline', marginRight: '6px' }}/> Color Exterior</label>
-                  <input type="text" name="color" value={formData.color} onChange={handleInputChange} placeholder="Ej. Blanco Perla" />
-                </div>
-              </div>
-
-              <div className="form-group-row">
-                <div className="form-group">
-                  <label><Tag size={14} style={{ display: 'inline', margin: '0 6px 0 0' }}/> Etiqueta Principal</label>
-                  <input type="text" name="tag" value={formData.tag} onChange={handleInputChange} placeholder="Ej. Saliendo de Corea" />
-                </div>
-                <div className="form-group">
-                  <label>Color Etiqueta</label>
-                  <select name="tagColor" value={formData.tagColor} onChange={handleInputChange} className="admin-select">
-                    <option value="#10b981">Verde (Stock/Disponible)</option>
-                    <option value="#ef4444">Rojo (Oferta/Vendido)</option>
-                    <option value="#3b82f6">Azul (En tránsito)</option>
-                    <option value="#eab308">Dorado (Premium)</option>
-                    <option value="#6b7280">Gris (Agotado)</option>
-                  </select>
-                </div>
-              </div>
-
               <div className="form-group">
-                <label><FileText size={14} style={{ display: 'inline', margin: '0 6px 0 0' }}/> Resumen / Venta</label>
+                <label><FileText size={14} /> Descripción de Venta</label>
                 <textarea 
                   name="summary" 
                   value={formData.summary} 
                   onChange={handleInputChange} 
-                  placeholder="Escribe la reseña descriptiva del auto, por qué es único, qué incluye..." 
-                  rows="5"
-                  style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', borderRadius: '8px', padding: '1rem', width: '100%', resize: 'vertical' }}
+                  rows="4"
+                  style={{ width: '100%', padding: '1rem', background: '#111', color: '#fff', border: '1px solid #333', borderRadius: '8px', resize: 'vertical' }}
                 />
               </div>
 
               <div className="form-group">
-                <label><ImageIcon size={14} style={{ display: 'inline', margin: '0 6px 0 0' }}/> Imagen del Vehículo</label>
-                <div className="file-upload-wrapper" style={{ border: '2px dashed rgba(234, 179, 8, 0.3)', borderRadius: '12px', padding: '1rem', textAlign: 'center' }}>
-                  <input type="file" id="admin-image-upload" accept="image/*" onChange={handleImageChange} className="file-upload-input" style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, opacity: 0, cursor: 'pointer' }} />
-                  <div className="file-upload-custom" style={{ color: formData.image ? '#10b981' : '#eab308' }}>
-                    {formData.image ? 'Imagen guardada correctamente. Haz clic si deseas reemplazarla.' : 'Sube una foto (.PNG o .JPG)'}
-                  </div>
+                <label><ImageIcon size={14} /> Fotografía Principal</label>
+                <div style={{ position: 'relative', border: '2px dashed #333', borderRadius: '15px', padding: '2rem', textAlign: 'center' }}>
+                  <input type="file" accept="image/*" onChange={handleImageChange} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer' }} />
+                  {formData.image ? (
+                    <img src={formData.image} alt="Upload" style={{ maxHeight: '150px', borderRadius: '10px' }} />
+                  ) : (
+                    <div style={{ color: '#6b7280' }}>
+                      <ImageIcon size={32} style={{ marginBottom: '10px', opacity: 0.5 }} />
+                      <p>Arrastra o selecciona una imagen</p>
+                    </div>
+                  )}
                 </div>
-                {formData.image && (
-                  <div className="image-preview" style={{ marginTop: '1rem', borderRadius: '12px', overflow: 'hidden' }}>
-                    <img src={formData.image} alt="Previsualización" style={{ width: '100%', height: 'auto', display: 'block' }} />
-                  </div>
-                )}
               </div>
 
-              <div className="form-actions" style={{ marginTop: '2rem' }}>
-                {isEditing && (
-                  <button type="button" className="btn-cancel" onClick={() => { setIsEditing(false); setFormData(initialFormState); }}>
-                    Cancelar Edición
-                  </button>
-                )}
-                <button type="submit" className="btn-submit" disabled={loading} style={{ background: '#eab308', color: '#000', border: 'none', padding: '1rem 2rem', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', flex: 1 }}>
-                  {loading ? 'Subiendo...' : (isEditing ? 'Guardar Cambios Oficiales' : '✅ Publicar en Catálogo')}
-                </button>
-              </div>
-
+              <button type="submit" disabled={loading} style={{ 
+                width: '100%', 
+                marginTop: '1.5rem',
+                background: isEditing ? '#3b82f6' : '#eab308', 
+                color: isEditing ? '#fff' : '#000', 
+                padding: '1.1rem', 
+                borderRadius: '12px', 
+                fontWeight: 'bold', 
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}>
+                {loading ? 'Procesando...' : (isEditing ? <><CheckCircle size={20}/> Guardar Cambios</> : <><Plus size={20}/> Publicar Vehículo</>)}
+              </button>
             </form>
           </div>
         </div>
 
-        {/* Lado derecho: Catálogo */}
-        <div className="vender-auto-list-section" style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
-          <h2 style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '1rem' }}>Vehículos Publicados ({vehiculos.length})</h2>
-          
-          <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
-            <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
-            <input 
-              type="text" 
-              placeholder="Buscar vehículo..." 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.8rem', background: '#111', border: '1px solid rgba(255, 255, 255, 0.1)', color: '#fff', borderRadius: '8px', fontSize: '0.95rem' }}
-            />
+        {/* Lado derecho: Lista */}
+        <div className="vender-auto-list-section" style={{ flex: '1' }}>
+          <div style={{ marginBottom: '1.5rem' }}>
+             <h2 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '1rem' }}>Inventario Actual ({vehiculos.length})</h2>
+             <div style={{ position: 'relative' }}>
+                <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#4b5563' }} />
+                <input 
+                  type="text" 
+                  placeholder="Filtrar por nombre..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.5rem', background: 'rgba(255,255,255,0.03)', border: '1px solid #222', borderRadius: '12px', color: '#fff' }}
+                />
+             </div>
           </div>
 
-          {loading && vehiculos.length === 0 ? (
-             <p style={{ color: '#9ca3af' }}>Cargando catálogo...</p>
-          ) : filteredVehicles.length === 0 ? (
-            <div className="empty-state" style={{ background: 'rgba(255,255,255,0.02)', border: '1px dashed rgba(255,255,255,0.1)', padding: '3rem 2rem', borderRadius: '16px', textAlign: 'center' }}>
-              <p style={{ color: '#9ca3af' }}>{vehiculos.length === 0 ? 'No hay vehículos publicados.' : 'No se encontraron resultados.'}</p>
-            </div>
-          ) : (
-            <div className="vehiculos-list admin-scrollable-list" style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '750px', overflowY: 'auto', paddingRight: '12px' }}>
-              {filteredVehicles.map(vehiculo => (
-                <div key={vehiculo.id} className="vehiculo-card" style={{ background: '#111', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', overflow: 'hidden' }}>
-                  
-                  <div className="vehiculo-card-image" style={{ width: '140px', background: '#000', flexShrink: 0 }}>
-                    <img src={vehiculo.image} alt={vehiculo.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    {vehiculo.tag && (
-                      <span style={{ position: 'absolute', top: '8px', left: '8px', background: vehiculo.tagColor || '#10b981', color: '#fff', fontSize: '0.65rem', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
-                        {vehiculo.tag}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="vehiculo-card-content" style={{ padding: '1rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <h3 style={{ margin: '0 0 0.2rem 0', fontSize: '1rem', color: '#fff' }}>{vehiculo.name}</h3>
-                    <p style={{ color: '#eab308', margin: '0 0 0.5rem 0', fontSize: '0.9rem', fontWeight: 'bold' }}>₡{Number(vehiculo.price).toLocaleString()}</p>
-                    
-                    <small style={{ color: '#9ca3af', marginBottom: 'auto' }}>{vehiculo.year} • {vehiculo.type}</small>
-                    
-                    <div className="vehiculo-actions" style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
-                      <button className="btn-edit" onClick={() => handleEdit(vehiculo)} style={{ background: 'rgba(59,130,246,0.1)', color: '#3b82f6', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', flex: 1, fontSize: '0.85rem' }}>Editar</button>
-                      <button className="btn-delete" onClick={() => confirmDelete(vehiculo)} style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'none', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', flex: 1, fontSize: '0.85rem' }}>Eliminar</button>
-                    </div>
-                  </div>
+          <div className="admin-scrollable-list" style={{ display: 'grid', gap: '1rem', maxHeight: '800px', overflowY: 'auto', paddingRight: '8px' }}>
+            {filteredVehicles.map(v => (
+              <div key={v.id} style={{ 
+                background: 'rgba(255,255,255,0.02)', 
+                borderRadius: '16px', 
+                border: '1px solid rgba(255,255,255,0.05)',
+                padding: '1rem',
+                display: 'flex',
+                gap: '1rem',
+                alignItems: 'center'
+              }}>
+                <img src={v.image} alt="" style={{ width: '80px', height: '60px', borderRadius: '8px', objectFit: 'cover' }} />
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ color: '#fff', fontSize: '0.95rem', margin: 0 }}>{v.name}</h4>
+                  <p style={{ color: '#eab308', fontSize: '0.85rem', margin: '2px 0' }}>₡{Number(v.price).toLocaleString()}</p>
+                  <small style={{ color: '#4b5563' }}>{v.year} • {v.fuel}</small>
                 </div>
-              ))}
-            </div>
-          )}
+                <div style={{ display: 'flex', gap: '0.4rem' }}>
+                  <button onClick={() => handleEdit(v)} style={{ background: 'rgba(59,130,246,0.1)', color: '#3b82f6', border: 'none', padding: '8px', borderRadius: '8px', cursor: 'pointer' }}><Edit size={16}/></button>
+                  <button onClick={() => confirmDelete(v)} style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'none', padding: '8px', borderRadius: '8px', cursor: 'pointer' }}><Trash2 size={16}/></button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-
     </div>
   );
 };

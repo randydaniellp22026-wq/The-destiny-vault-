@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import { Edit2, Trash2, Plus, CheckCircle } from 'lucide-react';
 import './DiseñoReseñas.css';
 
 const darkSwal = {
@@ -12,7 +13,7 @@ const darkSwal = {
     }
 };
 
-const API_URL = 'http://localhost:3000/reviews';
+const API_URL = 'http://localhost:5000/reviews';
 
 const Reseñas = () => {
     const [reviews, setReviews] = useState([]);
@@ -217,7 +218,7 @@ const Reseñas = () => {
                 <p>Nuestra reputación se basa en la satisfacción de quienes confían en nosotros. Gestiona y visualiza las experiencias de nuestra comunidad.</p>
                 <button className="btn-primary-gold" onClick={toggleModal}>
                     <span>Dejar mi reseña</span>
-                    <i className="fas fa-plus"></i>
+                    <Plus size={18} />
                 </button>
             </div>
 
@@ -347,10 +348,10 @@ const ReviewCard = ({ review, isAdmin, currentUserId, onDelete, onEdit }) => {
             {canManage && (
                 <div className="admin-actions">
                     <button className="action-btn edit-btn" onClick={(e) => { e.stopPropagation(); onEdit(); }} title="Editar">
-                        <i className="fas fa-edit"></i>
+                        <Edit2 size={16} />
                     </button>
                     <button className="action-btn delete-btn" onClick={(e) => { e.stopPropagation(); onDelete(); }} title="Eliminar">
-                        <i className="fas fa-trash"></i>
+                        <Trash2 size={16} />
                     </button>
                 </div>
             )}
@@ -388,7 +389,7 @@ const ReviewCard = ({ review, isAdmin, currentUserId, onDelete, onEdit }) => {
                 </div>
                 {review.verified && (
                     <div className="verified-badge">
-                        <i className="fas fa-check-circle"></i>
+                        <CheckCircle size={14} />
                         <span>Verificado</span>
                     </div>
                 )}

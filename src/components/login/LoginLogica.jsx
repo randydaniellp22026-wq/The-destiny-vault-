@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const API_URL = 'http://127.0.0.1:3000';
+const API_URL = 'http://localhost:5000';
 
 const darkSwal = {
   background: '#0a0a0a',
@@ -70,7 +70,7 @@ export const useLoginLogic = () => {
           title: '¡Bienvenido!',
           text: `Sesión iniciada como ${user.nombre}`
         }).then(() => {
-          window.location.href = '/reseñas';
+          navigate('/');
         });
       } else {
         throw new Error('Credenciales incorrectas. Verifica tu correo y contraseña.');

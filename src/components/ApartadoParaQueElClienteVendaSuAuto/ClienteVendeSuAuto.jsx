@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { User, Mail, Phone } from 'lucide-react';
 import './DiseñoClienteVendeSuAuto.css';
 
 const darkSwal = {
@@ -9,7 +10,7 @@ const darkSwal = {
   confirmButtonColor: '#f5b400'
 };
 
-const API_URL = 'http://127.0.0.1:5000/sale_requests';
+const API_URL = 'http://localhost:5000/sale_requests';
 
 const initialFormState = {
   id: null,
@@ -44,7 +45,7 @@ const ClienteVendeSuAuto = () => {
         ...darkSwal,
         icon: 'warning',
         title: 'Acceso Denegado',
-        text: 'Por favor inicia sesión para poder vender tu auto.',
+        text: 'Por favor inicia sesión para poder entregar tu auto como parte de pago.',
       }).then(() => {
         navigate('/login');
       });
@@ -67,7 +68,7 @@ const ClienteVendeSuAuto = () => {
 
   const fetchAllUsers = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:3000/users');
+      const response = await fetch('http://localhost:5000/users');
       if (response.ok) {
         const users = await response.json();
         const map = {};
@@ -256,8 +257,8 @@ const ClienteVendeSuAuto = () => {
           setVehiculos([newRequest, ...vehiculos]);
           Swal.fire({
             icon: 'success',
-            title: '¡Enviado!',
-            text: 'Tu solicitud ha sido registrada correctamente.',
+            title: '¡Recibido!',
+            text: 'Tu solicitud de avalúo ha sido registrada correctamente.',
             background: '#141414',
             color: '#fff',
             confirmButtonColor: '#f5b400'
@@ -286,7 +287,7 @@ const ClienteVendeSuAuto = () => {
       ...darkSwal,
       icon: 'warning',
       title: '¿Estás seguro?',
-      text: `Se eliminará la solicitud de venta para: ${vehiculo.marca} ${vehiculo.modelo}. Esta acción no se puede deshacer.`,
+      text: `Se eliminará la solicitud de avalúo para: ${vehiculo.marca} ${vehiculo.modelo}. Esta acción no se puede deshacer.`,
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
@@ -329,15 +330,15 @@ const ClienteVendeSuAuto = () => {
   return (
     <div className="vender-auto-container">
       <div className="vender-auto-header">
-        <h1>Vender mi auto</h1>
-        <p>Gestiona las solicitudes de venta de tus vehículos a nuestra plataforma.</p>
+        <h1>Tu auto como parte de pago</h1>
+        <p>Usa tu vehículo actual como prima o crédito para adquirir tu nuevo auto con nosotros.</p>
       </div>
 
       <div className="vender-auto-layout">
         {/* Panel Izquierdo: Formulario */}
         <div className="vender-auto-form-section">
           <div className="form-card-glow">
-            <h2>{isEditing ? 'Editar Solicitud' : 'Nueva Solicitud de Venta'}</h2>
+            <h2>{isEditing ? 'Editar Solicitud' : 'Solicitar Evaluación de Auto'}</h2>
             <form className="vender-auto-form" onSubmit={handleSubmit}>
               
               <div className="form-group-row">
@@ -435,7 +436,7 @@ const ClienteVendeSuAuto = () => {
                   </button>
                 )}
                 <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Procesando...' : (isEditing ? 'Guardar Cambios' : 'Enviar solicitud')}
+                  {loading ? 'Procesando...' : (isEditing ? 'Guardar Cambios' : 'Enviar para Avalúo')}
                 </button>
               </div>
 
@@ -445,14 +446,14 @@ const ClienteVendeSuAuto = () => {
 
         {/* Panel Derecho: Lista de Autos */}
         <div className="vender-auto-list-section">
-          <h2>{isAdminOrManager ? 'Solicitudes Globales' : 'Mis Solicitudes'} ({vehiculos.length})</h2>
+          <h2>{isAdminOrManager ? 'Gestión de Avalúos' : 'Mis Solicitudes'} ({vehiculos.length})</h2>
           
           {loading && vehiculos.length === 0 ? (
              <div className="loading-req">Cargando solicitudes...</div>
           ) : vehiculos.length === 0 ? (
             <div className="empty-state">
-              <p>No tienes vehículos registrados para la venta.</p>
-              <span>Completa el formulario para enviar tu primera solicitud.</span>
+              <p>No tienes vehículos registrados para avalúo.</p>
+              <span>Completa el formulario para iniciar tu proceso de Trade-in.</span>
             </div>
           ) : (
             <div className="vehiculos-list">
@@ -464,7 +465,7 @@ const ClienteVendeSuAuto = () => {
                     ) : (
                       <div className="no-image">Sin imagen</div>
                     )}
-                    <span className={`status-badge ${getStatusColor(vehiculo.estado)}`}>
+                    <span className={`vende-status-badge ${getStatusColor(vehiculo.estado)}`}>
                       {vehiculo.estado}
                     </span>
                   </div>
@@ -481,10 +482,10 @@ const ClienteVendeSuAuto = () => {
                     
                     {isAdminOrManager && usersMap[vehiculo.userId] && (
                       <div className="seller-info">
-                        <h4>Datos del Vendedor:</h4>
-                        <p><i className="fas fa-user"></i> {usersMap[vehiculo.userId].nombre}</p>
-                        <p><i className="fas fa-envelope"></i> {usersMap[vehiculo.userId].email || usersMap[vehiculo.userId].correo}</p>
-                        <p><i className="fas fa-phone"></i> {usersMap[vehiculo.userId].telefono || 'Sin teléfono'}</p>
+                        <h4>Datos del Cliente (Trade-in):</h4>
+                        <p><User size={14} /> {usersMap[vehiculo.userId].nombre}</p>
+                        <p><Mail size={14} /> {usersMap[vehiculo.userId].email || usersMap[vehiculo.userId].correo}</p>
+                        <p><Phone size={14} /> {usersMap[vehiculo.userId].telefono || 'Sin teléfono'}</p>
                       </div>
                     )}
                     

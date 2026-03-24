@@ -107,7 +107,7 @@ export const useRedireccionContactosLogica = () => {
 
     setLoading(true);
 
-    fetch('http://127.0.0.1:5000/requests', {
+    fetch('http://localhost:5000/requests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(requestPayload)
@@ -142,6 +142,7 @@ export const useRedireccionContactosLogica = () => {
 
   return {
     formData,
+    setFormData,
     loading,
     handleChange,
     sendEmail

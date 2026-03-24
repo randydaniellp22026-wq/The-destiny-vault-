@@ -40,6 +40,7 @@ const AppRoutes = () => {
       <Route path="/admin/users" element={<AdminRoute><AdminLayout><UserManagement /></AdminLayout></AdminRoute>} />
       <Route path="/admin/requests" element={<AdminRoute><AdminLayout><ReviewRequests /></AdminLayout></AdminRoute>} />
       <Route path="/admin/create-vehicle" element={<AdminRoute><AdminLayout><CreateVehicle /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/reviews" element={<AdminRoute><AdminLayout><Reseñas /></AdminLayout></AdminRoute>} />
     </Routes>
   );
 };

@@ -2,6 +2,9 @@ import React from 'react';
 import { Heart } from 'lucide-react';
 import { useVehicleCardLogica } from './VehicleCardLogica';
 import { useNavigate } from 'react-router-dom';
+import SlideTextButton from '../SlideTextButton/SlideTextButton';
+import BorderBeam from '../BorderBeam/BorderBeam';
+import ShimmerText from '../ShimmerText/ShimmerText';
 import './VehicleCard.css';
 
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
@@ -11,7 +14,8 @@ const VehicleCard = ({ vehicle }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="vehicle-card card-base">
+    <div className="vehicle-card card-base" style={{ position: 'relative', borderRadius: '1rem' }}>
+      <BorderBeam duration={10} size={25} borderWidth={1.2} />
       <div className="card-image-wrapper">
         <img 
           src={localImages[vehicle.image] || vehicle.image} 
@@ -61,13 +65,13 @@ const VehicleCard = ({ vehicle }) => {
         </div>
 
         <div className="card-footer">
-          <div className="vehicle-price">₡{vehicle.price.toLocaleString('es-CR')}</div>
-          <button 
+          <ShimmerText className="vehicle-price" text={`₡${vehicle.price.toLocaleString('es-CR')}`} as="div" shimmerWidth={100} />
+          <SlideTextButton
+            text="Detalles"
+            hoverText="Ver más"
             className="btn btn-primary btn-sm"
             onClick={() => navigate(`/details/${vehicle.id || 'default'}`, { state: { vehicle } })}
-          >
-            Detalles
-          </button>
+          />
         </div>
       </div>
     </div>

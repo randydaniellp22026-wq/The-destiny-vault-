@@ -25,7 +25,7 @@ export const useCreditSimulatorLogica = () => {
   // Fetch logic for credit simulator vehicles
   useEffect(() => {
     setLoading(true);
-    fetch('http://127.0.0.1:3000/vehicles')
+    fetch('http://localhost:5000/vehicles')
       .then(res => res.json())
       .then(data => {
         setVehicles(data || []);
