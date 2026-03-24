@@ -10,12 +10,9 @@ import {
   ArrowUpRight,
   RefreshCw,
   TrendingUp,
-  PieChart as PieIcon,
-  BarChart as BarIcon,
   Search,
-  Trash2,
-  Edit,
-  CarFront
+  PieChart as PieIcon,
+  BarChart as BarIcon
 } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -91,17 +88,30 @@ const AdminDashboard = () => {
     }
   };
 
-  const updateTradeInStatus = async (id, newStatus) => {
+  const updateTradeInStatus = async (id, newStatus, message = '') => {
     try {
       const res = await fetch(`http://localhost:5000/sale_requests/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ estado: newStatus })
+        body: JSON.stringify({ 
+          estado: newStatus,
+          respuesta_admin: message 
+        })
       });
       if (res.ok) {
-        setTradeInList(prev => prev.map(item => item.id === id ? { ...item, estado: newStatus } : item));
+        setTradeInList(prev => prev.map(item => item.id === id ? { ...item, estado: newStatus, respuesta_admin: message } : item));
         // Actualizar el gráfico
         fetchStats(); 
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Sistema Actualizado',
+          text: `La solicitud ha sido marcada como ${newStatus}.`,
+          background: '#141414',
+          color: '#fff',
+          timer: 1500,
+          showConfirmButton: false
+        });
       }
     } catch (error) {
       console.error("Error updating status:", error);
@@ -195,6 +205,11 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     fetchStats();
+    
+    // Polling cada 30 segundos para actualización en "tiempo real"
+    const interval = setInterval(fetchStats, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -372,59 +387,70 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* Gráfico 5: Estadísticas Detalladas de Trade-in (Ancho Completo) */}
+            {/* Gráfico 5: Estadísticas Detalladas de Trade-in */}
             <div className="chart-card tradein-full-chart" style={{ 
-              background: 'linear-gradient(135deg, rgba(20,20,20,0.8) 0%, rgba(10,10,10,0.9) 100%)', 
+              background: 'linear-gradient(145deg, rgba(15,15,15,0.9) 0%, rgba(5,5,5,1) 100%)', 
               padding: '2.5rem', 
               borderRadius: '24px', 
-              border: '1px solid rgba(234, 179, 8, 0.1)',
+              border: '1px solid rgba(168, 85, 247, 0.15)',
               gridColumn: '1 / -1',
               marginTop: '1rem',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+              boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '2rem'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                  <h3 style={{ color: '#fff', fontSize: '1.2rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
-                    <RefreshCw size={22} style={{ color: '#a855f7' }} /> Estado de Solicitudes Trade-in (Autos en Pago)
+                  <h3 style={{ color: '#fff', fontSize: '1.4rem', fontWeight: '800', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                    <RefreshCw size={26} style={{ color: '#a855f7' }} /> Estado de Solicitudes Trade-in
                   </h3>
-                  <p style={{ color: '#9ca3af', fontSize: '0.9rem' }}>Distribución de los vehículos enviados por clientes para ser usados como crédito.</p>
+                  <p style={{ color: '#6b7280', fontSize: '0.95rem' }}>Análisis de distribución de vehículos de clientes en proceso de canje.</p>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <span style={{ display: 'block', color: '#a855f7', fontSize: '1.8rem', fontWeight: 'bold' }}>{stats.tradeIn}</span>
-                  <span style={{ color: '#4b5563', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Total Recibidas</span>
+                <div style={{ textAlign: 'right', background: 'rgba(168, 85, 247, 0.05)', padding: '15px 25px', borderRadius: '15px', border: '1px solid rgba(168, 85, 247, 0.1)' }}>
+                  <span style={{ display: 'block', color: '#a855f7', fontSize: '2.2rem', fontWeight: '900', lineHeight: 1 }}>{stats.tradeIn}</span>
+                  <span style={{ color: '#4b5563', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: '700' }}>Solicitudes Totales</span>
                 </div>
               </div>
-
-              <div style={{ height: '350px', width: '100%' }}>
+              
+              <div style={{ height: '350px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dataSets.tradeInData} layout="vertical" margin={{ left: 40, right: 40 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" horizontal={true} vertical={false} />
-                    <XAxis type="number" hide />
-                    <YAxis 
-                      dataKey="name" 
-                      type="category" 
-                      stroke="#fff" 
-                      fontSize={13} 
-                      width={120}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <Tooltip 
-                      cursor={{fill: 'rgba(255,255,255,0.03)'}} 
-                      contentStyle={{ background: '#000', border: '1px solid #333', borderRadius: '12px' }}
-                    />
-                    <Bar dataKey="value" name="Solicitudes" barSize={40} radius={[0, 20, 20, 0]}>
+                  <PieChart>
+                    <Pie
+                      data={dataSets.tradeInData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={120}
+                      paddingAngle={10}
+                      dataKey="value"
+                      stroke="none"
+                    >
                       {dataSets.tradeInData.map((entry, index) => {
-                        // Colores específicos por estado
                         const colors = {
                           'Aprobado': '#10b981',
                           'Rechazado': '#ef4444',
                           'En revisión': '#eab308'
                         };
-                        return <Cell key={`cell-${index}`} fill={colors[entry.name] || '#6b7280'} />;
+                        return <Cell key={`cell-${index}`} fill={colors[entry.name] || '#6b7280'} cornerRadius={10} />;
                       })}
-                    </Bar>
-                  </BarChart>
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{ background: '#0a0a0a', border: '1px solid #333', borderRadius: '12px', boxShadow: '0 10px 20px rgba(0,0,0,0.5)' }}
+                      itemStyle={{ color: '#fff' }}
+                    />
+                    <Legend 
+                      verticalAlign="middle" 
+                      align="right" 
+                      layout="vertical"
+                      iconType="circle"
+                      formatter={(value, entry) => (
+                        <span style={{ color: '#9ca3af', fontSize: '1rem', fontWeight: '500', marginLeft: '10px' }}>
+                          {value}: <span style={{ color: '#fff', fontWeight: '700' }}>{entry.payload.value}</span>
+                        </span>
+                      )}
+                    />
+                  </PieChart>
                 </ResponsiveContainer>
               </div>
             </div>
@@ -459,33 +485,85 @@ const AdminDashboard = () => {
                   <div>
                     <h4 style={{ color: '#fff', margin: 0 }}>{item.marca} {item.modelo} ({item.anio})</h4>
                     <p style={{ color: '#6b7280', fontSize: '0.85rem', margin: '4px 0' }}>Precio pretendido: <span style={{ color: '#eab308' }}>₡{parseInt(item.precio).toLocaleString()}</span></p>
-                    <span style={{ 
-                      fontSize: '0.7rem', 
-                      padding: '2px 8px', 
-                      borderRadius: '4px', 
-                      background: item.estado === 'Aprobado' ? 'rgba(16,185,129,0.1)' : item.estado === 'Rechazado' ? 'rgba(239,68,68,0.1)' : 'rgba(234,179,8,0.1)',
-                      color: item.estado === 'Aprobado' ? '#10b981' : item.estado === 'Rechazado' ? '#ef4444' : '#eab308'
-                    }}>
-                      {item.estado || 'En revisión'}
-                    </span>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <span style={{ 
+                        fontSize: '0.7rem', 
+                        padding: '2px 8px', 
+                        borderRadius: '4px', 
+                        background: item.estado === 'Aprobado' ? 'rgba(16,185,129,0.1)' : item.estado === 'Rechazado' ? 'rgba(239,68,68,0.1)' : 'rgba(234,179,8,0.1)',
+                        color: item.estado === 'Aprobado' ? '#10b981' : item.estado === 'Rechazado' ? '#ef4444' : '#eab308'
+                      }}>
+                        {item.estado || 'En revisión'}
+                      </span>
+                      {item.respuesta_admin && (
+                        <span style={{ color: '#6b7280', fontSize: '0.75rem', fontStyle: 'italic' }}>
+                          - {item.respuesta_admin}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
                   <button 
-                    onClick={() => updateTradeInStatus(item.id, 'Aprobado')}
+                    onClick={() => {
+                      Swal.fire({
+                        title: 'Aprobar Trade-in',
+                        text: 'Ingresa un comentario o razón de aprobación:',
+                        input: 'textarea',
+                        inputPlaceholder: 'Ej: Valoración aceptada según estado físico...',
+                        background: '#141414',
+                        color: '#fff',
+                        confirmButtonColor: '#10b981',
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirmar Aprobación'
+                      }).then(res => {
+                        if (res.isConfirmed) updateTradeInStatus(item.id, 'Aprobado', res.value);
+                      });
+                    }}
                     style={{ background: '#10b981', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px' }}
                   >
                     <ShieldCheck size={16} /> Aprobar
                   </button>
                   <button 
-                    onClick={() => updateTradeInStatus(item.id, 'En revisión')}
+                    onClick={() => {
+                      Swal.fire({
+                        title: 'Poner en Revisión',
+                        text: 'Indica qué hace falta para completar la valoración:',
+                        input: 'textarea',
+                        inputPlaceholder: 'Ej: Pendiente de inspección mecánica...',
+                        background: '#141414',
+                        color: '#fff',
+                        confirmButtonColor: '#eab308',
+                        showCancelButton: true,
+                        confirmButtonText: 'Guardar'
+                      }).then(res => {
+                        if (res.isConfirmed) updateTradeInStatus(item.id, 'En revisión', res.value);
+                      });
+                    }}
                     style={{ background: '#333', color: '#eab308', border: '1px solid #eab308', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer' }}
                   >
-                    En revisión
+                    Revisión
                   </button>
                   <button 
-                    onClick={() => updateTradeInStatus(item.id, 'Rechazado')}
+                    onClick={() => {
+                      Swal.fire({
+                        title: 'Rechazar Trade-in',
+                        text: '¿Por qué se rechaza este vehículo?',
+                        input: 'textarea',
+                        inputPlaceholder: 'Ej: Kilometraje excedido o daños estructurales...',
+                        background: '#141414',
+                        color: '#fff',
+                        confirmButtonColor: '#ef4444',
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirmar Rechazo',
+                        inputValidator: (value) => {
+                          if (!value) return 'Debes indicar un motivo para el rechazo';
+                        }
+                      }).then(res => {
+                        if (res.isConfirmed) updateTradeInStatus(item.id, 'Rechazado', res.value);
+                      });
+                    }}
                     style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer' }}
                   >
                     Rechazar
@@ -494,58 +572,6 @@ const AdminDashboard = () => {
               </div>
             ))
           )}
-        </div>
-      </div>
-
-      {/* Gestión Directa de Inventario */}
-      <div className="inventory-management-section" style={{ marginTop: '3rem' }}>
-        <h2 style={{ color: '#fff', fontSize: '1.5rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-          <CarFront size={24} style={{ color: '#eab308' }} /> Gestión de Inventario Reciente
-        </h2>
-        
-        <div className="inventory-grid" style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
-          gap: '1.5rem' 
-        }}>
-          {vehicleList.slice(0, 4).map(v => (
-            <div key={v.id} style={{ 
-              background: 'rgba(255,255,255,0.02)', 
-              borderRadius: '20px', 
-              border: '1px solid rgba(255,255,255,0.05)',
-              overflow: 'hidden',
-              transition: 'transform 0.3s ease'
-            }}>
-              <div style={{ height: '160px', position: 'relative' }}>
-                <img src={v.image} alt={v.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', top: '10px', right: '10px', background: v.tagColor || '#10b981', color: '#fff', fontSize: '0.7rem', padding: '4px 10px', borderRadius: '20px', fontWeight: 'bold' }}>
-                  {v.tag}
-                </div>
-              </div>
-              <div style={{ padding: '1.2rem' }}>
-                <h4 style={{ color: '#fff', margin: '0 0 0.5rem 0', fontSize: '1.1rem' }}>{v.name}</h4>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <span style={{ color: '#eab308', fontWeight: '700', fontSize: '1rem' }}>₡{(v.price || 0).toLocaleString()}</span>
-                  <span style={{ color: '#6b7280', fontSize: '0.8rem' }}>{v.year}</span>
-                </div>
-                <div style={{ display: 'flex', gap: '0.6rem' }}>
-                  <button 
-                    onClick={() => window.location.href = `/admin/create-vehicle?edit=${v.id}`}
-                    style={{ flex: 1, background: 'rgba(59,130,246,0.1)', color: '#3b82f6', border: 'none', padding: '8px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
-                  >
-                    <Edit size={16} /> Editar
-                  </button>
-                  <button 
-                    onClick={() => deleteVehicle(v.id, v.name)}
-                    style={{ background: 'rgba(239,68,68,0.1)', color: '#ef4444', border: 'none', padding: '8px 12px', borderRadius: '10px', cursor: 'pointer' }}
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-          {vehicleList.length === 0 && <p style={{ color: '#4b5563' }}>Cargando inventario...</p>}
         </div>
       </div>
 

@@ -76,26 +76,33 @@ const ReviewRequests = () => {
       Swal.fire({
         ...darkSwal,
         title: '¿Aceptar Solicitud?',
-        text: 'El cliente podrá ser contactado para formalizar.',
+        text: 'Agrega un comentario opcional para el cliente (ej: Horario disponible):',
+        input: 'textarea',
+        inputPlaceholder: 'Comentario opcional...',
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Aceptar',
         cancelButtonText: 'Cancelar'
       }).then((result) => {
-        if (result.isConfirmed) updateRequestStatus(request.id, 'accepted');
+        if (result.isConfirmed) updateRequestStatus(request.id, 'accepted', result.value);
       });
     } else if (action === 'reject') {
       Swal.fire({
         ...darkSwal,
         title: '¿Rechazar Solicitud?',
-        text: 'Esta acción la archivará como rechazada.',
+        text: 'Debes indicar el motivo del rechazo:',
+        input: 'textarea',
+        inputPlaceholder: 'Ej: Datos de contacto inválidos o fuera de horario...',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#e63946',
+        confirmButtonColor: '#ef4444',
         confirmButtonText: 'Rechazar',
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
+        inputValidator: (value) => {
+          if (!value) return 'El motivo de rechazo es obligatorio';
+        }
       }).then((result) => {
-        if (result.isConfirmed) updateRequestStatus(request.id, 'rejected');
+        if (result.isConfirmed) updateRequestStatus(request.id, 'rejected', result.value);
       });
     } else if (action === 'reply') {
       Swal.fire({

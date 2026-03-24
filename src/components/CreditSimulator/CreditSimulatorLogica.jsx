@@ -16,7 +16,8 @@ export const useCreditSimulatorLogica = () => {
   
   // State for required documents
   const [documents, setDocuments] = useState({
-    idCard: null,
+    idCardFront: null,
+    idCardBack: null,
     employmentOrder: null,
     paymentStubs: null,
     salaryConfirmation: null

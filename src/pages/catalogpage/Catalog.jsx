@@ -1,5 +1,5 @@
 import React from 'react';
-import VehicleCatalog from '../components/CatalogoDeVehiculos/VehicleCatalog';
+import VehicleCatalog from '../../components/CatalogoDeVehiculos/VehicleCatalog';
 import './Catalog.css';
 
 const Catalog = () => {

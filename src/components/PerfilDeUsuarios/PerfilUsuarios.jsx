@@ -110,6 +110,52 @@ function PerfilUsuarios() {
       return;
     }
 
+    const fetchAllUserRequests = async (user) => {
+      try {
+        if (!user.id && !user.email) return;
+
+        // Buscamos todas las peticiones para filtrar manualmente por email (case-insensitive) y userId
+        const [contactRes, tradeInRes] = await Promise.all([
+          fetch(`http://localhost:5000/requests`),
+          fetch(`http://localhost:5000/sale_requests?userId=${user.id}`)
+        ]);
+
+        const allContactRequests = await contactRes.json();
+        const tradeInData = await tradeInRes.json();
+
+        // Filtrar contactos por email ignorando mayúsculas/minúsculas
+        const userEmail = (user.email || '').toLowerCase();
+        const filteredContacts = allContactRequests.filter(req => 
+          (req.user_email || '').toLowerCase() === userEmail
+        );
+
+        // Normalizar trade-ins
+        const normalizedTradeIn = tradeInData.map(item => ({
+          id: item.id,
+          subject: `Trade-in: ${item.marca} ${item.modelo}`,
+          message: item.descripcion || 'Sin descripción',
+          status: item.estado || 'pending',
+          date: item.date || new Date().toISOString(),
+          reply: item.respuesta_admin || null,
+          type: 'tradein'
+        }));
+
+        // Normalizar contactos
+        const normalizedContacts = filteredContacts.map(item => ({
+          ...item,
+          type: 'contact',
+          reply: item.reply || null
+        }));
+
+        const combined = [...normalizedContacts, ...normalizedTradeIn]
+          .sort((a,b) => new Date(b.date) - new Date(a.date));
+
+        setUserRequests(combined);
+      } catch (err) {
+        console.error("Error fetching requests:", err);
+      }
+    };
+
     const loadData = async () => {
       const user = JSON.parse(savedUser);
       setUserInfo({
@@ -121,19 +167,23 @@ function PerfilUsuarios() {
         location: user.ubicacion || 'San José',
         preciseAddress: user.direccion_precisa || 'Sin dirección registrada',
         image: user.image || '',
-        favorites: user.favorites || []
+        favorites: user.favorites || [],
+        tracking: user.tracking || {
+          vehicleName: 'Hyundai Tucson TGDI',
+          importStatus: 3,
+          estimatedDate: '25 Abr 2026',
+          location: 'Puerto de Moín, Limón',
+          vessel: 'Maersk Line • V0924',
+          statusText: 'En trámite aduanal'
+        }
       });
 
       try {
-        // Obtenemos todos los vehículos del servidor para filtrar los favoritos
         const res = await fetch('http://localhost:5000/vehicles');
         const allVehiclesFromDb = await res.json();
-        setAllVehicles(allVehiclesFromDb); // Guardar lista maestra para agregar manual
+        setAllVehicles(allVehiclesFromDb);
 
-        // Filtramos solo los que el usuario tiene en su array de favoritos
-        // Usamos String() para asegurar compatibilidad si el ID es número o string en db.json
         const userFavoriteIds = (user.favorites || []).map(String);
-        
         const filtered = allVehiclesFromDb
           .filter(v => userFavoriteIds.includes(String(v.id)))
           .map(v => ({
@@ -151,20 +201,101 @@ function PerfilUsuarios() {
         console.error("Error cargando favoritos:", err);
       }
 
-      // Fetch user requests for the Peticiones tab
-      try {
-        if (user.email) {
-          const reqRes = await fetch(`http://localhost:5000/requests?user_email=${encodeURIComponent(user.email)}`);
-          const reqData = await reqRes.json();
-          setUserRequests(reqData.sort((a,b) => new Date(b.date) - new Date(a.date)));
-        }
-      } catch (err) {
-        console.error("Error fetching requests:", err);
-      }
+      // Carga inicial de peticiones
+      fetchAllUserRequests(user);
     };
 
     loadData();
+
+    // Polling cada 30 segundos
+    const user = JSON.parse(savedUser);
+    const intervalId = setInterval(() => {
+      fetchAllUserRequests(user);
+    }, 30000);
+
+    return () => clearInterval(intervalId);
   }, [navigate]);
+
+  const handleUpdateTracking = () => {
+    Swal.fire({
+      title: 'Actualizar Seguimiento de Importación',
+      html: `
+        <div style="text-align: left; color: #fff;">
+          <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Nombre del Vehículo</label>
+          <input id="track-vehicle" class="swal2-input" value="${userInfo.tracking.vehicleName}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+          
+          <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Etapa de Importación</label>
+          <select id="track-status" class="swal2-input" style="margin-top:0; margin-bottom:15px; width: 90%; background: #222; color: #fff;">
+            <option value="1" ${userInfo.tracking.importStatus === 1 ? 'selected' : ''}>1. Compra Realizada</option>
+            <option value="2" ${userInfo.tracking.importStatus === 2 ? 'selected' : ''}>2. En Tránsito</option>
+            <option value="3" ${userInfo.tracking.importStatus === 3 ? 'selected' : ''}>3. En Aduanas</option>
+            <option value="4" ${userInfo.tracking.importStatus === 4 ? 'selected' : ''}>4. Entrega Final</option>
+          </select>
+
+          <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Fecha Estimada de Arribo</label>
+          <input id="track-date" class="swal2-input" value="${userInfo.tracking.estimatedDate}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+
+          <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Ubicación Actual</label>
+          <input id="track-location" class="swal2-input" value="${userInfo.tracking.location}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+
+          <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Barco / Naviera</label>
+          <input id="track-vessel" class="swal2-input" value="${userInfo.tracking.vessel}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+
+          <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Descripción del Estado</label>
+          <input id="track-text" class="swal2-input" value="${userInfo.tracking.statusText}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Guardar Cambios',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#eab308',
+      background: '#141414',
+      color: '#fff',
+      preConfirm: () => {
+        return {
+          vehicleName: document.getElementById('track-vehicle').value,
+          importStatus: parseInt(document.getElementById('track-status').value),
+          estimatedDate: document.getElementById('track-date').value,
+          location: document.getElementById('track-location').value,
+          vessel: document.getElementById('track-vessel').value,
+          statusText: document.getElementById('track-text').value
+        }
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`http://localhost:5000/users/${userInfo.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tracking: result.value })
+          });
+
+          if (res.ok) {
+            const updatedUser = await res.json();
+            // Actualizar estado local y localStorage
+            setUserInfo(prev => ({ ...prev, tracking: result.value }));
+            
+            // Actualizar localStorage para que persista al refrescar
+            const savedUser = JSON.parse(localStorage.getItem('user'));
+            savedUser.tracking = result.value;
+            localStorage.setItem('user', JSON.stringify(savedUser));
+
+            Swal.fire({
+              title: '¡Actualizado!',
+              text: 'La información de seguimiento se ha actualizado correctamente.',
+              icon: 'success',
+              confirmButtonColor: '#eab308',
+              background: '#141414',
+              color: '#fff'
+            });
+          }
+        } catch (error) {
+          console.error("Error updating tracking:", error);
+          Swal.fire('Error', 'No se pudo actualizar la información en el servidor.', 'error');
+        }
+      }
+    });
+  };
 
   const handleEditProfile = () => {
     Swal.fire({
@@ -528,10 +659,6 @@ function PerfilUsuarios() {
               <Settings size={20} />
               <span>Configuración</span>
             </li>
-            <li className={`sell-car-menu-item ${activeTab === 'Vender' ? 'active' : ''}`} onClick={() => navigate('/vender-auto')}>
-              <Car size={20} />
-              <span>Vender mi auto</span>
-            </li>
             <li className="logout-menu-item" onClick={handleLogout}>
               <LogOut size={20} />
               <span>Cerrar Sesión</span>
@@ -556,27 +683,50 @@ function PerfilUsuarios() {
               {/* 4. Estado / actividad */}
               {(activeTab === 'Dashboard' || activeTab === 'Estado') && (
                 <section className="status-section">
-                  <h2>Estado de Importación: {selectedVehicle?.name || 'Ninguno'}</h2>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <h2 style={{ margin: 0 }}>Estado de Importación: {userInfo.tracking?.vehicleName || 'Sin asignar'}</h2>
+                    {(userInfo.role === 'admin' || userInfo.role === 'gerente') && (
+                      <button 
+                        onClick={() => handleUpdateTracking()}
+                        style={{ 
+                          background: 'rgba(234,179,8,0.1)', 
+                          color: '#eab308', 
+                          border: '1px solid #eab308', 
+                          padding: '8px 16px', 
+                          borderRadius: '8px', 
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          fontSize: '0.9rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        <Edit2 size={16} /> Actualizar Tracking
+                      </button>
+                    )}
+                  </div>
+
                   <div className="progress-container">
-                    <div className={`progress-step ${selectedVehicle?.importStatus >= 1 ? 'completed' : ''}`}>
+                    <div className={`progress-step ${userInfo.tracking?.importStatus >= 1 ? 'completed' : ''}`}>
                       <div className="step-icon"><Check size={16} /></div>
                       <span>Compra realizada</span>
                     </div>
-                    <div className={`progress-line ${selectedVehicle?.importStatus > 1 ? 'completed' : (selectedVehicle?.importStatus === 1 ? 'active' : '')}`}></div>
+                    <div className={`progress-line ${userInfo.tracking?.importStatus > 1 ? 'completed' : (userInfo.tracking?.importStatus === 1 ? 'active' : '')}`}></div>
                     
-                    <div className={`progress-step ${selectedVehicle?.importStatus >= 2 ? (selectedVehicle?.importStatus === 2 ? 'active' : 'completed') : ''}`}>
+                    <div className={`progress-step ${userInfo.tracking?.importStatus >= 2 ? (userInfo.tracking?.importStatus === 2 ? 'active' : 'completed') : ''}`}>
                       <div className="step-icon"><Check size={16} /></div>
                       <span>En tránsito</span>
                     </div>
-                    <div className={`progress-line ${selectedVehicle?.importStatus > 2 ? 'completed' : (selectedVehicle?.importStatus === 2 ? 'active' : '')}`}></div>
+                    <div className={`progress-line ${userInfo.tracking?.importStatus > 2 ? 'completed' : (userInfo.tracking?.importStatus === 2 ? 'active' : '')}`}></div>
                     
-                    <div className={`progress-step ${selectedVehicle?.importStatus >= 3 ? (selectedVehicle?.importStatus === 3 ? 'active' : 'completed') : ''}`}>
+                    <div className={`progress-step ${userInfo.tracking?.importStatus >= 3 ? (userInfo.tracking?.importStatus === 3 ? 'active' : 'completed') : ''}`}>
                       <div className="step-icon"><Clock size={16} /></div>
                       <span>En aduanas</span>
                     </div>
-                    <div className={`progress-line ${selectedVehicle?.importStatus > 3 ? 'completed' : (selectedVehicle?.importStatus === 3 ? 'active' : '')}`}></div>
+                    <div className={`progress-line ${userInfo.tracking?.importStatus > 3 ? 'completed' : (userInfo.tracking?.importStatus === 3 ? 'active' : '')}`}></div>
                     
-                    <div className={`progress-step ${selectedVehicle?.importStatus >= 4 ? 'completed active' : ''}`}>
+                    <div className={`progress-step ${userInfo.tracking?.importStatus >= 4 ? 'completed active' : ''}`}>
                       <div className="step-icon"><MapPin size={16} /></div>
                       <span>Entrega final</span>
                     </div>
@@ -585,19 +735,19 @@ function PerfilUsuarios() {
                   <div className="status-details">
                     <div className="detail-item">
                       <span className="detail-label">Fecha Estimada</span>
-                      <span className="detail-value">25 Abr 2026</span>
+                      <span className="detail-value">{userInfo.tracking?.estimatedDate || 'TBD'}</span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Ubicación</span>
-                      <span className="detail-value">Puerto de Moín, Limón</span>
+                      <span className="detail-value">{userInfo.tracking?.location || 'TBD'}</span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Vessel / Naviera</span>
-                      <span className="detail-value">Maersk Line • V0924</span>
+                      <span className="detail-value">{userInfo.tracking?.vessel || 'TBD'}</span>
                     </div>
                     <div className="detail-item">
                       <span className="detail-label">Estado</span>
-                      <span className="detail-value">En trámite aduanal</span>
+                      <span className="detail-value">{userInfo.tracking?.statusText || 'Procesando...'}</span>
                     </div>
                   </div>
                 </section>
@@ -657,32 +807,97 @@ function PerfilUsuarios() {
                     </div>
                   ) : (
                     <div className="user-requests-list" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                      {userRequests.map(req => (
-                        <div key={req.id} style={{ background: '#111', border: '1px solid rgba(234,179,8,0.2)', padding: '1.5rem', borderRadius: '12px' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                            <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#fff' }}>{req.subject}</h3>
-                            <span style={{ 
-                              padding: '4px 10px', 
-                              borderRadius: '100px', 
-                              fontSize: '0.8rem', 
-                              fontWeight: '600',
-                              backgroundColor: req.status === 'accepted' ? 'rgba(16,185,129,0.2)' : req.status === 'rejected' ? 'rgba(239,68,68,0.2)' : req.status === 'replied' ? 'rgba(59,130,246,0.2)' : 'rgba(234,179,8,0.2)',
-                              color: req.status === 'accepted' ? '#10b981' : req.status === 'rejected' ? '#ef4444' : req.status === 'replied' ? '#3b82f6' : '#eab308'
-                             }}>
-                               {req.status === 'accepted' ? 'Aprobada' : req.status === 'rejected' ? 'Rechazada' : req.status === 'replied' ? 'Respondida' : 'En revisión'}
-                            </span>
-                          </div>
-                          <p style={{ margin: 0, color: '#9ca3af', fontStyle: 'italic', fontSize: '0.9rem', marginBottom: '1rem' }}>"{req.message}"</p>
-                          <small style={{ color: '#6b7280', display: 'block' }}>{new Date(req.date).toLocaleDateString()}</small>
-                          
-                          {req.reply && (
-                            <div style={{ marginTop: '1rem', background: 'rgba(234, 179, 8, 0.05)', borderLeft: '3px solid #eab308', padding: '1rem', borderRadius: '0 8px 8px 0' }}>
-                              <strong style={{ color: '#eab308', display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem' }}>Respuesta del Administrador:</strong>
-                              <p style={{ margin: 0, color: '#fff', fontSize: '0.95rem' }}>{req.reply}</p>
+                      {userRequests.map(req => {
+                        const isApproved = req.status === 'accepted' || req.status === 'Aprobado';
+                        const isRejected = req.status === 'rejected' || req.status === 'Rechazado';
+                        const isReplied = req.status === 'replied' || (req.reply && req.status === 'pending');
+                        
+                        let badgeText = 'Pendiente';
+                        let badgeColor = '#eab308';
+                        let bgBadge = 'rgba(234,179,8,0.2)';
+
+                        if (isApproved) {
+                          badgeText = 'Aprobada';
+                          badgeColor = '#10b981';
+                          bgBadge = 'rgba(16,185,129,0.2)';
+                        } else if (isRejected) {
+                          badgeText = 'Rechazada';
+                          badgeColor = '#ef4444';
+                          bgBadge = 'rgba(239,68,68,0.2)';
+                        } else if (isReplied) {
+                          badgeText = 'Respondida';
+                          badgeColor = '#3b82f6';
+                          bgBadge = 'rgba(59,130,246,0.2)';
+                        }
+
+                        return (
+                          <div key={`${req.type}-${req.id}`} style={{ background: '#111', border: '1px solid rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '16px', position: 'relative', overflow: 'hidden' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                              <div>
+                                <span style={{ fontSize: '0.65rem', color: '#eab308', textTransform: 'uppercase', fontWeight: '800', letterSpacing: '2px', display: 'block', marginBottom: '6px' }}>
+                                  {req.type === 'tradein' ? 'Venta de Auto (Trade-in)' : 'Consulta General'}
+                                </span>
+                                <h3 style={{ margin: 0, fontSize: '1.2rem', color: '#fff', fontWeight: '700' }}>{req.subject}</h3>
+                              </div>
+                              <span style={{ 
+                                padding: '6px 14px', 
+                                borderRadius: '12px', 
+                                fontSize: '0.75rem', 
+                                fontWeight: '700',
+                                backgroundColor: bgBadge,
+                                color: badgeColor,
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px'
+                               }}>
+                                 {badgeText}
+                              </span>
                             </div>
-                          )}
-                        </div>
-                      ))}
+                            
+                            <p style={{ margin: '0 0 1.2rem 0', color: '#9ca3af', fontStyle: 'italic', fontSize: '0.9rem', lineHeight: '1.6' }}>
+                              "{req.message}"
+                            </p>
+                            
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '1rem' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#6b7280' }}>
+                                <Clock size={14} />
+                                <span style={{ fontSize: '0.8rem' }}>{new Date(req.date).toLocaleDateString()}</span>
+                              </div>
+
+                              {req.reply && (
+                                <button
+                                  onClick={() => {
+                                    Swal.fire({
+                                      title: 'Respuesta de Administración',
+                                      text: req.reply,
+                                      icon: 'info',
+                                      confirmButtonText: 'Entendido',
+                                      confirmButtonColor: '#eab308',
+                                      background: '#141414',
+                                      color: '#fff'
+                                    });
+                                  }}
+                                  style={{ 
+                                    background: 'none', 
+                                    border: 'none', 
+                                    color: '#eab308', 
+                                    fontSize: '0.85rem', 
+                                    fontWeight: '600', 
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    padding: '6px 12px',
+                                    borderRadius: '8px',
+                                    backgroundColor: 'rgba(234,179,8,0.1)'
+                                  }}
+                                >
+                                  <Send size={14} /> Ver Respuesta
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </section>
@@ -695,8 +910,7 @@ function PerfilUsuarios() {
                   <div className="settings-grid">
                     <div className="settings-card">
                       <h3>Seguridad</h3>
-                      <button className="btn-settings" onClick={() => Swal.fire({ ...darkSwal, title: 'Cambiar Contraseña', input: 'password', inputPlaceholder: 'Nueva contraseña' })}>Cambiar Contraseña</button>
-                      <button className="btn-settings outline" onClick={() => Swal.fire({ ...darkSwal, icon: 'info', title: 'Autenticación en 2 Pasos', text: 'Se enviará un código a tu teléfono' })}>Activar 2FA</button>
+                      <button className="btn-settings outline" onClick={() => Swal.fire({ ...darkSwal, title: 'Cambiar Contraseña', input: 'password', inputPlaceholder: 'Nueva contraseña' })}>Cambiar Contraseña</button>
                     </div>
                     <div className="settings-card">
                       <h3>Preferencias</h3>

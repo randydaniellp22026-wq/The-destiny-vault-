@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home';
-import Catalog from '../pages/Catalog';
+import Home from '../pages/homepage/Home';
+import Catalog from '../pages/catalogpage/Catalog';
 import VehicleDetails from '../pages/VehicleDetails/VehicleDetails';
 import RegistroUsuarios from '../components/RegistroDeUsuarios/RegistroUsuarios';
 import LoginVista from '../components/login/LoginVista';
@@ -11,12 +11,14 @@ import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
 import ClienteVendeSuAuto from '../components/ApartadoParaQueElClienteVendaSuAuto/ClienteVendeSuAuto';
 import Reseñas from '../components/TechnicalGlossary/ApartadoDeReseñas/Reseñas';
+import RecuperarPassword from '../pages/RecuperarPassword/RecuperarPassword';
 
 import AdminRoute from './AdminRoute';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import ReviewRequests from '../pages/admin/ReviewRequests';
 import CreateVehicle from '../pages/admin/CreateVehicle';
 import UserManagement from '../pages/admin/UserManagement';
+import BranchManagement from '../pages/admin/BranchManagement';
 import AdminLayout from '../components/admin/AdminLayout';
 
 const AppRoutes = () => {
@@ -35,11 +37,13 @@ const AppRoutes = () => {
       <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
       <Route path="/reviews" element={<Reseñas />} />
       <Route path="/reseñas" element={<Reseñas />} />
+      <Route path="/recuperar" element={<RecuperarPassword />} />
       
       {/* Rutas Privadas de Administración (Admin y Gerente) */}
       <Route path="/admin" element={<AdminRoute><AdminLayout><AdminDashboard /></AdminLayout></AdminRoute>} />
       <Route path="/admin/users" element={<AdminRoute><AdminLayout><UserManagement /></AdminLayout></AdminRoute>} />
       <Route path="/admin/requests" element={<AdminRoute><AdminLayout><ReviewRequests /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/branches" element={<AdminRoute><AdminLayout><BranchManagement /></AdminLayout></AdminRoute>} />
       <Route path="/admin/create-vehicle" element={<AdminRoute><AdminLayout><CreateVehicle /></AdminLayout></AdminRoute>} />
       <Route path="/admin/reviews" element={<AdminRoute><AdminLayout><Reseñas /></AdminLayout></AdminRoute>} />
     </Routes>

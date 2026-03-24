@@ -16,7 +16,7 @@ import { useCreditSimulatorLogica } from './CreditSimulatorLogica';
 import './CreditSimulator.css';
 
 // Pre-load images outside the component for performance and to avoid re-renders
-const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+const localImages = import.meta.glob('../../img/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
 
 const CreditSimulator = () => {
   const {
@@ -112,7 +112,11 @@ const CreditSimulator = () => {
 
                 {selectedVehicle && (
                   <div className="vehicle-mini-preview">
-                    <img src={localImages[selectedVehicle.image] || selectedVehicle.image} alt={selectedVehicle.name} />
+                    {(() => {
+                      const imgKey = Object.keys(localImages).find(k => k.includes(selectedVehicle.image));
+                      const imageSrc = imgKey ? localImages[imgKey] : selectedVehicle.image;
+                      return <img src={imageSrc} alt={selectedVehicle.name} />;
+                    })()}
                     <div className="v-info">
                       <h4>{selectedVehicle.name}</h4>
                       <p>{selectedVehicle.motor} • {selectedVehicle.transmission}</p>
@@ -208,17 +212,34 @@ const CreditSimulator = () => {
                   <div className="doc-item">
                     <div className="doc-icon"><CreditCard size={20} /></div>
                     <div className="doc-info">
-                      <p className="doc-name">Cédula por ambos lados</p>
+                      <p className="doc-name">Cédula (Frente)</p>
                       <span className="doc-status">Obligatorio</span>
                     </div>
-                    {documents.idCard && <img src={documents.idCard} alt="Preview" className="doc-preview-small" />}
+                    {documents.idCardFront && <img src={documents.idCardFront} alt="Preview" className="doc-preview-small" />}
                     <label className="doc-action">
-                      {documents.idCard ? 'Cambiar' : 'Subir'}
+                      {documents.idCardFront ? 'Cambiar' : 'Subir'}
                       <input 
                         type="file" 
                         accept="image/*" 
                         style={{ display: 'none' }} 
-                        onChange={(e) => handleDocumentUpload('idCard', e.target.files[0])}
+                        onChange={(e) => handleDocumentUpload('idCardFront', e.target.files[0])}
+                      />
+                    </label>
+                  </div>
+                  <div className="doc-item">
+                    <div className="doc-icon"><CreditCard size={20} /></div>
+                    <div className="doc-info">
+                      <p className="doc-name">Cédula (Trasera)</p>
+                      <span className="doc-status">Obligatorio</span>
+                    </div>
+                    {documents.idCardBack && <img src={documents.idCardBack} alt="Preview" className="doc-preview-small" />}
+                    <label className="doc-action">
+                      {documents.idCardBack ? 'Cambiar' : 'Subir'}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        style={{ display: 'none' }} 
+                        onChange={(e) => handleDocumentUpload('idCardBack', e.target.files[0])}
                       />
                     </label>
                   </div>
@@ -277,7 +298,45 @@ const CreditSimulator = () => {
               </div>
 
               <div className="form-footer">
-                <button className="btn btn-primary full-btn" onClick={() => window.print()}>Exportar Cotización como PDF <ArrowRight /></button>
+                <button 
+                  className="btn btn-primary full-btn" 
+                  onClick={() => {
+                    if (!selectedVehicle) {
+                      Swal.fire({
+                        background: '#0a0a0a',
+                        color: '#fff',
+                        confirmButtonColor: '#eab308',
+                        icon: 'error',
+                        title: 'Selecciona un vehículo',
+                        text: 'Debes elegir un vehículo antes de exportar la cotización.'
+                      });
+                      return;
+                    }
+
+                    const missingDocs = [];
+                    if (!documents.idCardFront) missingDocs.push('Cédula (Frente)');
+                    if (!documents.idCardBack) missingDocs.push('Cédula (Trasera)');
+                    if (!documents.employmentOrder) missingDocs.push('Orden Patronal');
+                    if (!documents.paymentStubs) missingDocs.push('Colillas de Pago');
+                    if (!documents.salaryConfirmation) missingDocs.push('Constancia de Salario');
+
+                    if (missingDocs.length > 0) {
+                      Swal.fire({
+                        background: '#0a0a0a',
+                        color: '#fff',
+                        confirmButtonColor: '#eab308',
+                        icon: 'warning',
+                        title: 'Documentación incompleta',
+                        text: `Debes subir los siguientes archivos obligatorios: ${missingDocs.join(', ')}.`
+                      });
+                      return;
+                    }
+
+                    window.print();
+                  }}
+                >
+                  Exportar Cotización como PDF <ArrowRight />
+                </button>
               </div>
             </section>
 
