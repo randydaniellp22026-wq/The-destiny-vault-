@@ -33,7 +33,6 @@ const AppRoutes = () => {
       <Route path="/simulate-credit" element={<CreditSimulator />} />
       <Route path="/perfil" element={<PerfilUsuarios />} />
       <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
-      <Route path="/reviews" element={<Reseñas />} />
       <Route path="/reseñas" element={<Reseñas />} />
       
       {/* Rutas Privadas de Administración (Admin y Gerente) */}
