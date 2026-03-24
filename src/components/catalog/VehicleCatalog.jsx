@@ -1,13 +1,14 @@
 import React from 'react';
 import VehicleCard from './VehicleCard';
 import Filters from './Filters';
+import ShimmerText from '../ShimmerText/ShimmerText';
 import './VehicleCatalog.css';
 
 const VehicleCatalog = ({ title, vehicles, showFilters = false }) => {
   return (
     <section className="vehicle-catalog-section">
       <div className="catalog-header">
-        <h2 className="section-title">{title}</h2>
+        <ShimmerText className="section-title" text={title} as="h2" />
         <div className="catalog-actions">
           <p className="results-text">Mostrando {vehicles.length} vehículos</p>
         </div>
