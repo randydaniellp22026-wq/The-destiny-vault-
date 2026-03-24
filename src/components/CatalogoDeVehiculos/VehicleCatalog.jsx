@@ -15,7 +15,7 @@ import { useCatalogoLogica } from './catalogoLogica';
 import { useNavigate } from 'react-router-dom';
 import './VehicleCatalog.css';
 
-const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
+const localImages = import.meta.glob('../../img/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
 
 const FavoriteButton = ({ vehicleId }) => {
   const { isFavorite, toggleFavorite } = useVehicleFavorites(vehicleId);
@@ -148,7 +148,10 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
           {filteredVehicles.length > 0 ? (
             <div className="catalog-grid">
               {filteredVehicles.map((car) => {
-                const imageSrc = localImages[car.image] || car.image;
+                // Buscar imagen en el glob (por nombre de archivo o ruta completa)
+                const imageSrc = Object.keys(localImages).find(k => k.includes(car.image)) 
+                  ? localImages[Object.keys(localImages).find(k => k.includes(car.image))] 
+                  : car.image;
                 return (
                 <div key={car.id} className="card vehicle-card">
                   <div className="vehicle-image-container">

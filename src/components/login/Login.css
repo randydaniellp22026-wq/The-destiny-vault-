@@ -235,6 +235,26 @@ body {
 
 .legal-notice a { color: #eab308; font-weight: 500; }
 
+.forgot-password-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+
+.forgot-password-link {
+  color: #6b7280;
+  font-size: 0.825rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.forgot-password-link:hover {
+  color: #fbbf24;
+  text-decoration: underline;
+  transform: translateX(-2px);
+}
+
 .error-bubble {
   background: rgba(239, 68, 68, 0.1);
   border: 1px solid rgba(239, 68, 68, 0.3);

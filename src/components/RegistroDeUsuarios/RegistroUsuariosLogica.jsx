@@ -59,11 +59,13 @@ export const useRegistroUsuariosLogica = () => {
     if (!validarFormulario()) return;
 
     try {
-      // Check if email already exists (json-server returns matching items)
-      const resCheck = await fetch(`${API_URL}/users?email=${encodeURIComponent(formData.correo)}`);
-      const existingUsers = await resCheck.json();
+      const resCheck = await fetch(`${API_URL}/users`);
+      const allUsers = await resCheck.json();
+      
+      const newEmail = formData.correo.trim().toLowerCase();
+      const emailExists = allUsers.some(u => (u.email || '').toLowerCase() === newEmail);
 
-      if (existingUsers.length > 0) {
+      if (emailExists) {
         Swal.fire({ 
           ...darkSwal, 
           icon: 'warning', 
@@ -79,8 +81,8 @@ export const useRegistroUsuariosLogica = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           nombre: formData.nombre,
-          email: formData.correo.trim(),
-          correo: formData.correo.trim(),
+          email: newEmail,
+          correo: newEmail,
           telefono: formData.telefono.trim(),
           password: formData.password,
           rol: 'Cliente',
