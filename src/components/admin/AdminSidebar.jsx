@@ -10,7 +10,8 @@ import {
   ExternalLink,
   Star,
   RefreshCw,
-  Car
+  Car,
+  MapPin
 } from 'lucide-react';
 import './AdminSidebar.css';
 
@@ -57,6 +58,12 @@ const AdminSidebar = () => {
           <NavLink to="/admin/reviews" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <Star size={20} />
             <span>Reseñas</span>
+            <ChevronRight size={14} className="arrow" />
+          </NavLink>
+
+          <NavLink to="/admin/branches" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+            <MapPin size={20} />
+            <span>Sedes</span>
             <ChevronRight size={14} className="arrow" />
           </NavLink>
 
