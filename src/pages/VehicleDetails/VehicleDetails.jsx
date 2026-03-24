@@ -3,6 +3,7 @@ import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'luci
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
 import VehicleCarousel from '../../components/FerrariCarousel/FerrariCarousel';
+import ShimmerText from '../../components/ShimmerText/ShimmerText';
 import './VehicleDetails.css';
 
 const localImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
@@ -64,7 +65,7 @@ const VehicleDetails = () => {
           <span className="hero-tag right-tag">{vehicle.tag || 'NUEVO INGRESO'}</span>
           
           <div className="hero-text-content">
-            <h1 className="hero-title">{vehicle.name}</h1>
+            <ShimmerText className="hero-title" text={vehicle.name} as="h1" />
             <p className="hero-subtitle">La redefinición absoluta del rendimiento y la elegancia. Diseñado para quienes exigen más que solo conducir.</p>
             
             <div className="hero-stats-row">
@@ -75,12 +76,12 @@ const VehicleDetails = () => {
               <div className="stat-divider"></div>
               <div className="hero-stat">
                 <span className="stat-label">Precio</span>
-                <span className="stat-value">₡{vehicle.price.toLocaleString('es-CR')}</span>
+                <ShimmerText className="stat-value" text={`₡${vehicle.price.toLocaleString('es-CR')}`} as="span" shimmerWidth={100} />
               </div>
               <div className="stat-divider"></div>
               <div className="hero-stat">
                 <span className="stat-label">Cuota desde</span>
-                <span className="stat-value">₡{getMonthlyPayment().toLocaleString('es-CR')}/mes</span>
+                <ShimmerText className="stat-value" text={`₡${getMonthlyPayment().toLocaleString('es-CR')}/mes`} as="span" shimmerWidth={100} />
               </div>
             </div>
           </div>
@@ -161,7 +162,7 @@ const VehicleDetails = () => {
       {/* 2.5. Carrusel de Vehículo */}
       <section className="vehicle-gallery-section" style={{ margin: '6rem 0', backgroundColor: '#080808', position: 'relative' }}>
         <div className="container" style={{ marginBottom: '2.5rem', textAlign: 'center' }}>
-          <h2 className="section-heading" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Explora Cada Detalle</h2>
+          <ShimmerText className="section-heading" text="Explora Cada Detalle" as="h2" style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }} />
           <p style={{ color: '#9ca3af', fontSize: '1.1rem', letterSpacing: '2px', textTransform: 'uppercase' }}>Vistas Exclusivas del Modelo</p>
         </div>
         <VehicleCarousel vehicle={vehicle} />

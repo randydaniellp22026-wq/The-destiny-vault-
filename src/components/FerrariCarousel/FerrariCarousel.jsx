@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './FerrariCarousel.css';
 import { ChevronRight, ChevronLeft, Pause, Play } from 'lucide-react';
+import ImageLens from '../ImageLens/ImageLens';
 
 // Cargar todas las imágenes de la carpeta Hyundai Tucson IX20 dinámicamente
 const hyundaiImagesRaw = import.meta.glob('../../img/Hyundai Tucson IX20/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
@@ -99,7 +100,12 @@ const VehicleCarousel = ({ vehicle }) => {
                 if (diff === slides.length - 1) prevSlide();
               }}
             >
-              <img src={slide.image} alt={`Vista ${index + 1}`} className="fc-slide-image-contain" />
+              <ImageLens 
+                src={slide.image} 
+                alt={`Vista ${index + 1}`} 
+                className="fc-slide-image-contain" 
+                isActive={diff === 0} 
+              />
             </div>
           );
         })}
