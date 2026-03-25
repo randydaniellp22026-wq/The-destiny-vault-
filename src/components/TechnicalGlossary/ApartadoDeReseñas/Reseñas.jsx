@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Edit2, Trash2, Plus, CheckCircle } from 'lucide-react';
 import './DiseñoReseñas.css';
@@ -23,6 +24,7 @@ const Reseñas = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [storedUser, setStoredUser] = useState({});
+    const navigate = useNavigate();
 
     // Cargar usuario y datos iniciales
     useEffect(() => {
@@ -216,7 +218,7 @@ const Reseñas = () => {
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = '/login';
+                        navigate('/login');
                     }
                 });
                 return;

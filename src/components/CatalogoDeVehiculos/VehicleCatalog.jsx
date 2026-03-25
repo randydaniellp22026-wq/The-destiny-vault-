@@ -13,6 +13,9 @@ import {
 import { useVehicleFavorites } from '../../hooks/useVehicleFavorites';
 import { useCatalogoLogica } from './catalogoLogica';
 import { useNavigate } from 'react-router-dom';
+import ShimmerText from '../ShimmerText/ShimmerText';
+import SlideTextButton from '../SlideTextButton/SlideTextButton';
+import BorderBeam from '../BorderBeam/BorderBeam';
 import './VehicleCatalog.css';
 
 const localImages = import.meta.glob('../../img/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
@@ -56,7 +59,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
       <button className="section-header" onClick={() => toggleSection(id)}>
         <div className="section-title-wrapper">
           <Icon size={18} className="section-icon" />
-          <span className="section-title">{title}</span>
+          <ShimmerText className="section-title" text={title} as="span" />
         </div>
         {expandedSection === id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
       </button>
@@ -71,7 +74,7 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
   return (
     <section className={`vehicle-catalog ${showFilters ? 'with-sidebar' : 'catalog-section'}`}>
       <div className="catalog-header">
-        <h2 className="section-title">{title || "Catálogo Premium"}</h2>
+        <ShimmerText className="catalog-main-title" text={title || "Catálogo Premium"} as="h2" />
         {showFilters && <p className="results-text">Mostrando {filteredVehicles.length} vehículos</p>}
       </div>
 
@@ -153,7 +156,8 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                   ? localImages[Object.keys(localImages).find(k => k.includes(car.image))] 
                   : car.image;
                 return (
-                <div key={car.id} className="card vehicle-card">
+                <div key={car.id} className="card vehicle-card" style={{ position: 'relative', borderRadius: '20px' }}>
+                  <BorderBeam duration={10} size={25} borderWidth={1.2} />
                   <div className="vehicle-image-container">
                     <img src={imageSrc} alt={car.name} className="vehicle-image" referrerPolicy="no-referrer" />
                     <div className="vehicle-tag" style={{ backgroundColor: car.tagColor }}>{car.tag}</div>
@@ -161,15 +165,21 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
                   </div>
                   <div className="vehicle-info">
                     <h3 className="vehicle-name">{car.type} - {car.name}</h3>
-                    <p className="vehicle-meta">{car.type} • {car.year} • {car.fuel}</p>
+                    <div className="vehicle-meta">
+                      <span>{car.type} • {car.year} • {car.fuel}</span>
+                    </div>
                     <div className="vehicle-specs-grid">
                       <div className="spec-item"><Gauge size={16} className="spec-icon" /><span>{car.mileage}</span></div>
                       <div className="spec-item"><Settings size={16} className="spec-icon" /><span>{car.transmission}</span></div>
                       <div className="spec-item"><Droplet size={16} className="spec-icon" /><span>{car.color}</span></div>
                     </div>
                     <div className="vehicle-footer">
-                      <span className="vehicle-price">₡{car.price.toLocaleString('es-CR')}</span>
-                      <button className="btn btn-primary btn-details" onClick={() => navigate(`/details/${car.id || 'default'}`, { state: { vehicle: car } })}>Detalles</button>
+                      <ShimmerText className="vehicle-price" text={`₡${car.price.toLocaleString('es-CR')}`} as="span" shimmerWidth={100} />
+                      <SlideTextButton 
+                        text="Detalles" 
+                        hoverText="Ver más" 
+                        onClick={() => navigate(`/details/${car.id || 'default'}`, { state: { vehicle: car } })} 
+                      />
                     </div>
                   </div>
                 </div>

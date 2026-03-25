@@ -166,15 +166,37 @@
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
+  .footer-top {
+    justify-content: center;
+    text-align: center;
+    gap: 40px;
+  }
   .footer-col-img {
     justify-content: center;
     width: 100%;
+    order: -1; /* Mover imagen arriba o abajo según prefieras, aquí la dejo arriba del todo */
+  }
+  .footer-col-left, .footer-col-mid, .footer-col-right {
+    min-width: 100%;
+    align-items: center;
+  }
+  .footer-contact-info li {
+    justify-content: center;
+  }
+  .footer-links {
+    align-items: center;
   }
 }
+
 @media (max-width: 768px) {
   .footer-bottom {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    padding-bottom: 30px;
+  }
+  
+  .footer-savs {
+    padding: 40px 15px 20px;
   }
 }

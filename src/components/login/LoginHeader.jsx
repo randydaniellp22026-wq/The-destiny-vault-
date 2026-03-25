@@ -3,8 +3,8 @@ import React from 'react';
 export const LoginHeader = () => {
   return (
     <header className="login-header">
-      <h1>Crear Cuenta</h1>
-      <p>Completa tus datos para iniciar tu solicitud</p>
+      <h1>Iniciar Sesión</h1>
+      <p>Bienvenido de nuevo a The Destiny Vault</p>
     </header>
   );
 };

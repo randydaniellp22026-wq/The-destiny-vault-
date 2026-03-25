@@ -38,7 +38,7 @@
 }
 
 .vehicle-card:hover .card-image {
-  transform: scale(1.08) translateY(-5px);
+  transform: scale(1.05);
 }
 
 .card-tag {
@@ -152,7 +152,6 @@
 .vehicle-price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--color-primary);
   font-family: 'Outfit', sans-serif;
 }
 

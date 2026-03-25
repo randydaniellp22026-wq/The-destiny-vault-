@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const LoginForm = ({ formData, loading, error, onChange, onSubmit }) => {
   return (
@@ -36,7 +37,7 @@ export const LoginForm = ({ formData, loading, error, onChange, onSubmit }) => {
           />
         </div>
         <div className="forgot-password-container">
-          <a href="/recuperar" className="forgot-password-link">¿Olvidaste tu contraseña?</a>
+          <Link to="/recuperar" className="forgot-password-link">¿Olvidaste tu contraseña?</Link>
         </div>
       </div>
 
