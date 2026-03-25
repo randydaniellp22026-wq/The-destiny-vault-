@@ -12,10 +12,10 @@ function App() {
 
   return (
     <div className="app-container">
-      <Chatbot />
       {!isAdminPath && <Navbar />}
       <AppRoutes />
       {!isAdminPath && <Footer />}
+      {!isAdminPath && <Chatbot />}
     </div>
   );
 }

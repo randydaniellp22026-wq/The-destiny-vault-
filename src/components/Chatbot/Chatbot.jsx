@@ -34,9 +34,6 @@ const Chatbot = () => {
     }, [isOpen, messages]);
 
     useEffect(() => {
-        // Alerta temporal para depuración (eliminar después)
-        alert("SAVS Assistant Loaded");
-        
         // Carga de marcas y configuración
         fetch('http://localhost:5000/vehicles')
             .then(res => res.json())
