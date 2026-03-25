@@ -406,6 +406,49 @@ function PerfilUsuarios() {
       }
     });
   };
+  
+  const handleChangePassword = () => {
+    Swal.fire({
+      ...darkSwal,
+      title: 'Cambiar Contraseña',
+      text: 'Ingresa tu nueva contraseña (mínimo 8 caracteres):',
+      input: 'password',
+      inputPlaceholder: 'Nueva contraseña',
+      showCancelButton: true,
+      confirmButtonText: 'Actualizar Contraseña',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value || value.length < 8) {
+          return 'La contraseña debe tener al menos 8 caracteres.';
+        }
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`http://localhost:5000/users/${userInfo.id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: result.value })
+          });
+
+          if (res.ok) {
+            Swal.fire({
+              ...darkSwal,
+              icon: 'success',
+              title: '¡Éxito!',
+              text: 'Tu contraseña ha sido actualizada correctamente.',
+              timer: 2000,
+              showConfirmButton: false
+            });
+          } else {
+            throw new Error('No se pudo actualizar la contraseña.');
+          }
+        } catch (error) {
+          Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: error.message });
+        }
+      }
+    });
+  };
 
   const handleEditAvatar = () => {
     Swal.fire({

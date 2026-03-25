@@ -124,7 +124,7 @@ const NavbarDiseño = () => {
           
           <div className="mobile-footer">
             <img src={savsLogo} alt="SAVS" className="mobile-menu-logo" />
-            <p>© 2024 Importadora SAVS. Todo los derechos reservados.</p>
+            <p>© 2024 Importadora SAVS. Todos los derechos reservados.</p>
           </div>
         </div>
       </div>
