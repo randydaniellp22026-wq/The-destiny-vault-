@@ -3,23 +3,23 @@
     {
       "id": "1",
       "name": "Hyundai Porter Doble Cabina",
-      "motor": "Turbo Diésel",
-      "engine_size": "2700cc",
+      "motor": "D4CB 2.5L",
+      "engine_size": "2500cc",
       "doors": "4",
-      "drive": "Trasera (RWD)",
+      "drive": "Trasera (2WD)",
       "passengers": "6",
-      "steering": "Hidráulica",
-      "type": "Camión",
+      "steering": "Asistida Hidráulica",
+      "type": "Pick Up",
       "year": 2011,
-      "mileage": "Importación Corea",
-      "price": 7800000,
-      "tag": "Stock Costa Rica",
+      "mileage": "0 km (Listos para importar)",
+      "price": 8200000,
+      "tag": "Ideal para el Trabajo",
       "tagColor": "#10b981",
       "transmission": "Manual",
       "fuel": "Diésel",
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/04/hyundai-Porter-2011.png",
-      "summary": "El Hyundai Porter (H-100) es uno de los camiones ligeros más populares exportados desde Corea. Reconocido por su durabilidad extrema, este modelo es ideal para carga comercial, ofreciendo un motor turbo diésel confiable y gran capacidad de carga."
+      "summary": "El Hyundai Porter Doble Cabina es la herramienta definitiva para el trabajo pesado y el transporte de personal. Con capacidad para 6 pasajeros cómodamente sentados y una plataforma de carga sumamente resistente, es el favorito indiscutible en las flotas de las empresas surcoreanas."
     },
     {
       "id": "2",
@@ -239,7 +239,9 @@
       "email": "admin@thedestinyvault.com",
       "password": "admin",
       "rol": "admin",
-      "favorites": ["4"]
+      "favorites": [
+        "4"
+      ]
     },
     {
       "id": "gerente_1",
@@ -253,7 +255,7 @@
       "id": "2",
       "nombre": "Yosimar",
       "email": "yosimarvv@gmail.com",
-      "password": "yosi12345",
+      "password": "yosi12345.",
       "rol": "Cliente",
       "telefono": "+506 72617462",
       "ubicacion": "Puntarenas",
@@ -275,6 +277,18 @@
       "rol": "Cliente",
       "ubicacion": "Costa Rica",
       "createdAt": "2026-03-23T14:26:51.863Z",
+      "favorites": []
+    },
+    {
+      "id": "13ad",
+      "nombre": "Yosimar",
+      "email": "Yosivar17@hotmail.com",
+      "correo": "Yosivar17@hotmail.com",
+      "telefono": "+506 67589 5689",
+      "password": "yosi1234",
+      "rol": "Cliente",
+      "ubicacion": "Costa Rica",
+      "createdAt": "2026-03-24T14:23:15.511Z",
       "favorites": []
     }
   ],
@@ -342,8 +356,37 @@
       "user_phone": "+506 7468-7437",
       "subject": "Asesoría de crédito",
       "message": "quiero vender mi auto\n",
-      "status": "rejected",
+      "status": "accepted",
       "date": "2026-03-23T14:57:54.677Z"
+    },
+    {
+      "id": "75cf",
+      "user_name": "Yosimar Vargas Villalta",
+      "user_email": "Yosimarvv@gmail.com",
+      "user_phone": "+506 7261-7462",
+      "subject": "Consulta General",
+      "message": "tienen mas autos nissan?",
+      "status": "accepted",
+      "date": "2026-03-24T17:09:53.423Z",
+      "reply": "si, tenemos mas autos nissan comuniquese al whatsapp de la empresa para mas informacion"
+    }
+  ],
+  "branches": [
+    {
+      "id": "heredia",
+      "name": "Sede Heredia",
+      "location": "C.C. Real Cariari, Heredia (BeeWorking)",
+      "phone": "+506 6476-9091",
+      "schedule": "L-V: 8:00 AM - 5:00 PM",
+      "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.5855260026214!2d-84.16194218520268!3d9.98198589286378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0fb060411b931%3A0xeab308c10b981!2sBoulevard+Cariari!5e0!3m2!1ses!2scr!4v1711200000000"
+    },
+    {
+      "id": "puntarenas",
+      "name": "Sede Puntarenas",
+      "location": "Chacarita, Puntarenas (Frente a Femsa)",
+      "phone": "+506 6476-9091",
+      "schedule": "L-V: 8:00 AM - 5:00 PM",
+      "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.2225!2d-84.7666!3d9.9850!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa01bd!2sPuntarenas!5e0!3m2!1ses!2scr!4v1711200000000"
     }
   ],
   "settings": {
@@ -351,27 +394,10 @@
       "name": "Importadora SAVS",
       "slogan": "The Destiny Vault",
       "main_phone": "+506 6476-9091",
+      "whatsapp": "+506 6476-9091",
       "main_email": "ventas@importadorasavs.com",
       "footer_car_img": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png"
     },
-    "branches": [
-      {
-        "id": "heredia",
-        "name": "Sede Heredia",
-        "location": "C.C. Real Cariari, Heredia (BeeWorking)",
-        "phone": "+506 6476-9091",
-        "schedule": "L-V: 8:00 AM - 5:00 PM",
-        "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.5855260026214!2d-84.16194218520268!3d9.98198589286378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa0fb060411b931%3A0xeab308c10b981!2sBoulevard+Cariari!5e0!3m2!1ses!2scr!4v1711200000000"
-      },
-      {
-        "id": "puntarenas",
-        "name": "Sede Puntarenas",
-        "location": "Chacarita, Puntarenas (Frente a Femsa)",
-        "phone": "+506 6476-9091",
-        "schedule": "L-V: 8:00 AM - 5:00 PM",
-        "map_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3930.2225!2d-84.7666!3d9.9850!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa01bd!2sPuntarenas!5e0!3m2!1ses!2scr!4v1711200000000"
-      }
-    ],
     "server_status": {
       "title": "ESTADO DEL SERVIDOR",
       "status_text": "SISTEMA EN LÍNEA",
@@ -379,18 +405,66 @@
       "is_online": true
     },
     "brands": [
-      { "id": 1, "name": "Hyundai", "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/4/44/Hyundai_Motor_Company_logo.svg" },
-      { "id": 2, "name": "Toyota", "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Toyota_carlogo.svg" },
-      { "id": 3, "name": "Land Rover", "logoUrl": "/src/img/NicePng_land-rover-logo-png_1391393.png" },
-      { "id": 4, "name": "Nissan", "logoUrl": "/src/img/25571-7-nissan-transparent_64x64.ico" },
-      { "id": 5, "name": "Honda", "logoUrl": "/src/img/pngwing.com.png" },
-      { "id": 6, "name": "Kia", "logoUrl": "/src/img/kia-512.png" },
-      { "id": 7, "name": "Chevrolet", "logoUrl": "/src/img/chevrolet-4-logo-black-and-white.png" },
-      { "id": 8, "name": "Mitsubishi", "logoUrl": "/src/img/mitsubishi-512.png" },
-      { "id": 9, "name": "Mazda", "logoUrl": "/src/img/NicePng_mazda-logo-png_1337697.png" },
-      { "id": 10, "name": "Genesis", "logoUrl": "/src/img/Genesis_Logo_PNG(1).png" },
-      { "id": 11, "name": "Lexus", "logoUrl": "/src/img/lexus-512.png" },
-      { "id": 12, "name": "BMW", "logoUrl": "/src/img/bmw-512.png" }
+      {
+        "id": 1,
+        "name": "Hyundai",
+        "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/4/44/Hyundai_Motor_Company_logo.svg"
+      },
+      {
+        "id": 2,
+        "name": "Toyota",
+        "logoUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Toyota_carlogo.svg"
+      },
+      {
+        "id": 3,
+        "name": "Land Rover",
+        "logoUrl": "/src/img/NicePng_land-rover-logo-png_1391393.png"
+      },
+      {
+        "id": 4,
+        "name": "Nissan",
+        "logoUrl": "/src/img/25571-7-nissan-transparent_64x64.ico"
+      },
+      {
+        "id": 5,
+        "name": "Honda",
+        "logoUrl": "/src/img/pngwing.com.png"
+      },
+      {
+        "id": 6,
+        "name": "Kia",
+        "logoUrl": "/src/img/kia-512.png"
+      },
+      {
+        "id": 7,
+        "name": "Chevrolet",
+        "logoUrl": "/src/img/chevrolet-4-logo-black-and-white.png"
+      },
+      {
+        "id": 8,
+        "name": "Mitsubishi",
+        "logoUrl": "/src/img/mitsubishi-512.png"
+      },
+      {
+        "id": 9,
+        "name": "Mazda",
+        "logoUrl": "/src/img/NicePng_mazda-logo-png_1337697.png"
+      },
+      {
+        "id": 10,
+        "name": "Genesis",
+        "logoUrl": "/src/img/Genesis_Logo_PNG(1).png"
+      },
+      {
+        "id": 11,
+        "name": "Lexus",
+        "logoUrl": "/src/img/lexus-512.png"
+      },
+      {
+        "id": 12,
+        "name": "BMW",
+        "logoUrl": "/src/img/bmw-512.png"
+      }
     ]
   }
 }

@@ -202,8 +202,27 @@ const Reseñas = () => {
     };
 
     const toggleModal = () => {
-        if (showModal) closeModal();
-        else setShowModal(true);
+        if (showModal) {
+            closeModal();
+        } else {
+            if (!storedUser.id) {
+                Swal.fire({
+                    ...darkSwal,
+                    icon: 'warning',
+                    title: 'Sesión Requerida',
+                    text: 'Debes iniciar sesión para compartir tu experiencia.',
+                    confirmButtonText: 'Ir al Login',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/login';
+                    }
+                });
+                return;
+            }
+            setShowModal(true);
+        }
     };
 
     const filters = ['Todos', 'Compras', 'Ventas', 'Importaciones'];

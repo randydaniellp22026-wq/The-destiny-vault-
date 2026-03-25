@@ -35,6 +35,25 @@ export const useRedireccionContactosLogica = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
+    // Requisito de inicio de sesión
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      Swal.fire({
+        ...darkSwal,
+        icon: 'warning',
+        title: 'Sesión Requerida',
+        text: 'Debes iniciar sesión para enviar una solicitud de contacto.',
+        confirmButtonText: 'Ir al Login',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
+      return;
+    }
+
     const { user_name, user_email, user_phone, message } = formData;
 
     // Validación básica de campos obligatorios
@@ -97,7 +116,7 @@ export const useRedireccionContactosLogica = () => {
     // En lugar de redirigir directamente a WhatsApp, guardamos la solicitud en la base de datos para que el admin la procese
     const requestPayload = {
       user_name,
-      user_email,
+      user_email: user_email.trim().toLowerCase(),
       user_phone,
       subject: formData.subject,
       message: finalMessage,

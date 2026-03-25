@@ -35,6 +35,9 @@ export const LoginForm = ({ formData, loading, error, onChange, onSubmit }) => {
             required
           />
         </div>
+        <div className="forgot-password-container">
+          <a href="/recuperar" className="forgot-password-link">¿Olvidaste tu contraseña?</a>
+        </div>
       </div>
 
       <button 

@@ -42,17 +42,20 @@ export const useLoginLogic = () => {
     }
 
     try {
-      const response = await fetch(
-        `${API_URL}/users?email=${encodeURIComponent(formData.email)}&password=${encodeURIComponent(formData.password)}`
-      );
+      const response = await fetch(`${API_URL}/users`);
 
       if (!response.ok) throw new Error('Error al conectar con el servidor.');
 
-      const users = await response.json();
+      const allUsers = await response.json();
+      
+      // Búsqueda manual insensible a mayúsculas en el email
+      const inputEmail = formData.email.trim().toLowerCase();
+      const user = allUsers.find(u => 
+        (u.email || '').toLowerCase() === inputEmail && 
+        u.password === formData.password
+      );
 
-      if (users.length > 0) {
-        const user = users[0];
-        // Guardamos la sesión completa incluyendo el ID, favoritos y foto para persistencia
+      if (user) {
         localStorage.setItem('user', JSON.stringify({ 
           id: user.id, 
           nombre: user.nombre, 
