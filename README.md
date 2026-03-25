@@ -69,18 +69,10 @@ El sistema gestiona cinco colecciones principales:
 
 ### 👤 Área de Usuario
 - Registro y login con validaciones de formato.
-- Recuperación de contraseña con flujo visual pulido mediante SweetAlert2.
 - Perfil personal donde el usuario puede ver sus favoritos y editar su dirección exacta con dropdowns de provincias de Costa Rica.
-
-### 🤖 Chatbot Inteligente (SAVS Assistant)
-- **Burbuja Flotante Interactiva**: Acceso rápido desde cualquier sección del sitio.
-- **Flujo de Consultas Preestablecidas**: Respuestas automáticas sobre formas de pago, retoma de vehículos y búsqueda por marcas.
-- **Información Dinámica**: Las marcas se filtran automáticamente basándose en el inventario real disponible en la base de datos.
-- **Atención Personalizada**: Enlace directo a WhatsApp integrado en cada respuesta para soporte humano inmediato.
 
 ### ⚙️ Panel Administrativo (Portal SAVS)
 - **Dashboard**: Gráficos de barra que muestran la distribución de vehículos por tipo.
-- **Gestión de Sedes**: Las sucursales se cargan desde el backend y se renderizan con mapas interactivos de Google Maps.
 - **Gestión**: CRUD (Crear, Leer, Actualizar, Borrar) de vehículos, revisión de reviews pendientes y control de solicitudes de contacto.
 
 ---
@@ -105,11 +97,7 @@ El sistema gestiona cinco colecciones principales:
 ---
 
 ## 📱 Diseño Responsivo
-La aplicación ha sido optimizada para garantizar una experiencia de usuario fluida en todos los dispositivos móviles:
-- **Navbar Híbrido**: Se transforma en un "Drawer" lateral en smartphones.
-- **Footer Adaptativo**: Ajuste automático de columnas y centrado de información en pantallas pequeñas.
-- **Catálogo y Contacto**: Diseño basado en CSS Grid (`auto-fit`) para que las tarjetas de vehículos y sedes se ajusten dinámicamente al ancho de la pantalla.
-- **Gestión de Desbordamiento**: Protección contra scroll horizontal accidental en navegadores móviles.
+La aplicación utiliza un sistema de `Navbar` híbrido que se transforma en un "Drawer" (menú lateral) en dispositivos móviles, asegurando que la navegación y el simulador de crédito sean accesibles en cualquier pantalla.
 
 ---
 **Desarrollado para Importadora SAVS - Calidad y Confianza en cada kilómetro.**

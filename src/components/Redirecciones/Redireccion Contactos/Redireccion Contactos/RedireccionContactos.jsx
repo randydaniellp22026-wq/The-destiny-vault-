@@ -56,13 +56,8 @@ const RedireccionContactos = () => {
     }
   ];
 
-  // Determinamos el ID inicial cuando carguen las sedes
-  useEffect(() => {
-    const list = branches.length > 0 ? branches : defaultBranches;
-    if (list.length > 0 && !activeMap) {
-      setActiveMap(list[0].id);
-    }
-  }, [branches, activeMap]);
+  const branchHeredia = (branches.length > 0 ? branches : defaultBranches).find(b => b.id === 'heredia');
+  const branchPuntarenas = (branches.length > 0 ? branches : defaultBranches).find(b => b.id === 'puntarenas');
 
   return (
     <div className="paginaContacto">

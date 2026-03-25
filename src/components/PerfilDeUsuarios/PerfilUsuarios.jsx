@@ -953,7 +953,7 @@ function PerfilUsuarios() {
                   <div className="settings-grid">
                     <div className="settings-card">
                       <h3>Seguridad</h3>
-                      <button className="btn-settings outline" onClick={handleChangePassword}>Cambiar Contraseña</button>
+                      <button className="btn-settings outline" onClick={() => Swal.fire({ ...darkSwal, title: 'Cambiar Contraseña', input: 'password', inputPlaceholder: 'Nueva contraseña' })}>Cambiar Contraseña</button>
                     </div>
                     <div className="settings-card">
                       <h3>Preferencias</h3>

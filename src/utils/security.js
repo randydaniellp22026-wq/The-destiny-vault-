@@ -19,6 +19,7 @@ const SECURITY_CONFIG = {
  * Para envío real, se recomienda conectar con Twilio o Nexmo.
  */
 export const sendSMS = async (phoneNumber, code) => {
+  console.log(`[SMS AUTH] Enviando código ${code} al número ${phoneNumber}`);
   // Aquí iría el fetch a la API de Twilio
   return new Promise((resolve) => setTimeout(resolve, 1500));
 };
@@ -27,6 +28,8 @@ export const sendSMS = async (phoneNumber, code) => {
  * Envío de correo real usando EmailJS.
  */
 export const sendEmail = async (userEmail, userName, code) => {
+  console.log(`[EMAIL AUTH] Enviando código ${code} al correo ${userEmail}`);
+  
   // Retornamos una promesa para manejar el loading en la UI
   try {
     // Si no se han configurado las llaves, simulamos éxito en consola para no romper la app
@@ -61,6 +64,8 @@ export const sendEmail = async (userEmail, userName, code) => {
  * Envío de correo para recuperación de contraseña.
  */
 export const sendRecoveryEmail = async (userEmail, userName, code) => {
+  console.log(`[PASSWORD RECOVERY] Enviando código ${code} al correo ${userEmail}`);
+  
   try {
     if (SECURITY_CONFIG.emailjs.publicKey === 'YOUR_PUBLIC_KEY') {
        return new Promise((resolve) => setTimeout(resolve, 1500));
