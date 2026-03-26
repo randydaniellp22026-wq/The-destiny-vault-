@@ -2,6 +2,8 @@ import React from 'react';
 import './DiseñoRegistro.css';
 import { useRegistroUsuariosLogica } from './RegistroUsuariosLogica';
 import { useNavigate } from 'react-router-dom';
+import AnimatedInput from '../AnimatedInput/AnimatedInput';
+import BorderBeam from '../BorderBeam/BorderBeam';
 
 function RegistroUsuarios() {
   const { formData, handleChange, handleSubmit } = useRegistroUsuariosLogica();
@@ -24,52 +26,68 @@ function RegistroUsuarios() {
       {/* Right: Form side */}
       <div className="ladoFormulario">
         <form className="formRegistro" onSubmit={handleSubmit}>
+          <BorderBeam 
+            size={40} 
+            duration={12} 
+            colorFrom="rgba(234, 179, 8, 0)" 
+            colorTo="rgba(234, 179, 8, 1)" 
+            borderWidth={1} 
+            className="form-beam" 
+          />
           <h2>Crear Cuenta</h2>
           <p className="subtitle">Completa tus datos para registrarte</p>
 
-          <label htmlFor="nombre">Nombre completo</label>
-          <input
-            id="nombre"
-            type="text"
-            name="nombre"
-            placeholder="Ej: Juan Pérez"
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ marginBottom: "1.5rem" }}>
+            <AnimatedInput
+              label="Nombre completo"
+              id="nombre"
+              type="text"
+              name="nombre"
+              placeholder="Ej: Juan Pérez"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <label htmlFor="correo">Correo electrónico</label>
-          <input
-            id="correo"
-            type="email"
-            name="correo"
-            placeholder="nombre@ejemplo.com"
-            value={formData.correo}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ marginBottom: "1.5rem" }}>
+            <AnimatedInput
+              label="Correo electrónico"
+              id="correo"
+              type="email"
+              name="correo"
+              placeholder="nombre@ejemplo.com"
+              value={formData.correo}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <label htmlFor="telefono">Teléfono</label>
-          <input
-            id="telefono"
-            type="tel"
-            name="telefono"
-            placeholder="Ej: +506 72617462"
-            value={formData.telefono}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ marginBottom: "1.5rem" }}>
+            <AnimatedInput
+              label="Teléfono"
+              id="telefono"
+              type="tel"
+              name="telefono"
+              placeholder="Ej: +506 72617462"
+              value={formData.telefono}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          <label htmlFor="password">Contraseña</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="Mínimo 8 caracteres"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ marginBottom: "1.5rem" }}>
+            <AnimatedInput
+              label="Contraseña"
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Mínimo 8 caracteres"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
           <button type="submit">Crear Cuenta</button>
 

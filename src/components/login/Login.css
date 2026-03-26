@@ -107,29 +107,14 @@ body {
   border-radius: 1.25rem;
   z-index: 10;
   transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.form-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  padding: 1.5px; /* Border thickness */
-  border-radius: inherit;
-  background: linear-gradient(90deg, 
-    rgba(234, 179, 8, 0.1), 
-    rgba(234, 179, 8, 0.8), 
-    rgba(255, 255, 255, 0.9), 
-    rgba(234, 179, 8, 0.8), 
-    rgba(234, 179, 8, 0.1)
-  );
-  background-size: 200% 100%;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  z-index: -1;
-  animation: borderPan 8s linear infinite;
+.form-beam {
   pointer-events: none;
+  z-index: -1;
+  inset: -1px !important;
+  border-radius: inherit !important;
 }
 
 .form-container:hover {

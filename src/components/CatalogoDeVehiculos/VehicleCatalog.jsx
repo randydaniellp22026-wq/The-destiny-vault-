@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import ShimmerText from '../ShimmerText/ShimmerText';
 import SlideTextButton from '../SlideTextButton/SlideTextButton';
 import BorderBeam from '../BorderBeam/BorderBeam';
+import { Magnetic } from '../core/Magnetic';
 import './VehicleCatalog.css';
 
 const localImages = import.meta.glob('../../img/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
@@ -56,13 +57,15 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
 
   const FilterSection = ({ id, title, icon: Icon, children }) => (
     <div className={`filter-section ${expandedSection === id ? 'expanded' : ''}`}>
-      <button className="section-header" onClick={() => toggleSection(id)}>
-        <div className="section-title-wrapper">
-          <Icon size={18} className="section-icon" />
-          <ShimmerText className="section-title" text={title} as="span" />
-        </div>
-        {expandedSection === id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-      </button>
+      <Magnetic style={{ width: "100%", display: "block" }}>
+        <button className="section-header" onClick={() => toggleSection(id)}>
+          <div className="section-title-wrapper">
+            <Icon size={18} className="section-icon" />
+            <ShimmerText className="section-title" text={title} as="span" />
+          </div>
+          {expandedSection === id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+      </Magnetic>
       <div className="section-content">
         {children}
       </div>
@@ -91,7 +94,9 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
               <label>Transmisión</label>
               <div className="button-grid">
                 {['Manual', 'Automática', 'CVT'].map(t => (
-                  <button key={t} className={`toggle-btn ${activeFilters.transmission.includes(t) ? 'active' : ''}`} onClick={() => toggleMultiSelect('transmission', t)}>{t}</button>
+                  <Magnetic key={t}>
+                    <button className={`toggle-btn ${activeFilters.transmission.includes(t) ? 'active' : ''}`} onClick={() => toggleMultiSelect('transmission', t)}>{t}</button>
+                  </Magnetic>
                 ))}
               </div>
             </div>
@@ -99,7 +104,9 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
               <label>Combustible</label>
               <div className="button-grid">
                 {['Gasolina', 'Diésel', 'Híbrido', 'Eléctrico'].map(f => (
-                  <button key={f} className={`toggle-btn ${activeFilters.fuelType.includes(f) ? 'active' : ''}`} onClick={() => toggleMultiSelect('fuelType', f)}>{f}</button>
+                  <Magnetic key={f}>
+                    <button className={`toggle-btn ${activeFilters.fuelType.includes(f) ? 'active' : ''}`} onClick={() => toggleMultiSelect('fuelType', f)}>{f}</button>
+                  </Magnetic>
                 ))}
               </div>
             </div>
@@ -107,7 +114,9 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
               <label>Tracción</label>
               <div className="button-grid">
                 {['4x4', 'AWD', 'Delantera', 'Trasera'].map(d => (
-                  <button key={d} className={`toggle-btn ${activeFilters.drivetrain.includes(d) ? 'active' : ''}`} onClick={() => toggleMultiSelect('drivetrain', d)}>{d}</button>
+                  <Magnetic key={d}>
+                    <button className={`toggle-btn ${activeFilters.drivetrain.includes(d) ? 'active' : ''}`} onClick={() => toggleMultiSelect('drivetrain', d)}>{d}</button>
+                  </Magnetic>
                 ))}
               </div>
             </div>
@@ -122,7 +131,9 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
               <label>Body Type</label>
               <div className="button-grid">
                 {['Sedan', 'SUV', 'Hatchback', 'Pickup', 'Coupé'].map(b => (
-                  <button key={b} className={`toggle-btn ${activeFilters.bodyType.includes(b) ? 'active' : ''}`} onClick={() => toggleMultiSelect('bodyType', b)}>{b}</button>
+                  <Magnetic key={b}>
+                    <button className={`toggle-btn ${activeFilters.bodyType.includes(b) ? 'active' : ''}`} onClick={() => toggleMultiSelect('bodyType', b)}>{b}</button>
+                  </Magnetic>
                 ))}
               </div>
             </div>
@@ -143,7 +154,9 @@ const VehicleCatalog = ({ title, vehicles: initialVehicles, showFilters = false 
             </div>
           </FilterSection>
 
-          <button className="btn btn-secondary reset-btn" onClick={resetFilters}>Limpiar Filtros</button>
+          <Magnetic style={{ width: "100%", display: "block", marginTop: "1rem" }}>
+            <button className="btn btn-secondary reset-btn" style={{ marginTop: 0 }} onClick={resetFilters}>Limpiar Filtros</button>
+          </Magnetic>
           </aside>
         )}
 
