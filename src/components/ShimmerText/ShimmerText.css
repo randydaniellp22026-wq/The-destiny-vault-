@@ -24,7 +24,6 @@
   -webkit-text-fill-color: transparent;
   animation: continuousShine 8s linear infinite;
   display: inline-block;
-  width: 100%;
 }
 
 @keyframes continuousShine {
