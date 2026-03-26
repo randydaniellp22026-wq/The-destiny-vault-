@@ -4,6 +4,7 @@ import savsLogo from '../../img/image copy 4.png';
 import { useNavbarStatus } from '../../hooks/useNavbar';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import VehicleSelectionModal from '../VehicleSelection/VehicleSelectionModal';
+import ShimmerText from '../ShimmerText/ShimmerText';
 import './Navbar.css';
 
 const NavbarDiseño = () => {
@@ -33,7 +34,10 @@ const NavbarDiseño = () => {
           <div className="logo-icon-savs">
             <img src={savsLogo} alt="SAVS" className="savs-logo-img" />
           </div>
-          <span className="logo-text">Importadora SAVS</span>
+          <div className="logo-text-container">
+            <ShimmerText className="logo-text-main" text="SAVS" as="span" shimmerWidth={100} />
+            <span className="logo-text-sub">IMPORTADORA</span>
+          </div>
         </div>
 
         {/* Navigation Links */}
