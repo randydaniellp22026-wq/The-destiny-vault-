@@ -1,7 +1,7 @@
 import React from 'react';
 import { Facebook, Instagram, Mail, MapPin, Phone, Globe, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import savsLogo from '../../img/image copy 4.png';
+import savsLogo from '../../img/imagecopy4.png';
 import './Footer.css';
 
 const Footer = () => {

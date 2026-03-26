@@ -218,7 +218,7 @@ const Reseñas = () => {
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        navigate('/login');
+                        window.location.href = '/login';
                     }
                 });
                 return;

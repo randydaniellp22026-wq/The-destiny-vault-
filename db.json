@@ -255,7 +255,7 @@
       "id": "2",
       "nombre": "Yosimar",
       "email": "yosimarvv@gmail.com",
-      "password": "yosi12345",
+      "password": "yosi12345.",
       "rol": "Cliente",
       "telefono": "+506 72617462",
       "ubicacion": "Puntarenas",
@@ -277,19 +277,9 @@
       "rol": "Cliente",
       "ubicacion": "Costa Rica",
       "createdAt": "2026-03-23T14:26:51.863Z",
-      "favorites": []
-    },
-    {
-      "id": "13ad",
-      "nombre": "Yosimar",
-      "email": "Yosivar17@hotmail.com",
-      "correo": "Yosivar17@hotmail.com",
-      "telefono": "+506 67589 5689",
-      "password": "yosi1234",
-      "rol": "Cliente",
-      "ubicacion": "Costa Rica",
-      "createdAt": "2026-03-24T14:23:15.511Z",
-      "favorites": []
+      "favorites": [
+        "9"
+      ]
     }
   ],
   "technical_glossary": [

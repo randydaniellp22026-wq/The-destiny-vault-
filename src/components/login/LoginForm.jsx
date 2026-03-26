@@ -37,7 +37,7 @@ export const LoginForm = ({ formData, loading, error, onChange, onSubmit }) => {
           />
         </div>
         <div className="forgot-password-container">
-          <Link to="/recuperar" className="forgot-password-link">¿Olvidaste tu contraseña?</Link>
+          <a href="/recuperar" className="forgot-password-link">¿Olvidaste tu contraseña?</a>
         </div>
       </div>
 
