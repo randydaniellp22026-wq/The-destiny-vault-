@@ -280,6 +280,18 @@
       "favorites": [
         "9"
       ]
+    },
+    {
+      "id": "13ad",
+      "nombre": "Yosimar",
+      "email": "Yosivar17@hotmail.com",
+      "correo": "Yosivar17@hotmail.com",
+      "telefono": "+506 67589 5689",
+      "password": "yosi1234",
+      "rol": "Cliente",
+      "ubicacion": "Costa Rica",
+      "createdAt": "2026-03-24T14:23:15.511Z",
+      "favorites": []
     }
   ],
   "technical_glossary": [

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, X, Send, User, Bot, ArrowLeft, ExternalLink } from 'lucide-react';
+import Swal from 'sweetalert2';
 import './Chatbot.css';
 
 const Chatbot = () => {
@@ -35,7 +36,15 @@ const Chatbot = () => {
 
     useEffect(() => {
         // Alerta temporal para depuración (eliminar después)
-        alert("SAVS Assistant Loaded");
+        Swal.fire({
+            title: 'SAVS Assistant',
+            text: 'SAVS Assistant Loaded',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            background: '#1a1a1a',
+            color: '#fff',
+            confirmButtonColor: '#eab308'
+        });
         
         // Carga de marcas y configuración
         fetch('http://localhost:5000/vehicles')
