@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/footer/Footer';
 import AppRoutes from './routes/AppRoutes';
+import Chatbot from './components/Chatbot/Chatbot';
 
 function App() {
   const location = useLocation();
@@ -11,6 +12,7 @@ function App() {
 
   return (
     <div className="app-container">
+      <Chatbot />
       {!isAdminPath && <Navbar />}
       <AppRoutes />
       {!isAdminPath && <Footer />}

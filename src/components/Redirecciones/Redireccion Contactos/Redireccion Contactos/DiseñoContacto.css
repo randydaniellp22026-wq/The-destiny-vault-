@@ -234,3 +234,43 @@ font-size:0.9rem;
 text-align:center;
 color:#6b7280;
 }
+
+/* RESPONSIVE */
+@media (max-width: 968px) {
+  .contenidoContacto {
+    flex-direction: column;
+    padding: 0 20px 40px 20px;
+  }
+  
+  .headerContacto {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .headerContacto h1 {
+    font-size: 32px;
+  }
+  
+  .infoContacto {
+    order: -1; /* Mostrar sedes arriba en móvil si se desea, o quitar para dejar flujo natural */
+  }
+
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footerGrid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .formulario {
+    padding: 20px;
+  }
+  
+  .branches-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -7,7 +7,7 @@ import "./DiseñoContacto.css";
 const RedireccionContactos = () => {
   const { formData, loading, handleChange, sendEmail, setFormData } = useRedireccionContactosLogica();
   const [settings, setSettings] = useState(null);
-  const [activeMap, setActiveMap] = useState('heredia');
+  const [activeMap, setActiveMap] = useState('');
   const location = useLocation();
   const initialVehicle = location.state?.vehicle;
 
@@ -68,7 +68,7 @@ const RedireccionContactos = () => {
         <p style={{ fontSize: '1.2rem', maxWidth: '800px' }}>Expertos en importación directa. Tu próximo vehículo de alta gama está a un mensaje de distancia.</p>
       </header>
 
-      <section className="contenidoContacto" style={{ gap: '20px', paddingBottom: '100px', flexWrap: 'nowrap' }}>
+      <section className="contenidoContacto" style={{ gap: '20px', paddingBottom: '100px' }}>
         {/* Lado Izquierdo: Formulario */}
         <div style={{ flex: '1', display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {initialVehicle && (
@@ -202,51 +202,61 @@ const RedireccionContactos = () => {
         </div>
 
         {/* Lado Derecho: Info y Sedes (Expandido) */}
-        <div className="infoContacto" style={{ flex: '1.5' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <div 
-              className={`cardDireccion ${activeMap === 'heredia' ? 'wp-card-highlight' : ''}`}
-              onClick={() => setActiveMap('heredia')}
-              style={{ cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', padding: '25px' }}
-            >
-              <h3 style={{ margin: 0, color: '#fff', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.2rem', fontWeight: 700 }}>
-                <MapPin size={24} color="#eab308" /> {branchHeredia.name}
-              </h3>
-              <p style={{ margin: '15px 0', color: '#9ca3af', fontSize: '1rem', lineHeight: '1.5' }}>{branchHeredia.location}</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: '#eab308', fontSize: '0.9rem' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={14} /> {branchHeredia.phone}</span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Clock size={14} /> {branchHeredia.schedule}</span>
+        <div className="infoContacto" style={{ flex: '1.5', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div className="branches-grid" style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+            gap: '15px' 
+          }}>
+            {(branches.length > 0 ? branches : defaultBranches).map((branch) => (
+              <div 
+                key={branch.id}
+                className={`cardDireccion ${activeMap === branch.id ? 'wp-card-highlight' : ''}`}
+                onClick={() => setActiveMap(branch.id)}
+                style={{ 
+                  cursor: 'pointer', 
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', 
+                  padding: '20px',
+                  border: activeMap === branch.id ? '1px solid #eab308' : '1px solid rgba(255,255,255,0.05)',
+                  background: activeMap === branch.id ? 'rgba(234, 179, 8, 0.05)' : 'rgba(255,255,255,0.02)',
+                  borderRadius: '12px'
+                }}
+              >
+                <h3 style={{ margin: 0, color: '#fff', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.1rem', fontWeight: 700, textTransform: 'capitalize' }}>
+                  <MapPin size={20} color="#eab308" /> {branch.name}
+                </h3>
+                <p style={{ margin: '12px 0', color: '#9ca3af', fontSize: '0.9rem', lineHeight: '1.4', textTransform: 'capitalize' }}>{branch.location}</p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', color: '#eab308', fontSize: '0.8rem' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={12} /> {branch.phone}</span>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Clock size={12} /> {branch.schedule}</span>
+                </div>
               </div>
-            </div>
-
-            <div 
-              className={`cardDireccion ${activeMap === 'puntarenas' ? 'wp-card-highlight' : ''}`}
-              onClick={() => setActiveMap('puntarenas')}
-              style={{ cursor: 'pointer', transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', padding: '25px' }}
-            >
-              <h3 style={{ margin: 0, color: '#fff', display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1.2rem', fontWeight: 700 }}>
-                <MapPin size={24} color="#eab308" /> {branchPuntarenas.name}
-              </h3>
-              <p style={{ margin: '15px 0', color: '#9ca3af', fontSize: '1rem', lineHeight: '1.5' }}>{branchPuntarenas.location}</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', color: '#eab308', fontSize: '0.9rem' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={14} /> {branchPuntarenas.phone}</span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Clock size={14} /> {branchPuntarenas.schedule}</span>
-              </div>
-            </div>
+            ))}
           </div>
-
+ 
           {/* Mapa Visual */}
-          <div className="mapa" style={{ height: '495px', boxShadow: '0 20px 50px rgba(0,0,0,0.7)', border: '1px solid rgba(234, 179, 8, 0.35)', borderRadius: '15px' }}>
-             <iframe 
-                title="Mapa savs interactivo"
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }}
-                src={activeMap === 'heredia' ? branchHeredia.map_embed : branchPuntarenas.map_embed}
-                allowFullScreen="" 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+          <div className="mapa" style={{ 
+            height: '450px', 
+            boxShadow: '0 20px 50px rgba(0,0,0,0.7)', 
+            border: '1px solid rgba(234, 179, 8, 0.35)', 
+            borderRadius: '15px',
+            overflow: 'hidden'
+          }}>
+             {(() => {
+               const activeBranch = (branches.length > 0 ? branches : defaultBranches).find(b => b.id === activeMap) || (branches.length > 0 ? branches[0] : defaultBranches[0]);
+               return (
+                 <iframe 
+                    title="Mapa savs interactivo"
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0 }}
+                    src={activeBranch?.map_embed}
+                    allowFullScreen="" 
+                    loading="lazy" 
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+               );
+             })()}
           </div>
         </div>
       </section>
