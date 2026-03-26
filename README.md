@@ -15,6 +15,7 @@
 - **SweetAlert2**: Notificaciones y alertas interactivas estéticas.
 - **Recharts**: Visualización de datos estadísticos en el panel administrativo.
 - **EmailJS**: Integración para el envío de correos electrónicos desde formularios de contacto.
+- **Motion (Framer Motion)**: Biblioteca de animaciones avanzadas para transiciones, efectos como `ShimmerText` y micro-animaciones fluidas.
 
 ### Backend (Simulado)
 - **JSON Server**: API REST falsa que corre sobre un archivo `db.json`, permitiendo persistencia de datos durante el desarrollo.
@@ -36,10 +37,11 @@ Las páginas se han organizado de forma modular:
 ### 3. `src/components`: Componentes Modulares
 El sistema se divide en más de 15 categorías de componentes, incluyendo:
 - **`layout/` & `footer/`**: Estructura global.
-- **`Navbar/`**: Barra de navegación inteligente con búsqueda global y gestión de sesión.
+- **`Navbar/`**: Barra de navegación inteligente con búsqueda global, animaciones y gestión de sesión.
 - **`CreditSimulator/`**: Herramienta interactiva para cálculos financieros.
 - **`admin/`**: Sidebar, layouts y tablas específicas para la gestión.
 - **`CatalogoDeVehiculos/`**: Componentes reutilizables para mostrar tarjetas de vehículos y filtros.
+- **`Chatbot/`**: Asistente virtual flotante para soporte automatizado integrado con WhatsApp.
 
 ### 4. `src/hooks`: Lógica Compartida
 - `useNavbar.js`: Controla el estado del buscador, apertura de menús y autenticación.
@@ -70,6 +72,11 @@ El sistema gestiona cinco colecciones principales:
 ### 👤 Área de Usuario
 - Registro y login con validaciones de formato.
 - Perfil personal donde el usuario puede ver sus favoritos y editar su dirección exacta con dropdowns de provincias de Costa Rica.
+
+### 🤖 Asistente Virtual (Chatbot)
+- Bot conversacional integrado directamente en la interfaz.
+- Respuestas automáticas guiadas para métodos de pago, vehículos como parte de pago (trade-in) y búsqueda por marcas.
+- Derivación fluida a WhatsApp de ventas con mensaje personalizado para atención humana directa.
 
 ### ⚙️ Panel Administrativo (Portal SAVS)
 - **Dashboard**: Gráficos de barra que muestran la distribución de vehículos por tipo.
