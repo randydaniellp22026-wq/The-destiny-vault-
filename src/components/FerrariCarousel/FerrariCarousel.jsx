@@ -15,6 +15,7 @@ const localCarrosImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,av
 const VehicleCarousel = ({ vehicle }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Mapeamos las imágenes según el vehículo
   const slides = useMemo(() => {
@@ -45,13 +46,13 @@ const VehicleCarousel = ({ vehicle }) => {
 
   useEffect(() => {
     let interval;
-    if (isPlaying && slides.length > 0) {
+    if (isPlaying && !isHovered && slides.length > 0) {
       interval = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
       }, 5500);
     }
     return () => clearInterval(interval);
-  }, [isPlaying, slides.length]);
+  }, [isPlaying, isHovered, slides.length]);
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -71,7 +72,11 @@ const VehicleCarousel = ({ vehicle }) => {
   if (slides.length === 0) return null;
 
   return (
-    <div className="fc-carousel-container">
+    <div 
+      className="fc-carousel-container"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* Background borroso adaptativo al slide activo */}
       <div 
         className="fc-slide-bg-blur" 
