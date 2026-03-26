@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Bell, User, Calculator, LogOut, Menu, X } from 'lucide-react';
-import savsLogo from '../../img/image copy 4.png';
+import savsLogo from '../../img/imagecopy4.png';
 import { useNavbarStatus } from '../../hooks/useNavbar';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import VehicleSelectionModal from '../VehicleSelection/VehicleSelectionModal';
