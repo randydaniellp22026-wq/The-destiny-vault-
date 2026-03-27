@@ -21,7 +21,7 @@ const Chatbot = () => {
                 {
                     id: 1,
                     type: 'bot',
-                    text: '👋 ¡Hola! Bienvenido a The Destiny Vault. Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?',
+                    text: '👋 ¡Hola! Bienvenido a IMPORTADORA SAVS. Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?',
                     options: [
                         { label: '💰 Formas de pago', value: 'pagos' },
                         { label: '🚗 Recibir auto parte de pago', value: 'trade_in' },
@@ -178,7 +178,7 @@ const Chatbot = () => {
                 </div>
 
                 <div className="chatbot-footer">
-                    <p>Powered by The Destiny Vault</p>
+                    <p>Powered by YSR Collective</p>
                 </div>
             </div>
         </div>
