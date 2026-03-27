@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { User, Mail, Phone } from 'lucide-react';
-import './DiseñoClienteVendeSuAuto.css';
+import './IntercambioDeAutos.css';
 
 const darkSwal = {
   background: '#141414',
@@ -25,7 +25,7 @@ const initialFormState = {
   userId: null
 };
 
-const ClienteVendeSuAuto = () => {
+const IntercambioDeAutos = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialFormState);
   const [vehiculos, setVehiculos] = useState([]);
@@ -299,6 +299,47 @@ const ClienteVendeSuAuto = () => {
     });
   };
 
+  const updateStatus = async (id, nuevoEstado) => {
+    const vehiculo = vehiculos.find(v => v.id === id);
+    if (!vehiculo) return;
+
+    const updatedVehiculo = { ...vehiculo, estado: nuevoEstado };
+    
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedVehiculo)
+      });
+
+      if (response.ok) {
+        setVehiculos(vehiculos.map(v => v.id === id ? updatedVehiculo : v));
+        Swal.fire({
+          ...darkSwal,
+          icon: 'success',
+          title: 'Estado actualizado',
+          text: `La solicitud ha sido marcada como ${nuevoEstado}.`,
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
+    } catch (error) {
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: 'No se pudo actualizar el estado.' });
+    }
+  };
+
+  const handleRespond = (vehiculo) => {
+    const user = usersMap[vehiculo.userId];
+    const phone = user?.telefono || user?.phone;
+    if (!phone) {
+      Swal.fire({ ...darkSwal, icon: 'info', title: 'Sin teléfono', text: 'El cliente no tiene un teléfono registrado.' });
+      return;
+    }
+    const message = `Hola ${user.nombre}, te contacto de SAVS sobre tu solicitud de avalúo para el ${vehiculo.marca} ${vehiculo.modelo} ${vehiculo.anio}.`;
+    const whatsappUrl = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
@@ -335,114 +376,116 @@ const ClienteVendeSuAuto = () => {
       </div>
 
       <div className="vender-auto-layout">
-        {/* Panel Izquierdo: Formulario */}
-        <div className="vender-auto-form-section">
-          <div className="form-card-glow">
-            <h2>{isEditing ? 'Editar Solicitud' : 'Solicitar Evaluación de Auto'}</h2>
-            <form className="vender-auto-form" onSubmit={handleSubmit}>
-              
-              <div className="form-group-row">
-                <div className="form-group">
-                  <label>Marca</label>
-                  <input type="text" name="marca" value={formData.marca} onChange={handleInputChange} required placeholder="Ej. BMW" />
-                </div>
-                <div className="form-group">
-                  <label>Modelo</label>
-                  <input type="text" name="modelo" value={formData.modelo} onChange={handleInputChange} required placeholder="Ej. M4 Competition" />
-                </div>
-              </div>
-
-              <div className="form-group-row">
-                <div className="form-group">
-                  <label>Año</label>
-                  <input 
-                    type="text" 
-                    inputMode="numeric"
-                    name="anio" 
-                    value={formData.anio} 
-                    onChange={handleInputChange} 
-                    required 
-                    placeholder="Ej. 2023" 
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Kilometraje</label>
-                  <input 
-                    type="text" 
-                    inputMode="numeric"
-                    name="kilometraje" 
-                    value={formData.kilometraje} 
-                    onChange={handleInputChange} 
-                    required 
-                    placeholder="Ej. 15000" 
-                  />
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label>Precio esperado (CRC)</label>
-                <input 
-                  type="text" 
-                  inputMode="numeric"
-                  name="precio" 
-                  value={formData.precio} 
-                  onChange={handleInputChange} 
-                  required 
-                  placeholder="Ej. 15000000" 
-                />
-              </div>
-
-              {isAdminOrManager && (
-                <div className="form-group">
-                  <label>Estado de la Solicitud</label>
-                  <select 
-                    name="estado" 
-                    value={formData.estado} 
-                    onChange={handleInputChange} 
-                    className="form-control-admin"
-                  >
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="En revisión">En revisión</option>
-                    <option value="Aprobado">Aprobado</option>
-                    <option value="Rechazado">Rechazado</option>
-                  </select>
-                </div>
-              )}
-
-              <div className="form-group">
-                <label>Descripción y Estado del Vehículo</label>
-                <textarea name="descripcion" value={formData.descripcion} onChange={handleInputChange} required placeholder="Detalla las condiciones generales, historial de servicios..." rows="4"></textarea>
-              </div>
-
-              <div className="form-group">
-                <label>Imágenes del vehículo</label>
-                <div className="file-upload-wrapper">
-                  <input type="file" id="imagen-upload" accept="image/*" onChange={handleImageChange} className="file-upload-input" />
-                  <div className="file-upload-custom">
-                    {formData.imagen ? 'Imagen cargada con éxito' : 'Selecciona una imagen'}
+        {/* Panel Izquierdo: Formulario (Solo para clientes) */}
+        {!isAdminOrManager && (
+          <div className="vender-auto-form-section">
+            <div className="form-card-glow">
+              <h2>{isEditing ? 'Editar Solicitud' : 'Solicitar Evaluación de Auto'}</h2>
+              <form className="vender-auto-form" onSubmit={handleSubmit}>
+                
+                <div className="form-group-row">
+                  <div className="form-group">
+                    <label>Marca</label>
+                    <input type="text" name="marca" value={formData.marca} onChange={handleInputChange} required placeholder="Ej. BMW" />
+                  </div>
+                  <div className="form-group">
+                    <label>Modelo</label>
+                    <input type="text" name="modelo" value={formData.modelo} onChange={handleInputChange} required placeholder="Ej. M4 Competition" />
                   </div>
                 </div>
-                {formData.imagen && (
-                  <div className="image-preview">
-                    <img src={formData.imagen} alt="Vista previa" />
+
+                <div className="form-group-row">
+                  <div className="form-group">
+                    <label>Año</label>
+                    <input 
+                      type="text" 
+                      inputMode="numeric"
+                      name="anio" 
+                      value={formData.anio} 
+                      onChange={handleInputChange} 
+                      required 
+                      placeholder="Ej. 2023" 
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Kilometraje</label>
+                    <input 
+                      type="text" 
+                      inputMode="numeric"
+                      name="kilometraje" 
+                      value={formData.kilometraje} 
+                      onChange={handleInputChange} 
+                      required 
+                      placeholder="Ej. 15000" 
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label>Precio esperado (CRC)</label>
+                  <input 
+                    type="text" 
+                    inputMode="numeric"
+                    name="precio" 
+                    value={formData.precio} 
+                    onChange={handleInputChange} 
+                    required 
+                    placeholder="Ej. 15000000" 
+                  />
+                </div>
+
+                {isAdminOrManager && (
+                  <div className="form-group">
+                    <label>Estado de la Solicitud</label>
+                    <select 
+                      name="estado" 
+                      value={formData.estado} 
+                      onChange={handleInputChange} 
+                      className="form-control-admin"
+                    >
+                      <option value="Pendiente">Pendiente</option>
+                      <option value="En revisión">En revisión</option>
+                      <option value="Aprobado">Aprobado</option>
+                      <option value="Rechazado">Rechazado</option>
+                    </select>
                   </div>
                 )}
-              </div>
 
-              <div className="form-actions">
-                {isEditing && (
-                  <button type="button" className="btn-cancel" onClick={() => { setIsEditing(false); setFormData(initialFormState); }}>
-                    Cancelar
+                <div className="form-group">
+                  <label>Descripción y Estado del Vehículo</label>
+                  <textarea name="descripcion" value={formData.descripcion} onChange={handleInputChange} required placeholder="Detalla las condiciones generales, historial de servicios..." rows="4"></textarea>
+                </div>
+
+                <div className="form-group">
+                  <label>Imágenes del vehículo</label>
+                  <div className="file-upload-wrapper">
+                    <input type="file" id="imagen-upload" accept="image/*" onChange={handleImageChange} className="file-upload-input" />
+                    <div className="file-upload-custom">
+                      {formData.imagen ? 'Imagen cargada con éxito' : 'Selecciona una imagen'}
+                    </div>
+                  </div>
+                  {formData.imagen && (
+                    <div className="image-preview">
+                      <img src={formData.imagen} alt="Vista previa" />
+                    </div>
+                  )}
+                </div>
+
+                <div className="form-actions">
+                  {isEditing && (
+                    <button type="button" className="btn-cancel" onClick={() => { setIsEditing(false); setFormData(initialFormState); }}>
+                      Cancelar
+                    </button>
+                  )}
+                  <button type="submit" className="btn-submit" disabled={loading}>
+                    {loading ? 'Procesando...' : (isEditing ? 'Guardar Cambios' : 'Enviar para Avalúo')}
                   </button>
-                )}
-                <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Procesando...' : (isEditing ? 'Guardar Cambios' : 'Enviar para Avalúo')}
-                </button>
-              </div>
+                </div>
 
-            </form>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Panel Derecho: Lista de Autos */}
         <div className="vender-auto-list-section">
@@ -490,11 +533,19 @@ const ClienteVendeSuAuto = () => {
                     )}
                     
                     <div className="vehiculo-actions">
-                      {(isAdminOrManager || String(vehiculo.userId) === String(userId)) && (
+                      {isAdminOrManager ? (
                         <>
-                          <button className="btn-edit" onClick={() => handleEdit(vehiculo)}>Editar</button>
-                          <button className="btn-delete" onClick={() => confirmDelete(vehiculo)}>Eliminar</button>
+                          <button className="btn-approve" onClick={() => updateStatus(vehiculo.id, 'Aprobado')}>Aceptar</button>
+                          <button className="btn-reject" onClick={() => updateStatus(vehiculo.id, 'Rechazado')}>Rechazar</button>
+                          <button className="btn-respond" onClick={() => handleRespond(vehiculo)}>Responder</button>
                         </>
+                      ) : (
+                        String(vehiculo.userId) === String(userId) && (
+                          <>
+                            <button className="btn-edit" onClick={() => handleEdit(vehiculo)}>Editar</button>
+                            <button className="btn-delete" onClick={() => confirmDelete(vehiculo)}>Eliminar</button>
+                          </>
+                        )
                       )}
                     </div>
                   </div>
@@ -509,4 +560,4 @@ const ClienteVendeSuAuto = () => {
   );
 };
 
-export default ClienteVendeSuAuto;
+export default IntercambioDeAutos;
