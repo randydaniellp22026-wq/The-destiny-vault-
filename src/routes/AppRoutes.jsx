@@ -9,7 +9,7 @@ import RedireccionContactos from '../components/Redirecciones/Redireccion Contac
 import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModeloAuto/RedireccionModeloAuto/RedireccionModeloAuto';
 import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
-import ClienteVendeSuAuto from '../components/ApartadoParaQueElClienteVendaSuAuto/ClienteVendeSuAuto';
+import ClienteVendeSuAuto from '../components/intercambio de auto/ClienteVendeSuAuto';
 import Reseñas from '../components/TechnicalGlossary/ApartadoDeReseñas/Reseñas';
 import RecuperarPassword from '../pages/RecuperarPassword/RecuperarPassword';
 

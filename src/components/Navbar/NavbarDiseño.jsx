@@ -53,6 +53,7 @@ const NavbarDiseño = () => {
             </button>
           </li>
           <li><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
+          <li><Link to="/vender-auto" className={current === '/vender-auto' ? 'active' : ''}>Trade-In</Link></li>
           <li><Link to="/reseñas" className={current === '/reseñas' ? 'active' : ''}>Reseñas</Link></li>
           {(user?.rol === 'admin' || user?.rol === 'gerente') && (
             <li><Link to="/admin" className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>
@@ -120,6 +121,7 @@ const NavbarDiseño = () => {
               </button>
             </li>
             <li onClick={closeMenu}><Link to="/contact" className={current === '/contact' ? 'active' : ''}>Contacto</Link></li>
+            <li onClick={closeMenu}><Link to="/vender-auto" className={current === '/vender-auto' ? 'active' : ''}>Trade-In</Link></li>
             <li onClick={closeMenu}><Link to="/reseñas" className={current === '/reseñas' ? 'active' : ''}>Reseñas</Link></li>
           {(user?.rol === 'admin' || user?.rol === 'gerente') && (
             <li onClick={closeMenu}><Link to="/admin" className={current.startsWith('/admin') ? 'active' : ''} style={{ color: '#eab308' }}>Gestión SAVS</Link></li>

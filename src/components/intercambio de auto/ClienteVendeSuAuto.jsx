@@ -258,7 +258,7 @@ const ClienteVendeSuAuto = () => {
           Swal.fire({
             icon: 'success',
             title: '¡Recibido!',
-            text: 'Tu solicitud de avalúo ha sido registrada correctamente.',
+            text: 'Tu solicitud de intercambio ha sido registrada correctamente.',
             background: '#141414',
             color: '#fff',
             confirmButtonColor: '#f5b400'
@@ -287,7 +287,7 @@ const ClienteVendeSuAuto = () => {
       ...darkSwal,
       icon: 'warning',
       title: '¿Estás seguro?',
-      text: `Se eliminará la solicitud de avalúo para: ${vehiculo.marca} ${vehiculo.modelo}. Esta acción no se puede deshacer.`,
+      text: `Se eliminará la solicitud de intercambio para: ${vehiculo.marca} ${vehiculo.modelo}. Esta acción no se puede deshacer.`,
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
@@ -317,6 +317,60 @@ const ClienteVendeSuAuto = () => {
     }
   };
 
+  const handleAction = async (vehiculo, nuevoEstado) => {
+    try {
+      const response = await fetch(`${API_URL}/${vehiculo.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: nuevoEstado })
+      });
+      if (response.ok) {
+        setVehiculos(vehiculos.map(v => v.id === vehiculo.id ? { ...v, estado: nuevoEstado } : v));
+        Swal.fire({
+          ...darkSwal,
+          icon: 'success',
+          title: `Vehículo ${nuevoEstado}`,
+          timer: 1500,
+          showConfirmButton: false
+        });
+      }
+    } catch (error) {
+      Swal.fire({ ...darkSwal, icon: 'error', title: 'Error', text: 'No se pudo actualizar el estado.' });
+    }
+  };
+
+  const handleMessage = (vehiculo) => {
+    Swal.fire({
+      ...darkSwal,
+      title: 'Responder al Cliente',
+      input: 'textarea',
+      inputLabel: `Enviando correo al cliente`,
+      inputPlaceholder: 'Escribe tu respuesta aquí...',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) return 'Debes escribir un mensaje';
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          ...darkSwal,
+          title: 'Enviando correo...',
+          didOpen: () => Swal.showLoading()
+        });
+        setTimeout(() => {
+          Swal.fire({
+            ...darkSwal,
+            icon: 'success',
+            title: '¡Mensaje Enviado!',
+            text: 'Se simuló el envío del correo electrónico al cliente.',
+          });
+        }, 1500);
+      }
+    });
+  };
+
   const getStatusColor = (estado) => {
     switch (estado) {
       case 'Pendiente': return 'status-pendiente';
@@ -330,15 +384,16 @@ const ClienteVendeSuAuto = () => {
   return (
     <div className="vender-auto-container">
       <div className="vender-auto-header">
-        <h1>Tu auto como parte de pago</h1>
-        <p>Usa tu vehículo actual como prima o crédito para adquirir tu nuevo auto con nosotros.</p>
+        <h1>Intercambio de Vehículo</h1>
+        <p>El valor asignado a tu auto tras la revisión administrativa se aplicará como una reducción al precio total del vehículo que deseas comprar.</p>
       </div>
 
       <div className="vender-auto-layout">
         {/* Panel Izquierdo: Formulario */}
+        {!isAdminOrManager && (
         <div className="vender-auto-form-section">
           <div className="form-card-glow">
-            <h2>{isEditing ? 'Editar Solicitud' : 'Solicitar Evaluación de Auto'}</h2>
+            <h2>{isEditing ? 'Editar Intercambio' : 'Solicitar Intercambio'}</h2>
             <form className="vender-auto-form" onSubmit={handleSubmit}>
               
               <div className="form-group-row">
@@ -436,24 +491,25 @@ const ClienteVendeSuAuto = () => {
                   </button>
                 )}
                 <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Procesando...' : (isEditing ? 'Guardar Cambios' : 'Enviar para Avalúo')}
+                  {loading ? 'Procesando...' : (isEditing ? 'Guardar Cambios' : 'Solicitar Intercambio')}
                 </button>
               </div>
 
             </form>
           </div>
         </div>
+        )}
 
         {/* Panel Derecho: Lista de Autos */}
         <div className="vender-auto-list-section">
-          <h2>{isAdminOrManager ? 'Gestión de Avalúos' : 'Mis Solicitudes'} ({vehiculos.length})</h2>
+          <h2>{isAdminOrManager ? 'Gestión de Intercambios' : 'Mis Solicitudes'} ({vehiculos.length})</h2>
           
           {loading && vehiculos.length === 0 ? (
              <div className="loading-req">Cargando solicitudes...</div>
           ) : vehiculos.length === 0 ? (
             <div className="empty-state">
-              <p>No tienes vehículos registrados para avalúo.</p>
-              <span>Completa el formulario para iniciar tu proceso de Trade-in.</span>
+              <p>No tienes vehículos registrados para intercambio.</p>
+              <span>Completa el formulario para solicitar la reducción de valor de tu nueva compra mediante Trade-in.</span>
             </div>
           ) : (
             <div className="vehiculos-list">
@@ -490,10 +546,21 @@ const ClienteVendeSuAuto = () => {
                     )}
                     
                     <div className="vehiculo-actions">
-                      {(isAdminOrManager || String(vehiculo.userId) === String(userId)) && (
+                      {!isAdminOrManager && String(vehiculo.userId) === String(userId) && (
                         <>
                           <button className="btn-edit" onClick={() => handleEdit(vehiculo)}>Editar</button>
                           <button className="btn-delete" onClick={() => confirmDelete(vehiculo)}>Eliminar</button>
+                        </>
+                      )}
+                      {isAdminOrManager && (
+                        <>
+                          {vehiculo.estado !== 'Aprobado' && (
+                            <button className="btn-accept btn-edit" onClick={() => handleAction(vehiculo, 'Aprobado')}>Aceptar</button>
+                          )}
+                          {vehiculo.estado !== 'Rechazado' && (
+                            <button className="btn-reject btn-delete" onClick={() => handleAction(vehiculo, 'Rechazado')}>Rechazar</button>
+                          )}
+                          <button className="btn-message btn-edit" onClick={() => handleMessage(vehiculo)}>Mensaje</button>
                         </>
                       )}
                     </div>

@@ -362,7 +362,7 @@ const ReviewCard = ({ review, isAdmin, currentUserId, onDelete, onEdit }) => {
     const activeUserId = String(currentUserId || '');
     const isOwner = activeUserId !== '' && activeUserId === reviewOwnerId;
     
-    const canManage = isAdmin || isOwner;
+    const canManage = isOwner;
 
     return (
         <div className="review-card">
