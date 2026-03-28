@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import './FerrariCarousel.css';
+import './VehicleCarousel.css';
 import { ChevronRight, ChevronLeft, Pause, Play } from 'lucide-react';
 import ImageLens from '../ImageLens/ImageLens';
 
-// Cargar todas las imágenes de la carpeta Hyundai Tucson IX20 dinámicamente
-const hyundaiImagesRaw = import.meta.glob('../../img/Hyundai Tucson IX20/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
-const hyundaiImages = Object.values(hyundaiImagesRaw);
-
-const ferrariImagesRaw = import.meta.glob('../../img/ferrari/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
-const ferrariImages = Object.values(ferrariImagesRaw);
-
+// Cargar todas las imágenes de la carpeta img dinámicamente
+const allGalleryImages = import.meta.glob('../../img/**/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
 const localCarrosImages = import.meta.glob('../../carros/*.{jpg,jpeg,png,webp,avif}', { eager: true, import: 'default' });
 
 const VehicleCarousel = ({ vehicle }) => {
@@ -19,15 +14,19 @@ const VehicleCarousel = ({ vehicle }) => {
 
   // Mapeamos las imágenes según el vehículo
   const slides = useMemo(() => {
-    const name = vehicle?.name?.toLowerCase() || '';
     let selectedImages = [];
     
-    if (name.includes('tucson')) {
-      selectedImages = hyundaiImages;
-    } else if (name.includes('ferrari')) {
-      selectedImages = ferrariImages;
-    } else if (vehicle?.image) {
-      // Fallback: Si no hay galería específica, usamos la imagen principal resuelta
+    if (vehicle?.galleryPath) {
+      // Filtrar imágenes que pertenezcan a la carpeta del vehículo
+      // La ruta en allGalleryImages será algo como ../../img/Carpeta/imagen.jpg
+      const searchPath = `../../img/${vehicle.galleryPath}/`.toLowerCase();
+      selectedImages = Object.keys(allGalleryImages)
+        .filter(key => key.toLowerCase().startsWith(searchPath))
+        .map(key => allGalleryImages[key]);
+    }
+
+    // Fallback: Si no hay galería o no se encontraron imágenes, usamos la imagen principal
+    if (selectedImages.length === 0 && vehicle?.image) {
       const solvedImage = localCarrosImages[vehicle.image] || vehicle.image;
       selectedImages = [solvedImage];
     }

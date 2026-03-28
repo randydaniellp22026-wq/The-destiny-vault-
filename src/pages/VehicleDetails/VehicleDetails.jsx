@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'lucide-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
-import VehicleCarousel from '../../components/FerrariCarousel/FerrariCarousel';
+import VehicleCarousel from '../../components/VehicleCarousel/VehicleCarousel';
 import ShimmerText from '../../components/ShimmerText/ShimmerText';
 import './VehicleDetails.css';
 
