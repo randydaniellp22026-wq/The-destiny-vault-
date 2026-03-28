@@ -44,6 +44,7 @@ const NavbarDiseño = () => {
         <ul className="navbar-links">
           <li><Link to="/" className={current === '/' ? 'active' : ''}>Inicio</Link></li>
           <li><Link to="/inventory" className={current === '/inventory' ? 'active' : ''}>Vehículos</Link></li>
+          <li><Link to="/vender-auto" className={current === '/vender-auto' ? 'active' : ''}>Trade In</Link></li>
           <li>
             <button 
               onClick={() => setIsVehicleModalOpen(true)}
@@ -108,6 +109,7 @@ const NavbarDiseño = () => {
           <ul className="mobile-links">
             <li onClick={closeMenu}><Link to="/" className={current === '/' ? 'active' : ''}>Inicio</Link></li>
             <li onClick={closeMenu}><Link to="/inventory" className={current === '/inventory' ? 'active' : ''}>Vehículos</Link></li>
+            <li onClick={closeMenu}><Link to="/vender-auto" className={current === '/vender-auto' ? 'active' : ''}>Trade In</Link></li>
             <li>
               <button 
                 onClick={() => {
