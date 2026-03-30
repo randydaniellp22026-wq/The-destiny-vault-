@@ -19,6 +19,7 @@ import ReviewRequests from '../pages/admin/ReviewRequests';
 import CreateVehicle from '../pages/admin/CreateVehicle';
 import UserManagement from '../pages/admin/UserManagement';
 import BranchManagement from '../pages/admin/BranchManagement';
+import TrackingManagement from '../pages/admin/TrackingManagement';
 import AdminLayout from '../components/admin/AdminLayout';
 
 const AppRoutes = () => {
@@ -45,6 +46,7 @@ const AppRoutes = () => {
       <Route path="/admin/branches" element={<AdminRoute><AdminLayout><BranchManagement /></AdminLayout></AdminRoute>} />
       <Route path="/admin/create-vehicle" element={<AdminRoute><AdminLayout><CreateVehicle /></AdminLayout></AdminRoute>} />
       <Route path="/admin/reviews" element={<AdminRoute><AdminLayout><Reseñas /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/tracking" element={<AdminRoute><AdminLayout><TrackingManagement /></AdminLayout></AdminRoute>} />
     </Routes>
   );
 };

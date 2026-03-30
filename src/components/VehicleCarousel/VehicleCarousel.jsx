@@ -25,7 +25,12 @@ const VehicleCarousel = ({ vehicle }) => {
         .map(key => allGalleryImages[key]);
     }
 
-    // Fallback: Si no hay galería o no se encontraron imágenes, usamos la imagen principal
+    // Fallback 1: imágenes de detalle subidas desde el panel admin (base64 o URLs)
+    if (selectedImages.length === 0 && vehicle?.detailImages && vehicle.detailImages.length > 0) {
+      selectedImages = vehicle.detailImages;
+    }
+
+    // Fallback 2: Si no hay galería ni detailImages, usamos la imagen principal
     if (selectedImages.length === 0 && vehicle?.image) {
       const solvedImage = localCarrosImages[vehicle.image] || vehicle.image;
       selectedImages = [solvedImage];

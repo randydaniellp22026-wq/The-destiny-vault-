@@ -11,7 +11,8 @@ import {
   Star,
   RefreshCw,
   Car,
-  MapPin
+  MapPin,
+  Ship
 } from 'lucide-react';
 import './AdminSidebar.css';
 
@@ -52,6 +53,12 @@ const AdminSidebar = () => {
           <NavLink to="/admin/requests" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
             <ClipboardList size={20} />
             <span>Solicitudes</span>
+            <ChevronRight size={14} className="arrow" />
+          </NavLink>
+
+          <NavLink to="/admin/tracking" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'}>
+            <Ship size={20} />
+            <span>Tracking</span>
             <ChevronRight size={14} className="arrow" />
           </NavLink>
 
