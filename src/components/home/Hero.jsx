@@ -1,13 +1,29 @@
 import React from 'react';
-import { ArrowRight, Calculator } from 'lucide-react';
+import { ArrowRight, Car } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './Hero.css';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleInventoryClick = () => {
+    navigate('/inventory');
+  };
+
+  const handleSellCarClick = () => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      navigate('/vender-auto');
+    } else {
+      navigate('/register');
+    }
+  };
+
   return (
     <section className="hero-section">
       <div className="hero-overlay"></div>
       
-      <div className="container hero-content">
+      <div className="hero-content">
         <div className="hero-text-content">
           <h1 className="hero-title">Tu Próximo Destino Empieza Aquí</h1>
           <p className="hero-subtitle">
@@ -15,22 +31,15 @@ const Hero = () => {
           </p>
           
           <div className="hero-actions">
-            <button className="btn btn-primary">
+            <button className="btn btn-primary" onClick={handleInventoryClick}>
               Ver Inventario
               <ArrowRight size={18} />
             </button>
-            <button className="btn btn-secondary hero-btn-outline">
-              <Calculator size={18} />
-              Simular Crédito
+            <button className="btn hero-btn-outline" onClick={handleSellCarClick}>
+              Entrega tu auto
+              <Car size={18} style={{ marginLeft: '8px' }} />
             </button>
           </div>
-        </div>
-
-        {/* Slider Indicators */}
-        <div className="hero-indicators">
-          <div className="indicator active"></div>
-          <div className="indicator"></div>
-          <div className="indicator"></div>
         </div>
       </div>
     </section>

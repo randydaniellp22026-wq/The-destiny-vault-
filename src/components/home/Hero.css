@@ -5,8 +5,7 @@
   min-height: 600px;
   display: flex;
   align-items: center;
-  /* Using a modern elegant car image from unsplash */
-  background-image: url('https://images.unsplash.com/photo-1617469165786-8007eda3caa7?auto=format&fit=crop&q=80&w=2070');
+  background-image: url('../../img/equipodeSAVSposando.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -20,10 +19,10 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(
-    90deg, 
-    rgba(17, 24, 39, 0.9) 0%, 
-    rgba(17, 24, 39, 0.6) 50%, 
-    rgba(17, 24, 39, 0.2) 100%
+    90deg,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.7) 50%,
+    rgba(0, 0, 0, 0.25) 100%
   );
 }
 
@@ -31,15 +30,16 @@
   position: relative;
   z-index: 10;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  justify-content: flex-start;
+  align-items: center;
   height: 100%;
-  padding-bottom: 4rem;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .hero-text-content {
   max-width: 600px;
-  align-self: center;
+  text-align: left;
   animation: slideUp 0.8s ease-out forwards;
 }
 
@@ -53,7 +53,7 @@
   color: white;
   margin-bottom: 1.5rem;
   line-height: 1.1;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-align: left;
 }
 
 .hero-subtitle {
@@ -61,56 +61,40 @@
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2.5rem;
   max-width: 500px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: left;
 }
 
 .hero-actions {
   display: flex;
+  justify-content: flex-start;
   gap: 1rem;
 }
 
 /* Specific styling for the secondary button on dark background */
 .hero-btn-outline {
-  background-color: transparent !important;
+  background-color: #1a1a1a !important;
   color: white !important;
-  border-color: rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease !important;
 }
 
 .hero-btn-outline:hover {
-  background-color: white !important;
-  color: var(--color-primary) !important;
-  border-color: white !important;
-}
-
-.hero-indicators {
-  display: flex;
-  gap: 0.5rem;
-  padding-bottom: 1rem;
-}
-
-.indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.indicator.active {
-  width: 32px;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-primary);
-}
-
-.indicator:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: #1a1a1a !important;
+  filter: brightness(1.5) !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
 }
 
 @media (max-width: 768px) {
-  .hero-title { font-size: 3rem; }
-  .hero-actions { flex-direction: column; }
-  .hero-content { flex-direction: column; align-items: flex-start; justify-content: center; }
+  .hero-title { font-size: 2.5rem; }
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-actions .btn { width: 100%; } /* Botones anchos en móvil */
+  .hero-content { flex-direction: column; align-items: flex-start; justify-content: center; padding: 20px; }
   .hero-indicators { margin-top: 3rem; margin-bottom: -2rem; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 2rem; }
+  .hero-subtitle { font-size: 1rem; }
 }

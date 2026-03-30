@@ -1,50 +1,75 @@
-import React from 'react';
-import { CarFront, Search, Bell, User } from 'lucide-react';
-import './Navbar.css';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const Navbar = () => {
-  return (
-    <nav className="navbar">
-      <div className="container navbar-container">
-        {/* Logo Section */}
-        <div className="navbar-logo">
-          <div className="logo-icon">
-            <CarFront size={28} />
-          </div>
-          <span className="logo-text">Gestionadora de Créditos</span>
-        </div>
+export const useNavbarLogica = () => {
+  const [user, setUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-        {/* Navigation Links */}
-        <ul className="navbar-links">
-          <li><a href="#" className="active">Inicio</a></li>
-          <li><a href="#">Vehículos</a></li>
-          <li><a href="#">Financiamiento</a></li>
-          <li><a href="#">Contacto</a></li>
-        </ul>
+  useEffect(() => {
+    // Cerrar el menú si cambiamos de ruta
+    setIsMenuOpen(false);
+    
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    } else {
+      setUser(null);
+    }
+  }, [location.pathname]);
 
-        {/* Right Section */}
-        <div className="navbar-actions">
-          <div className="search-bar">
-            <Search size={18} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Buscar modelos, marcas..." 
-              className="search-input"
-            />
-          </div>
-          <button className="icon-btn notification-btn" aria-label="Notificaciones">
-            <Bell size={20} />
-            <span className="notification-dot"></span>
-          </button>
-          <div className="avatar-container">
-            <div className="avatar">
-              <User size={20} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  );
+  const handleUserClick = () => {
+    if (user) {
+      navigate('/perfil');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleSearch = (e) => {
+    if (e && e.key === 'Enter') {
+      e.preventDefault();
+      if (searchQuery.trim()) {
+        navigate(`/inventory?search=${encodeURIComponent(searchQuery.trim())}`);
+      } else {
+        navigate('/inventory'); // Si está vacío, recarga el catálogo completo
+      }
+    }
+  };
+
+  const onSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/inventory?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      navigate('/inventory'); // Si está vacío, recarga el catálogo completo
+    }
+  };
+
+  const handleLogout = (e) => {
+    if (e) e.stopPropagation(); // Evitar que el clic en logout active el navigation al perfil
+    localStorage.removeItem('user');
+    setUser(null);
+    setIsMenuOpen(false); // Extra safety
+    navigate('/login');
+  };
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  return { 
+    user, 
+    isLoggedIn: !!user,
+    handleUserClick,
+    handleLogout,
+    searchQuery,
+    setSearchQuery,
+    handleSearch,
+    onSearchSubmit,
+    isMenuOpen,
+    toggleMenu,
+    closeMenu
+  };
 };
-
-export default Navbar;
