@@ -20,7 +20,20 @@
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/04/hyundai-Porter-2011.png",
       "galleryPath": "Hyundai Porter Doble Cabina",
-      "summary": "El Hyundai Porter Doble Cabina es la herramienta definitiva para el trabajo pesado y el transporte de personal. Con capacidad para 6 pasajeros cómodamente sentados y una plataforma de carga sumamente resistente, es el favorito indiscutible en las flotas de las empresas surcoreanas."
+      "summary": "El Hyundai Porter Doble Cabina es la herramienta definitiva para el trabajo pesado y el transporte de personal. Con capacidad para 6 pasajeros cómodamente sentados y una plataforma de carga sumamente resistente, es el favorito indiscutible en las flotas de las empresas surcoreanas.",
+      "heroSubtitle": "La camioneta de trabajo por excelencia. Diseñada para rendir al máximo en cada jornada, sin importar la carga.",
+      "performanceData": "Torque 260 Nm a 1800 rpm",
+      "specDescriptions": {
+        "motor": "Motor diésel turboalimentado con máxima eficiencia en transporte de carga.",
+        "rendimiento": "Potencia diseñada para arrastre y carga pesada con bajo consumo.",
+        "historial": "Unidades disponibles para importar directamente desde Corea.",
+        "transmission": "Caja manual sincronizada para mayor control en trabajo pesado."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Construcción Robusta", "text": "Chasis reforzado de alta resistencia diseñado para condiciones de trabajo exigentes y traíleres pesados." },
+        { "icon": "Sparkles", "title": "Respaldo SAVS", "text": "Cada unidad ha sido inspeccionada en motor, chasis y sistema eléctrico localmente por nuestro equipo experto." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Entregado en estado impecable tras revisiones preventivas completas para que inicies labores de inmediato." }
+      ]
     },
     {
       "id": "2",
@@ -42,7 +55,20 @@
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs-2.png",
       "galleryPath": "kia bongo doble cabina",
-      "summary": "El Kia Bongo es el legendario camión de trabajo pesado surcoreano, hermano del Porter. Importado con los más altos estándares, destaca por su chasis reforzado, excelente torque en bajas revoluciones y un interior de cabina doble que permite transportar cómodamente hasta 7 pasajeros mientras realizas tus labores diarias."
+      "summary": "El Kia Bongo es el legendario camión de trabajo pesado surcoreano, hermano del Porter. Importado con los más altos estándares, destaca por su chasis reforzado, excelente torque en bajas revoluciones y un interior de cabina doble que permite transportar cómodamente hasta 7 pasajeros mientras realizas tus labores diarias.",
+      "heroSubtitle": "El legendario camión surcoreano de trabajo pesado. Fiabilidad comprobada para las flotas más exigentes de Corea del Sur.",
+      "performanceData": "Torque máximo a 1600 rpm",
+      "specDescriptions": {
+        "motor": "Turbocargado con intercooler para máximo torque a bajas revoluciones.",
+        "rendimiento": "Capacidad de carga superior con consumo de combustible optimizado.",
+        "historial": "Disponible en stock Costa Rica, listo para entrega inmediata.",
+        "transmission": "Caja automática para mayor comodidad en largas jornadas de trabajo."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Origen Certificado", "text": "Importado directamente a través de canales exclusivos desde Corea del Sur garantizando una procedencia segura y documentada." },
+        { "icon": "Sparkles", "title": "Respaldo SAVS", "text": "Cada unidad ha sido minuciosamente inspeccionada en motor, chasis y electrónica localmente por nuestro equipo experto." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Completamos revisiones preventivas en todos los sistemas para que disfrutes tu inversión de forma inmediata." }
+      ]
     },
     {
       "id": "3",
@@ -64,7 +90,20 @@
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/04/Autos-Savs.png",
       "galleryPath": "Nissan Tiida",
-      "summary": "El Nissan Tiida destaca mundialmente por ofrecer uno de los habitáculos más amplios en la categoría de sedanes compactos. Es altamente valorado en el mercado por su increíble eficiencia de combustible, bajo mantenimiento y mecánica japonesa sumamente confiable que garantiza años de servicio."
+      "summary": "El Nissan Tiida destaca mundialmente por ofrecer uno de los habitáculos más amplios en la categoría de sedanes compactos. Es altamente valorado en el mercado por su increíble eficiencia de combustible, bajo mantenimiento y mecánica japonesa sumamente confiable que garantiza años de servicio.",
+      "heroSubtitle": "El sedán compacto con el interior más amplio de su categoría. Mecánica japonesa confiable al mejor precio del mercado.",
+      "performanceData": "Eficiencia: 14 km/L ciudad",
+      "specDescriptions": {
+        "motor": "Motor DOHC de 16 válvulas con distribución variable para mayor eficiencia.",
+        "rendimiento": "Excelente consumo de combustible con respuesta ágil en ciudad.",
+        "historial": "Revisado y certificado por nuestros expertos bajo estándares premium.",
+        "transmission": "Caja manual precisa que brinda control total al conductor."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Procedencia Garantizada", "text": "Vehículo con historial documentado e inspeccionado físicamente en nuestras instalaciones antes de la venta." },
+        { "icon": "Sparkles", "title": "Mecánica Confiable", "text": "Motor Nissan de bajo consumo con amplia disponibilidad de repuestos en todo el país y servicio técnico especializado." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Entregado con revisión técnica completa para que disfrutes tu inversión de forma inmediata y sin contratiempos." }
+      ]
     },
     {
       "id": "4",
@@ -86,7 +125,20 @@
       "color": "Plateado",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2010-ix-1.png",
       "galleryPath": "Hyundai Tucson IX",
-      "summary": "El Hyundai Tucson iX 2010 revolucionó el diseño de los SUV compactos. Este modelo importado destaca en Autowini por su motor diésel altamente eficiente que ofrece una excelente respuesta en carretera con un consumo muy bajo. Un vehículo robusto y familiar ideal para todo terreno."
+      "summary": "El Hyundai Tucson iX 2010 revolucionó el diseño de los SUV compactos. Este modelo importado destaca en Autowini por su motor diésel altamente eficiente que ofrece una excelente respuesta en carretera con un consumo muy bajo. Un vehículo robusto y familiar ideal para todo terreno.",
+      "heroSubtitle": "El SUV compacto que redefiniu el segmento. Motor diésel eficiente y diseño robusto para carretera y todo terreno.",
+      "performanceData": "0-100 km/h en 10.5s",
+      "specDescriptions": {
+        "motor": "Motor e-VGT con turbo de geometría variable para respuesta óptima en carretera.",
+        "rendimiento": "Diseñado para carretera y terrenos irregulares con precisión y estabilidad.",
+        "historial": "Unidad importada con aproximadamente 80,000 km en buen estado general.",
+        "transmission": "Caja automática suave para máxima comodidad en manejo urbano e interurbano."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Origen Certificado", "text": "Importado directamente a través de canales exclusivos desde Corea del Sur como Autowini, garantizando procedencia segura." },
+        { "icon": "Sparkles", "title": "Respaldo SAVS", "text": "Cada unidad ha sido inspeccionada en motor, chasis y electrónica localmente por nuestro equipo técnico experto." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Nuestros modelos son entregados en estado impecable tras revisiones preventivas para que disfrutes tu inversión de inmediato." }
+      ]
     },
     {
       "id": "5",
@@ -108,7 +160,20 @@
       "color": "Negro",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-2013-ix-1.png",
       "galleryPath": "Hyundai IX20",
-      "summary": "El Hyundai Tucson iX20 2013 refina la exitosa fórmula de la generación anterior, añadiendo mejoras importantes en suspensión y ensamblaje. Su motor diésel de 2000cc es famoso por su longevidad y fuerte respuesta en ascensos, convirtiéndolo en un SUV de importación altamente preparado."
+      "summary": "El Hyundai Tucson iX20 2013 refina la exitosa fórmula de la generación anterior, añadiendo mejoras importantes en suspensión y ensamblaje. Su motor diésel de 2000cc es famoso por su longevidad y fuerte respuesta en ascensos, convirtiéndolo en un SUV de importación altamente preparado.",
+      "heroSubtitle": "La evolución perfecta del SUV surcoreano. Suspensión mejorada, mayor potencia y tecnología de dirección eléctrica.",
+      "performanceData": "0-100 km/h en 9.8s",
+      "specDescriptions": {
+        "motor": "Motor High-Power con turbo avanzado para máximo rendimiento en pendientes y autopistas.",
+        "rendimiento": "Precisión de manejo con dirección MDPS y suspensión refinada para cada curva.",
+        "historial": "Unidad importada con aproximadamente 90,000 km, inspeccionada por técnicos expertos.",
+        "transmission": "Caja automática de respuesta instantánea para transiciones suaves."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Origen Certificado", "text": "Importado directamente a través de canales exclusivos desde Corea del Sur como Autowini, garantizando procedencia segura." },
+        { "icon": "Sparkles", "title": "Mejoras Generacionales", "text": "Suspensión y ensamblaje perfeccionados respecto a la generación anterior, inspeccionados por nuestro equipo técnico." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Entregado en estado impecable con revisiones preventivas completas realizadas por nuestros especialistas." }
+      ]
     },
     {
       "id": "6",
@@ -130,7 +195,20 @@
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-Tucson-2019-Special-1.png",
       "galleryPath": "Hyundai Tucson TGID",
-      "summary": "El Hyundai Tucson TGDi 2019 representa la modernidad y la ingeniería surcoreana premium. Equipado con un motor turbo avanzado, ofrece una excelente aceleración en rebases y gran eficiencia. Cuenta con un diseño aerodinámico excepcional y tecnología de vanguardia."
+      "summary": "El Hyundai Tucson TGDi 2019 representa la modernidad y la ingeniería surcoreana premium. Equipado con un motor turbo avanzado, ofrece una excelente aceleración en rebases y gran eficiencia. Cuenta con un diseño aerodinámico excepcional y tecnología de vanguardia.",
+      "heroSubtitle": "La redefinión absoluta del SUV premium. Tracción total AWD, turbo GDi y tecnología de vanguardia para quienes exigen lo mejor.",
+      "performanceData": "0-100 km/h en 8.5s",
+      "specDescriptions": {
+        "motor": "Turbo GDi de inyección directa para aceleración instantánea y rebases superiores.",
+        "rendimiento": "Tracción total AWD con precisión deportiva y respuesta dinámica en cada curva.",
+        "historial": "Unidad relativamente nueva con aproximadamente 50,000 km en excelente estado.",
+        "transmission": "Caja automática de última generación con cambios rápidos y eficientes."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Ingeniería Premium", "text": "Tracción AWD y motor turbo de alta eficiencia importados bajo los más estrictos estándares de calidad surcoreana." },
+        { "icon": "Sparkles", "title": "Respaldo SAVS", "text": "Inspeccionado minuciosamente en todos sus sistemas eléctricos, mecánicos y estructurales por nuestro equipo experto." },
+        { "icon": "Navigation", "title": "Experiencia Premium", "text": "Diseño aerodinámico de vanguardia entregado en condiciones perfectas para una experiencia de manejo superior." }
+      ]
     },
     {
       "id": "7",
@@ -152,7 +230,20 @@
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2016-1.png",
       "galleryPath": "Kia Sorento LX",
-      "summary": "El Kia Sorento LX 2016 es el SUV familiar por excelencia. Con capacidad para 7 pasajeros, ofrece el equilibrio perfecto entre potencia para viajes largos y economía. Su construcción sólida, el gran espacio de carga y su confiabilidad certificada lo hacen una importación inteligente."
+      "summary": "El Kia Sorento LX 2016 es el SUV familiar por excelencia. Con capacidad para 7 pasajeros, ofrece el equilibrio perfecto entre potencia para viajes largos y economía. Su construcción sólida, el gran espacio de carga y su confiabilidad certificada lo hacen una importación inteligente.",
+      "heroSubtitle": "El SUV familiar más completo del mercado. Siete pasajeros, motor diésel confiable y espacio generoso para toda la familia.",
+      "performanceData": "Capacidad de carga: 600 kg",
+      "specDescriptions": {
+        "motor": "Motor CRDi conocido por su longevidad y excelente torque para viajes largos con carga familiar.",
+        "rendimiento": "Estabilidad superior en autopista y gran espacio interior para 7 pasajeros cómodos.",
+        "historial": "Unidad importada con aproximadamente 70,000 km, revisada por nuestros técnicos expertos.",
+        "transmission": "Caja automática suave con transiciones perfectas para máxima comodidad familiar."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Familia Segura", "text": "Construcción robusta con altos estándares de seguridad pasiva y activa para proteger a todos los pasajeros." },
+        { "icon": "Sparkles", "title": "Espacio Premium", "text": "7 asientos con amplio espacio en todas las filas y maletero generoso. Inspeccionado íntegramente por nuestro equipo." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Entregado en condiciones óptimas para viajes largos, con revisiones preventivas completas incluidas." }
+      ]
     },
     {
       "id": "8",
@@ -174,7 +265,20 @@
       "color": "Charcoal",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Kia-Sorento-2020-1.png",
       "galleryPath": "Kia Sorento LX",
-      "summary": "La nueva generación del Kia Sorento LX 2020 eleva todos los estándares. Importado como una opción premium destacada, cuenta con un motor diésel de 2200cc sumamente capaz, un diseño exterior imponente y las últimas asistencias de confort. Es un vehículo líder en las exportaciones de Corea."
+      "summary": "La nueva generación del Kia Sorento LX 2020 eleva todos los estándares. Importado como una opción premium destacada, cuenta con un motor diésel de 2200cc sumamente capaz, un diseño exterior imponente y las últimas asistencias de confort. Es un vehículo líder en las exportaciones de Corea.",
+      "heroSubtitle": "La nueva generación del SUV familiar premium. Tecnología HTRAC 4WD y diseño imponente que redefine el segmento.",
+      "performanceData": "0-100 km/h en 8.9s",
+      "specDescriptions": {
+        "motor": "Smartstream D de nueva generación con máxima eficiencia y emisión reducida.",
+        "rendimiento": "Sistema HTRAC para distribución inteligente de torque en las 4 ruedas según necesidad.",
+        "historial": "Unidad reciente con solo 45,000 km, inspeccionada y certificada por nuestro equipo.",
+        "transmission": "Caja automática electrónica de última generación con modos de manejo inteligentes."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Tecnología de Vanguardia", "text": "Sistema 4WD inteligente HTRAC y motor Smartstream de última generación, importado de los principales exportadores de Corea." },
+        { "icon": "Sparkles", "title": "Respaldo SAVS", "text": "Cada unidad ha sido inspeccionada minuciosamente en motor, chasis y todos los sistemas electrónicos por nuestro equipo." },
+        { "icon": "Navigation", "title": "Confort Total", "text": "Diseño interior y exterior de nivel premium, entregado en condiciones perfectas para una experiencia de lujo inmediata." }
+      ]
     },
     {
       "id": "9",
@@ -196,7 +300,20 @@
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Chevrolet-Trax-2021-1.png",
       "galleryPath": "Chevrolet The new Trax",
-      "summary": "El Chevrolet Trax 2021 es un SUV compacto ágil y versátil. Su motor turbo de gasolina proporciona una respuesta rápida y un manejo sumamente dinámico en espacios urbanos. Destaca por su modernidad, altura libre al suelo y excelente maniobrabilidad."
+      "summary": "El Chevrolet Trax 2021 es un SUV compacto ágil y versátil. Su motor turbo de gasolina proporciona una respuesta rápida y un manejo sumamente dinámico en espacios urbanos. Destaca por su modernidad, altura libre al suelo y excelente maniobrabilidad.",
+      "heroSubtitle": "El SUV urbano perfecto. Turbo Ecotec 1.4L, manejo ágil y diseño moderno para dominar la ciudad con estilo.",
+      "performanceData": "0-100 km/h en 9.5s",
+      "specDescriptions": {
+        "motor": "Turbo Ecotec con inyección directa para respuesta instantánea y eficiencia superior en ciudad.",
+        "rendimiento": "Manejo dinámico y ágil en espacios urbanos con excelente radio de giro.",
+        "historial": "Unidad reciente con solo 35,000 km en excelente estado, revisada por nuestros técnicos.",
+        "transmission": "Caja automática con respuesta rápida para tranbsiciones suaves en todo momento."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Modernidad Certificada", "text": "Diseño aerodinámico moderno y sistemas de seguridad actualizados, importado bajo los más altos estándares." },
+        { "icon": "Sparkles", "title": "Respaldo SAVS", "text": "Inspeccionado en motor, carrocería, electrónica y seguridad activa por nuestro equipo técnico especializado." },
+        { "icon": "Navigation", "title": "Listo para la Ciudad", "text": "Entregado en condiciones perfectas con maniobrabilidad óptima para el uso diario urbano desde el primer día." }
+      ]
     },
     {
       "id": "10",
@@ -218,7 +335,20 @@
       "color": "Charcoal",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/hyundai-accent-2017-1.png",
       "galleryPath": "Hyundai Accent VGT",
-      "summary": "El Hyundai Accent VGT 2017 es un sedán que sobresale en las importaciones desde Corea por su diseño y su sistema de motorización optimizada. Siempre aparece en los primeros lugares de autowini por su historial comprobado de confiabilidad mecánica, seguridad y manejo suave."
+      "summary": "El Hyundai Accent VGT 2017 es un sedán que sobresale en las importaciones desde Corea por su diseño y su sistema de motorización optimizada. Siempre aparece en los primeros lugares de autowini por su historial comprobado de confiabilidad mecánica, seguridad y manejo suave.",
+      "heroSubtitle": "El sedán de bajo consumo con máxima confiabilidad. Tecnología BlueDrive para ahorrar en combustible sin sacrificar prestaciones.",
+      "performanceData": "Eficiencia: 16 km/L ciudad",
+      "specDescriptions": {
+        "motor": "BlueDrive VGT optimizado para mínimo consumo con máxima confiabilidad mecánica.",
+        "rendimiento": "Manejo suave y preciso con dirección MDPS para comodidad en ciudad y carretera.",
+        "historial": "Unidad importada con 60,000 km, revisada y certificada por nuestros técnicos expertos.",
+        "transmission": "Caja automática de respuesta suave para una experiencia de manejo cómoda."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Origen Certificado", "text": "Importado directamente a través de Autowini con historial comprobado de confiabilidad mecánica y seguridad." },
+        { "icon": "Sparkles", "title": "Bajo Consumo BlueDrive", "text": "Tecnología de eficiencia avanzada que reduce el consumo de combustible hasta un 20% comparado con motores estándar." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Inspeccionado en todos sus sistemas y entregado en condiciones perfectas para tu comodidad inmediata." }
+      ]
     },
     {
       "id": "11",
@@ -240,7 +370,20 @@
       "color": "Blanco",
       "image": "https://importadorasavs.com/wp-content/uploads/2025/03/Hyundai-accent-2012-1.png",
       "galleryPath": "Hyundai Accent MC",
-      "summary": "El Hyundai Accent MC 2012 es un sedán extremadamente económico gracias a su noble motor diésel. Su durabilidad legendaria, junto a un chasis liviano y bajo consumo de combustible diario, lo convierten en una opción inmejorable para flotillas o uso personal prolongado."
+      "summary": "El Hyundai Accent MC 2012 es un sedán extremadamente económico gracias a su noble motor diésel. Su durabilidad legendaria, junto a un chasis liviano y bajo consumo de combustible diario, lo convierten en una opción inmejorable para flotillas o uso personal prolongado.",
+      "heroSubtitle": "El sedán diésel más económico del mercado. Durabilidad legendaria y costo de operación mínimo para uso diario o flotillas.",
+      "performanceData": "Consumo: 20 km/L en carretera",
+      "specDescriptions": {
+        "motor": "Motor diésel UII de larga vida útil y bajisímo consumo diario en uso urbano e interurbano.",
+        "rendimiento": "Chasis liviano con excelente dinamismo para uso cotidiano en ciudad y carretera.",
+        "historial": "Unidad con 110,000 km documentados, revisada integralmente por nuestros expertos.",
+        "transmission": "Caja automática confiable y fácil de mantener, ideal para flotas y uso diario prolongado."
+      },
+      "features": [
+        { "icon": "Shield", "title": "Durabilidad Legendaria", "text": "Motor diésel Hyundai con historial comprobado de duración superior a 300,000 km con mantenimiento básico." },
+        { "icon": "Sparkles", "title": "Mínimo Costo Operativo", "text": "El costo por kilómetro más bajo del catálogo. Ideal para flotas empresariales o uso personal prolongado." },
+        { "icon": "Navigation", "title": "Listo para Circular", "text": "Revisado en motor, sistema eléctrico y carrocería. Entregado en condiciones ideales para comenzar a trabajar." }
+      ]
     }
   ],
   "users": [

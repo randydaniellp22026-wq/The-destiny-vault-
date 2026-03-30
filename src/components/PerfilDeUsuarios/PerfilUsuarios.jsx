@@ -220,12 +220,12 @@ function PerfilUsuarios() {
     Swal.fire({
       title: 'Actualizar Seguimiento de Importación',
       html: `
-        <div style="text-align: left; color: #fff;">
+        <div style="text-align: left; color: #fff; overflow: hidden;">
           <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Nombre del Vehículo</label>
-          <input id="track-vehicle" class="swal2-input" value="${userInfo.tracking.vehicleName}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+          <input id="track-vehicle" class="swal2-input" value="${userInfo.tracking.vehicleName}" style="margin-top:0; margin-bottom:15px; width: 100%; box-sizing: border-box;">
           
           <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Etapa de Importación</label>
-          <select id="track-status" class="swal2-input" style="margin-top:0; margin-bottom:15px; width: 90%; background: #222; color: #fff;">
+          <select id="track-status" class="swal2-input" style="margin-top:0; margin-bottom:15px; width: 100%; box-sizing: border-box; background: #222; color: #fff;">
             <option value="1" ${userInfo.tracking.importStatus === 1 ? 'selected' : ''}>1. Compra Realizada</option>
             <option value="2" ${userInfo.tracking.importStatus === 2 ? 'selected' : ''}>2. En Tránsito</option>
             <option value="3" ${userInfo.tracking.importStatus === 3 ? 'selected' : ''}>3. En Aduanas</option>
@@ -233,16 +233,21 @@ function PerfilUsuarios() {
           </select>
 
           <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Fecha Estimada de Arribo</label>
-          <input id="track-date" class="swal2-input" value="${userInfo.tracking.estimatedDate}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+          <input id="track-date" class="swal2-input" value="${userInfo.tracking.estimatedDate}" style="margin-top:0; margin-bottom:15px; width: 100%; box-sizing: border-box;">
 
           <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Ubicación Actual</label>
-          <input id="track-location" class="swal2-input" value="${userInfo.tracking.location}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+          <input id="track-location" class="swal2-input" value="${userInfo.tracking.location}" style="margin-top:0; margin-bottom:15px; width: 100%; box-sizing: border-box;">
 
           <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Barco / Naviera</label>
-          <input id="track-vessel" class="swal2-input" value="${userInfo.tracking.vessel}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+          <input id="track-vessel" class="swal2-input" value="${userInfo.tracking.vessel}" style="margin-top:0; margin-bottom:15px; width: 100%; box-sizing: border-box;">
 
           <label style="display:block; margin-bottom: 5px; font-size: 0.8rem; color: #9ca3af;">Descripción del Estado</label>
-          <input id="track-text" class="swal2-input" value="${userInfo.tracking.statusText}" style="margin-top:0; margin-bottom:15px; width: 90%;">
+          <select id="track-text" class="swal2-input" style="margin-top:0; margin-bottom:5px; width: 100%; box-sizing: border-box; background: #222; color: #fff;">
+            <option value="Compra procesada correctamente" ${userInfo.tracking.statusText === 'Compra procesada correctamente' ? 'selected' : ''}>Compra procesada correctamente</option>
+            <option value="Vehículo en tránsito marítimo" ${userInfo.tracking.statusText === 'Vehículo en tránsito marítimo' ? 'selected' : ''}>Vehículo en tránsito marítimo</option>
+            <option value="En trámite aduanal" ${userInfo.tracking.statusText === 'En trámite aduanal' ? 'selected' : ''}>En trámite aduanal</option>
+            <option value="Listo para entrega al cliente" ${userInfo.tracking.statusText === 'Listo para entrega al cliente' ? 'selected' : ''}>Listo para entrega al cliente</option>
+          </select>
         </div>
       `,
       showCancelButton: true,
@@ -251,6 +256,7 @@ function PerfilUsuarios() {
       confirmButtonColor: '#eab308',
       background: '#141414',
       color: '#fff',
+      width: '520px',
       preConfirm: () => {
         return {
           vehicleName: document.getElementById('track-vehicle').value,
