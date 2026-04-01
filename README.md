@@ -62,25 +62,39 @@ El sistema gestiona cinco colecciones principales:
 ## 🚀 Funcionalidades Clave
 
 ### 🏠 Inicio Dinámico
-- Carrusel infinito de marcas asociadas.
+- Carrusel infinito de marcas asociadas con efectos fluidos.
 - Secciones de "Bestias del asfalto", "Poco Kilometraje" y más, filtradas automáticamente por lógica de negocio en el frontend.
 
-### 🔍 Inventario Inteligente
-- Sistema de búsqueda por texto.
-- Filtros por tipo de vehículo (SUV, Sedán, Pick-up, etc.), marca y rango de precios.
+### 🔍 Inventario Inteligente y Dinámico
+- Vista detallada de vehículos (`VehicleDetails`) **100% dinámica**: especificaciones técnicas, rendimiento, galerías e íconos de características provenientes directamente de la base de datos (eliminación total de datos fijos/hardcodeados).
+- Filtros avanzados por tipo de vehículo (SUV, Sedán, Pick-up, etc.), marca y rango de precios.
 
-### 👤 Área de Usuario
-- Registro y login con validaciones de formato.
-- Perfil personal donde el usuario puede ver sus favoritos y editar su dirección exacta con dropdowns de provincias de Costa Rica.
+### 👤 Área de Usuario y Perfil
+- Registro y login seguro adaptado al diseño de la marca.
+- Perfil personal donde el cliente puede gestionar favoritos, ver su información de contacto y añadir su ubicación exacta usando selectores de provincias de Costa Rica.
+
+### 🚢 Seguimiento de Importaciones (Tracking)
+- Panel en tiempo real para clientes mostrando la etapa de importación de su vehículo.
+- **4 etapas definidas**: Compra Realizada, En Tránsito, En Aduanas y Entrega Final.
+- Barra de progreso visual y notificaciones de fecha estimada, barco/naviera y ubicación actual.
 
 ### 🤖 Asistente Virtual (Chatbot)
 - Bot conversacional integrado directamente en la interfaz.
 - Respuestas automáticas guiadas para métodos de pago, vehículos como parte de pago (trade-in) y búsqueda por marcas.
 - Derivación fluida a WhatsApp de ventas con mensaje personalizado para atención humana directa.
 
-### ⚙️ Panel Administrativo (Portal SAVS)
-- **Dashboard**: Gráficos de barra que muestran la distribución de vehículos por tipo.
-- **Gestión**: CRUD (Crear, Leer, Actualizar, Borrar) de vehículos, revisión de reviews pendientes y control de solicitudes de contacto.
+### ⚙️ Panel Administrativo Robusto (Portal SAVS)
+- **Seguimiento (Tracking Admin)**: Nueva interfaz dedicada para que gerentes y admins actualicen los estados de importación de todos los clientes de manera centralizada.
+- **Gestión Total**: CRUD de vehículos, revisión de reviews pendientes, administración de roles de usuarios y control de solicitudes de contacto.
+
+---
+
+## 🛡️ Estabilidad y Validaciones Estrictas
+
+Para evitar errores humanos y asegurar la integridad de los datos en la base de datos:
+- **Validación Global de Inputs**: Todos los formularios están blindados a nivel global (DOM) interceptando eventos de tipeo y pegado (`keydown`/`paste`).
+- **Control Numérico Perfecto**: Las calculadoras financieras y los precios no permiten números negativos, letras ni símbolos matemáticos de notación (`e`, `E`, `+`).
+- **Protección de Caracteres**: Bloqueo estricto del símbolo guion (`-`) en todos los campos textuales y numéricos, permitiéndose **únicamente** en los números de teléfono.
 
 ---
 

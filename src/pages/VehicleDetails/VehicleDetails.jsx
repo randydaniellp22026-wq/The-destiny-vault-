@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowLeft, ChevronRight, Zap, Shield, Sparkles, Navigation } from 'lucide-react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useVehicleDetailsLogica } from './VehicleDetailsLogica';
-import VehicleCarousel from '../../components/FerrariCarousel/FerrariCarousel';
+import VehicleCarousel from '../../components/VehicleCarousel/VehicleCarousel';
 import ShimmerText from '../../components/ShimmerText/ShimmerText';
 import './VehicleDetails.css';
 
@@ -66,7 +66,7 @@ const VehicleDetails = () => {
           
           <div className="hero-text-content">
             <ShimmerText className="hero-title" text={vehicle.name} as="h1" />
-            <p className="hero-subtitle">La redefinición absoluta del rendimiento y la elegancia. Diseñado para quienes exigen más que solo conducir.</p>
+            <p className="hero-subtitle">{vehicle.heroSubtitle || 'Importado con los más altos estándares de calidad. Diseñado para brindar rendimiento y confiabilidad excepcionales.'}</p>
             
             <div className="hero-stats-row">
               <div className="hero-stat">
@@ -97,28 +97,28 @@ const VehicleDetails = () => {
             <div className="spec-icon-wrapper"><Zap size={24} /></div>
             <h3 className="spec-title">Motorización</h3>
             <p className="spec-data">{vehicle.motor}</p>
-            <p className="spec-desc">Poder inmediato y respuesta aerodinámica superior.</p>
+            <p className="spec-desc">{vehicle.specDescriptions?.motor || 'Poder inmediato y respuesta aerodinámica superior.'}</p>
           </div>
           
           <div className="spec-card">
             <div className="spec-icon-wrapper"><Navigation size={24} /></div>
             <h3 className="spec-title">Dinámica de Conducción</h3>
-            <p className="spec-data">0-100 km/h en 4.2s</p>
-            <p className="spec-desc">Precisión absoluta en cada curva.</p>
+            <p className="spec-data">{vehicle.performanceData || 'Alto rendimiento'}</p>
+            <p className="spec-desc">{vehicle.specDescriptions?.rendimiento || 'Precisión y estabilidad en cada situación de manejo.'}</p>
           </div>
 
           <div className="spec-card">
             <div className="spec-icon-wrapper"><Sparkles size={24} /></div>
             <h3 className="spec-title">Historial de Unidad</h3>
             <p className="spec-data">{vehicle.mileage}</p>
-            <p className="spec-desc">Revisado y certificado por nuestros expertos bajo estándares premium.</p>
+            <p className="spec-desc">{vehicle.specDescriptions?.historial || 'Revisado y certificado por nuestros expertos bajo estándares premium.'}</p>
           </div>
 
           <div className="spec-card">
             <div className="spec-icon-wrapper"><Shield size={24} /></div>
             <h3 className="spec-title">Transmisión</h3>
             <p className="spec-data">{vehicle.transmission}</p>
-            <p className="spec-desc">Gestión optimizada para máxima eficiencia.</p>
+            <p className="spec-desc">{vehicle.specDescriptions?.transmission || 'Gestión optimizada para máxima eficiencia.'}</p>
           </div>
         </div>
 
@@ -179,26 +179,22 @@ const VehicleDetails = () => {
             </p>
             
             <div className="autowini-features" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
-              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
-                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
-                  <Shield size={24} /> Origen Certificado
-                </h4>
-                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Importado directamente a través de canales exclusivos desde Corea del Sur como Autowini, garantizando una procedencia segura.</p>
-              </div>
-
-              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
-                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
-                  <Sparkles size={24} /> Respaldo SAVS
-                </h4>
-                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Cada unidad que ofrecemos ha sido minuciosamente inspeccionada en motor, chasis y electrónica localmente por nuestro equipo experto.</p>
-              </div>
-              
-              <div className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
-                <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
-                  <Navigation size={24} /> Listo para Circular
-                </h4>
-                <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>Nuestros modelos son entregados en estado impecable. Completamos revisiones preventivas para que disfrutes tu inversión de forma inmediata.</p>
-              </div>
+              {(vehicle.features || [
+                { icon: 'Shield', title: 'Origen Certificado', text: 'Importado directamente a través de canales exclusivos desde Corea del Sur como Autowini, garantizando una procedencia segura.' },
+                { icon: 'Sparkles', title: 'Respaldo SAVS', text: 'Cada unidad que ofrecemos ha sido minuciosamente inspeccionada en motor, chasis y electrónica localmente por nuestro equipo experto.' },
+                { icon: 'Navigation', title: 'Listo para Circular', text: 'Nuestros modelos son entregados en estado impecable. Completamos revisiones preventivas para que disfrutes tu inversión de forma inmediata.' }
+              ]).map((feature, idx) => {
+                const IconMap = { Shield, Sparkles, Navigation };
+                const FeatureIcon = IconMap[feature.icon] || Shield;
+                return (
+                  <div key={idx} className="feature-card" style={{ background: 'rgba(15,15,15,0.6)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(234, 179, 8, 0.2)', transition: 'transform 0.3s ease' }}>
+                    <h4 style={{ color: '#eab308', marginBottom: '1.2rem', fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.8rem', fontFamily: 'Outfit, sans-serif' }}>
+                      <FeatureIcon size={24} /> {feature.title}
+                    </h4>
+                    <p style={{ color: '#9ca3af', lineHeight: '1.7' }}>{feature.text}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

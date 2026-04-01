@@ -48,7 +48,8 @@ const initialFormState = {
   doors: '',
   drive: '',
   passengers: '',
-  steering: ''
+  steering: '',
+  detailImages: []
 };
 
 const CreateVehicle = () => {
@@ -59,6 +60,7 @@ const CreateVehicle = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [detailImagesDraft, setDetailImagesDraft] = useState([]);
 
   const filteredVehicles = vehiculos.filter(v => 
     v.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -115,6 +117,27 @@ const CreateVehicle = () => {
     }
   };
 
+  const handleDetailImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+    const readers = files.map(file => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (ev) => resolve(ev.target.result);
+        reader.readAsDataURL(file);
+      });
+    });
+    Promise.all(readers).then(results => {
+      setDetailImagesDraft(prev => [...prev, ...results]);
+    });
+    // Reset input so same files can be re-added if needed
+    e.target.value = '';
+  };
+
+  const removeDetailImage = (index) => {
+    setDetailImagesDraft(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const requiredFields = ['name', 'motor', 'type', 'year', 'price', 'mileage', 'summary', 'image'];
@@ -129,11 +152,13 @@ const CreateVehicle = () => {
         return;
       }
     }
+    // Merge detailImages draft into formData
+    const mergedDetailImages = detailImagesDraft.length > 0 ? detailImagesDraft : (formData.detailImages || []);
 
     const priceNum = Number(formData.price);
     const yearNum = Number(formData.year);
 
-    const cleanData = { ...formData, price: priceNum, year: yearNum };
+    const cleanData = { ...formData, price: priceNum, year: yearNum, detailImages: mergedDetailImages };
 
     setLoading(true);
     try {
@@ -149,6 +174,7 @@ const CreateVehicle = () => {
           Swal.fire({ ...darkSwal, icon: 'success', title: '¡Actualizado!', timer: 1500, showConfirmButton: false });
           setIsEditing(false);
           setFormData(initialFormState);
+          setDetailImagesDraft([]);
         }
       } else {
         const payload = { ...cleanData, id: String(Date.now()) };
@@ -162,6 +188,7 @@ const CreateVehicle = () => {
           setVehiculos([newCar, ...vehiculos]);
           Swal.fire({ ...darkSwal, icon: 'success', title: '¡Publicado!', timer: 1500, showConfirmButton: false });
           setFormData(initialFormState);
+          setDetailImagesDraft([]);
         }
       }
     } catch (error) {
@@ -176,8 +203,10 @@ const CreateVehicle = () => {
     setFormData({
       ...vehiculo,
       price: String(vehiculo.price),
-      year: String(vehiculo.year)
+      year: String(vehiculo.year),
+      detailImages: vehiculo.detailImages || []
     });
+    setDetailImagesDraft(vehiculo.detailImages || []);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -319,6 +348,111 @@ const CreateVehicle = () => {
                     </div>
                   )}
                 </div>
+              </div>
+
+              {/* ── Galería de Detalles del Vehículo ── */}
+              <div className="form-group" style={{ marginTop: '1.5rem' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.8rem' }}>
+                  <ImageIcon size={14} />
+                  Galería de Detalles
+                  <span style={{ color: '#6b7280', fontWeight: 400, fontSize: '0.8rem' }}>(opcional — se muestran en el carrusel de la página de detalles)</span>
+                </label>
+
+                {/* Zona de carga de múltiples imágenes */}
+                <label
+                  htmlFor="detail-images-input"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    border: '2px dashed rgba(234,179,8,0.35)',
+                    borderRadius: '15px',
+                    padding: '1.8rem',
+                    cursor: 'pointer',
+                    background: 'rgba(234,179,8,0.04)',
+                    transition: 'background 0.2s'
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = 'rgba(234,179,8,0.09)'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'rgba(234,179,8,0.04)'}
+                >
+                  <ImageIcon size={28} style={{ color: '#eab308', opacity: 0.7 }} />
+                  <span style={{ color: '#9ca3af', fontSize: '0.9rem' }}>Seleccionar imágenes de detalle</span>
+                  <span style={{ color: '#6b7280', fontSize: '0.78rem' }}>JPG, PNG, WEBP — puedes seleccionar varias a la vez</span>
+                  <input
+                    id="detail-images-input"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleDetailImagesChange}
+                    style={{ display: 'none' }}
+                  />
+                </label>
+
+                {/* Vista previa de imágenes cargadas */}
+                {detailImagesDraft.length > 0 && (
+                  <div style={{ marginTop: '1.2rem' }}>
+                    <p style={{ color: '#9ca3af', fontSize: '0.82rem', marginBottom: '0.8rem' }}>
+                      {detailImagesDraft.length} imagen{detailImagesDraft.length !== 1 ? 'es' : ''} añadida{detailImagesDraft.length !== 1 ? 's' : ''} — haz clic en la ✕ para eliminar
+                    </p>
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
+                      gap: '0.8rem'
+                    }}>
+                      {detailImagesDraft.map((src, idx) => (
+                        <div
+                          key={idx}
+                          style={{ position: 'relative', borderRadius: '10px', overflow: 'hidden', aspectRatio: '4/3' }}
+                        >
+                          <img
+                            src={src}
+                            alt={`Detalle ${idx + 1}`}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeDetailImage(idx)}
+                            title="Eliminar imagen"
+                            style={{
+                              position: 'absolute',
+                              top: '4px',
+                              right: '4px',
+                              background: 'rgba(239,68,68,0.85)',
+                              color: '#fff',
+                              border: 'none',
+                              borderRadius: '50%',
+                              width: '22px',
+                              height: '22px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '13px',
+                              cursor: 'pointer',
+                              lineHeight: 1
+                            }}
+                          >
+                            ✕
+                          </button>
+                          <div style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            background: 'rgba(0,0,0,0.55)',
+                            color: '#9ca3af',
+                            fontSize: '0.68rem',
+                            textAlign: 'center',
+                            padding: '2px 0'
+                          }}>
+                            #{idx + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <button type="submit" disabled={loading} style={{ 

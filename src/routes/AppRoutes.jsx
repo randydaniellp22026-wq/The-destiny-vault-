@@ -9,7 +9,7 @@ import RedireccionContactos from '../components/Redirecciones/Redireccion Contac
 import RedireccionModeloAuto from '../components/Redirecciones/RedireccionModeloAuto/RedireccionModeloAuto/RedireccionModeloAuto';
 import CreditSimulator from '../components/CreditSimulator/CreditSimulator';
 import PerfilUsuarios from '../components/PerfilDeUsuarios/PerfilUsuarios';
-import ClienteVendeSuAuto from '../components/intercambio de auto/ClienteVendeSuAuto';
+import IntercambioDeAutos from '../components/IntercambioDeAutos/IntercambioDeAutos';
 import Reseñas from '../components/TechnicalGlossary/ApartadoDeReseñas/Reseñas';
 import RecuperarPassword from '../pages/RecuperarPassword/RecuperarPassword';
 
@@ -19,6 +19,7 @@ import ReviewRequests from '../pages/admin/ReviewRequests';
 import CreateVehicle from '../pages/admin/CreateVehicle';
 import UserManagement from '../pages/admin/UserManagement';
 import BranchManagement from '../pages/admin/BranchManagement';
+import TrackingManagement from '../pages/admin/TrackingManagement';
 import AdminLayout from '../components/admin/AdminLayout';
 
 const AppRoutes = () => {
@@ -34,7 +35,7 @@ const AppRoutes = () => {
       <Route path="/modelAuto" element={<RedireccionModeloAuto />} />
       <Route path="/simulate-credit" element={<CreditSimulator />} />
       <Route path="/perfil" element={<PerfilUsuarios />} />
-      <Route path="/vender-auto" element={<ClienteVendeSuAuto />} />
+      <Route path="/vender-auto" element={<IntercambioDeAutos />} />
       <Route path="/reseñas" element={<Reseñas />} />
       <Route path="/recuperar" element={<RecuperarPassword />} />
       
@@ -45,6 +46,7 @@ const AppRoutes = () => {
       <Route path="/admin/branches" element={<AdminRoute><AdminLayout><BranchManagement /></AdminLayout></AdminRoute>} />
       <Route path="/admin/create-vehicle" element={<AdminRoute><AdminLayout><CreateVehicle /></AdminLayout></AdminRoute>} />
       <Route path="/admin/reviews" element={<AdminRoute><AdminLayout><Reseñas /></AdminLayout></AdminRoute>} />
+      <Route path="/admin/tracking" element={<AdminRoute><AdminLayout><TrackingManagement /></AdminLayout></AdminRoute>} />
     </Routes>
   );
 };
