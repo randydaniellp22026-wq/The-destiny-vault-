@@ -43,6 +43,10 @@ const UserManagement = () => {
   }, []);
 
   const handleEditUser = (user) => {
+    if (user.rol === 'gerente' && !isGerente) {
+      return Swal.fire('Acceso Denegado', 'No tienes permisos para modificar a un Gerente.', 'warning');
+    }
+
     Swal.fire({
       title: 'Editar Usuario',
       html: `
@@ -122,18 +126,25 @@ const UserManagement = () => {
   const handleToggleAdmin = async (user) => {
     if (!isGerente) return;
     
-    const newRole = user.rol === 'admin' ? 'Cliente' : 'admin';
-    const actionText = newRole === 'admin' ? 'ascender a Administrador' : 'quitar el rol de Administrador';
+    const isPromoting = user.rol !== 'admin';
+    const newRole = isPromoting ? 'admin' : 'Cliente';
+    
+    const title = isPromoting ? '¡Ascenso de Rango!' : 'Cambio de Responsabilidades';
+    const text = isPromoting 
+      ? `Estás a punto de promover a ${user.nombre} como Administrador. Este nuevo colaborador tendrá acceso total a la gestión de SAVS.`
+      : `¿Deseas retirar los permisos de Administrador a ${user.nombre}? Volverá al rango de Cliente.`;
 
     Swal.fire({
-      title: 'Cambiar Rango',
-      text: `¿Deseas ${actionText} a ${user.nombre}?`,
-      icon: 'question',
+      title: title,
+      text: text,
+      icon: isPromoting ? 'success' : 'warning',
       showCancelButton: true,
       confirmButtonColor: '#eab308',
-      confirmButtonText: 'Sí, aplicar',
+      cancelButtonColor: '#333',
+      confirmButtonText: isPromoting ? 'Sí, ¡Promover!' : 'Sí, Quitar Rango',
       background: '#141414',
-      color: '#fff'
+      color: '#fff',
+      backdrop: `rgba(234, 179, 8, 0.1)`
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -143,11 +154,19 @@ const UserManagement = () => {
             body: JSON.stringify({ rol: newRole })
           });
           if (res.ok) {
-            Swal.fire('Éxito', 'Rol actualizado correctamente.', 'success');
+            Swal.fire({
+              title: isPromoting ? '¡Promovido!' : 'Actualizado',
+              text: isPromoting ? `${user.nombre} ahora es parte del equipo administrativo.` : 'Permisos actualizados correctamente.',
+              icon: 'success',
+              timer: 2000,
+              showConfirmButton: false,
+              background: '#141414',
+              color: '#fff'
+            });
             fetchUsers();
           }
         } catch (error) {
-          Swal.fire('Error', 'No se pudo cambiar el rol.', 'error');
+          Swal.fire('Error', 'No se pudo procesar el cambio de rango.', 'error');
         }
       }
     });
@@ -225,19 +244,23 @@ const UserManagement = () => {
                 </td>
                 <td>
                   <div className="actions-cell">
-                    <button className="action-btn" onClick={() => handleEditUser(user)} title="Editar"><Edit3 size={18} /></button>
+                    {(isGerente || user.rol !== 'gerente') && (
+                      <button className="action-btn" onClick={() => handleEditUser(user)} title="Editar"><Edit3 size={18} /></button>
+                    )}
                     
                     {isGerente && user.id !== currentUser.id && user.rol !== 'gerente' && (
                       <button 
-                        className={`action-btn ${user.rol === 'admin' ? 'demote' : 'promote'}`} 
+                        className={`action-btn ${user.rol === 'admin' ? 'demote' : 'promote-shine'}`} 
                         onClick={() => handleToggleAdmin(user)}
-                        title={user.rol === 'admin' ? "Quitar Admin" : "Hacer Admin"}
+                        title={user.rol === 'admin' ? "Quitar Admin" : "Promover a Administrador"}
                       >
                         <UserPlus size={18} />
                       </button>
                     )}
 
-                    <button className="action-btn delete" onClick={() => handleDeleteUser(user)} title="Eliminar"><Trash2 size={18} /></button>
+                    {(isGerente || (user.rol !== 'gerente' && user.id !== currentUser.id)) && (
+                      <button className="action-btn delete" onClick={() => handleDeleteUser(user)} title="Eliminar"><Trash2 size={18} /></button>
+                    )}
                   </div>
                 </td>
               </tr>

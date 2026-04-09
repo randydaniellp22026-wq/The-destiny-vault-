@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, Linkedin, Car } from 'lucide-react';
+import { Facebook, Twitter, Linkedin, Car } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
@@ -18,9 +18,8 @@ const Footer = () => {
         
         <div className="footer-right">
           <div className="social-icons">
-            <a href="#" className="social-link" aria-label="Facebook"><Facebook size={20} /></a>
+            <a href="https://www.facebook.com/p/Importadora-De-Veh%C3%ADculos-SAVS-100083511271381/" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="Facebook"><Facebook size={20} /></a>
             <a href="#" className="social-link" aria-label="Twitter"><Twitter size={20} /></a>
-            <a href="#" className="social-link" aria-label="Instagram"><Instagram size={20} /></a>
             <a href="#" className="social-link" aria-label="LinkedIn"><Linkedin size={20} /></a>
           </div>
         </div>

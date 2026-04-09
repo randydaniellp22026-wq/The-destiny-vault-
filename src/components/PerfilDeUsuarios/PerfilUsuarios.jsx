@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './PerfilUsuarios.css';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 import {
   Bell,
@@ -87,6 +88,7 @@ function PerfilUsuarios() {
       confirmButtonColor: '#e63946'
     }).then((result) => {
       if (result.isConfirmed) {
+        toast('Sesión cerrada', { icon: '👋' });
         localStorage.removeItem('user');
         navigate('/login');
       }
@@ -544,6 +546,12 @@ function PerfilUsuarios() {
       user.favorites = updatedFavorites;
       localStorage.setItem('user', JSON.stringify(user));
 
+      if (updatedFavorites.includes(vidStr)) {
+        toast.success('Añadido a favoritos', { icon: '⭐' });
+      } else {
+        toast('Eliminado de favoritos');
+      }
+
       // Actualizar estado local para que desaparezca de la vista si estamos en modo "Favoritos"
       setVehicles(vehicles.map(v => 
         String(v.id) === vidStr ? { ...v, isFavorite: !v.isFavorite } : v
@@ -628,6 +636,7 @@ function PerfilUsuarios() {
                   importStatus: 1
                 };
                 setVehicles([...vehicles, newV]);
+                toast.success('Añadido a colección', { icon: '⭐' });
 
                 Swal.fire({
                   ...darkSwal,

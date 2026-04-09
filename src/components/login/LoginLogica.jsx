@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 const API_URL = 'http://localhost:5000';
 
@@ -66,6 +67,8 @@ export const useLoginLogic = () => {
           favorites: user.favorites || [],
           image: user.image || ''
         }));
+        
+        toast.success(`¡Bienvenido de nuevo, ${user.nombre.split(' ')[0]}!`);
         
         Swal.fire({
           ...darkSwal,

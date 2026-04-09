@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 /**
  * Hook para gestionar los favoritos de un vehículo específico.
@@ -22,9 +23,11 @@ export const useVehicleFavorites = (vehicleId) => {
     if (favorites.includes(vehicleId)) {
       favorites = favorites.filter(id => id !== vehicleId);
       setIsFavorite(false);
+      toast('Eliminado de favoritos');
     } else {
       favorites.push(vehicleId);
       setIsFavorite(true);
+      toast.success('Añadido a favoritos', { icon: '⭐' });
     }
     localStorage.setItem('favorites', JSON.stringify(favorites));
   };

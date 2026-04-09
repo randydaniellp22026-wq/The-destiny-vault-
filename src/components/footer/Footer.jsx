@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Instagram, Mail, MapPin, Phone, Globe, Clock } from 'lucide-react';
+import { Facebook, Mail, MapPin, Phone, Globe, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import savsLogo from '../../img/imagecopy4.png';
 import './Footer.css';
@@ -29,8 +29,7 @@ const Footer = () => {
           <p className="footer-brand-name">{company.name}</p>
           <p className="footer-follow">Síguenos</p>
           <div className="footer-social-top">
-            <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
-            <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
+            <a href="https://www.facebook.com/p/Importadora-De-Veh%C3%ADculos-SAVS-100083511271381/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={20} /></a>
           </div>
         </div>
 
@@ -72,8 +71,7 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>Copyright © {new Date().getFullYear()}. All rights reserved. Powered by Grid Studio Costa Rica.</p>
         <div className="footer-social-bottom">
-          <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
-          <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
+          <a href="https://www.facebook.com/p/Importadora-De-Veh%C3%ADculos-SAVS-100083511271381/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={18} /></a>
           <a href="#" aria-label="Website"><Globe size={18} /></a>
         </div>
       </div>

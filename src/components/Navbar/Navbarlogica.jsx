@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export const useNavbarLogica = () => {
   const [user, setUser] = useState(null);
@@ -50,6 +51,7 @@ export const useNavbarLogica = () => {
 
   const handleLogout = (e) => {
     if (e) e.stopPropagation(); // Evitar que el clic en logout active el navigation al perfil
+    toast('Sesión cerrada', { icon: '👋' });
     localStorage.removeItem('user');
     setUser(null);
     setIsMenuOpen(false); // Extra safety

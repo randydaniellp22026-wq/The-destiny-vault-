@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 /**
  * Hook para gestionar el usuario logueado, búsquedas y el menú del Navbar.
@@ -41,6 +42,7 @@ export const useNavbarStatus = () => {
 
   const handleLogout = (e) => {
     if (e) e.stopPropagation();
+    toast('Sesión cerrada', { icon: '👋' });
     localStorage.removeItem('user');
     setUser(null);
     setIsMenuOpen(false);

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 // Helper para SweetAlert con estilo oscuro
 const darkSwal = {
@@ -85,6 +86,12 @@ export const useVehicleCardLogica = (vehicleId) => {
       setIsFavorite(!isFavorite);
       user.favorites = updatedFavorites;
       localStorage.setItem('user', JSON.stringify(user));
+      
+      if (!isFavorite) {
+        toast.success('Añadido a favoritos', { icon: '⭐' });
+      } else {
+        toast('Eliminado de favoritos');
+      }
 
     } catch (err) {
       console.error("Error al guardar favorito:", err);

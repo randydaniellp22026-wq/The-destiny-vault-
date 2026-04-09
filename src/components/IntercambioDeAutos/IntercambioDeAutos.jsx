@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 import { User, Mail, Phone } from 'lucide-react';
 import './IntercambioDeAutos.css';
 
@@ -255,6 +256,12 @@ const IntercambioDeAutos = () => {
         if (response.ok) {
           const newRequest = await response.json();
           setVehiculos([newRequest, ...vehiculos]);
+          
+          toast.success('Solicitud enviada correctamente', {
+            duration: 4000,
+            icon: '📋',
+          });
+
           Swal.fire({
             icon: 'success',
             title: '¡Recibido!',
