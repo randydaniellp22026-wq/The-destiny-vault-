@@ -4,6 +4,7 @@ import Brands from '../../components/home/Brands';
 import Experience from '../../components/home/Experience';
 import VehicleCatalog from '../../components/catalog/VehicleCatalog';
 import PublicidadSAVS from '../../components/PublicidadSAVS/PublicidadSAVS';
+import FacebookPromo from '../../components/FacebookPromo/FacebookPromo';
 import { useHomeLogica } from './HomeLogica';
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
   return (
     <main className="home-main">
       <Hero />
+      
       <Brands />
       
       <section className="section-spacing">
@@ -22,6 +24,10 @@ const Home = () => {
         <PublicidadSAVS />
       </section>
 
+      <section className="section-spacing container">
+        <FacebookPromo type="banner" />
+      </section>
+
       <div className="home-divider" />
       
       <div className="container">
@@ -30,11 +36,15 @@ const Home = () => {
             title="1. Bestias del asfalto" 
             vehicles={motorCatalogo} 
           />
-          
+
           <VehicleCatalog 
             title="2. Poco Kilometraje" 
             vehicles={kilometrajeCatalogo} 
           />
+          
+          <div style={{ margin: '3rem 0' }}>
+            <FacebookPromo type="banner" />
+          </div>
 
           <VehicleCatalog 
             title="3. Cómodos y familiares" 

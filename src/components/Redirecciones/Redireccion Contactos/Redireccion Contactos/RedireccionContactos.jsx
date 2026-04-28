@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRedireccionContactosLogica } from "./RedireccionContactosLogica";
 import { Clock, MapPin, Phone, Mail, Send, Car } from 'lucide-react';
 import { useLocation } from "react-router-dom";
+import FacebookPromo from '../../../FacebookPromo/FacebookPromo';
 import "./DiseñoContacto.css";
 
 const RedireccionContactos = () => {
@@ -199,6 +200,10 @@ const RedireccionContactos = () => {
               </a>
             </div>
           </form>
+          
+          <div style={{ marginTop: '20px' }}>
+            <FacebookPromo type="vertical"/>
+          </div>
         </div>
 
         {/* Lado Derecho: Info y Sedes (Expandido) */}
